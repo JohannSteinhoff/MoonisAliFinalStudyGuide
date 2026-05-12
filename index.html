@@ -631,6 +631,18 @@
       border-color: rgba(255,255,255,0.7);
       background: rgba(0,0,0,0.65);
     }
+    #version-badge {
+      position: fixed;
+      bottom: 10px;
+      right: 12px;
+      font-size: 0.58rem;
+      color: rgba(255,255,255,0.18);
+      letter-spacing: 0.05em;
+      pointer-events: none;
+      z-index: 900;
+      transition: color 0.2s;
+    }
+    body.light #version-badge { color: rgba(0,0,0,0.18); }
   </style>
 </head>
 <body>
@@ -672,7 +684,7 @@
       <div>
         <strong style="color:var(--warn);font-size:0.95rem;">Exam Details — CS 4346 Final</strong><br>
         <span style="font-size:0.88rem;color:var(--text);">Wednesday, May 13, 2026 &nbsp;·&nbsp; 11:00 AM – 1:30 PM &nbsp;·&nbsp; DERR 229</span><br>
-        <span style="font-size:0.83rem;color:var(--muted);margin-top:0.3rem;display:block;">3 questions — choose any 2. If you answer all 3, he picks your <em>worst</em> 2. Covers <strong style="color:var(--text);">CPS #6 through #9 only.</strong></span>
+        <span style="font-size:0.83rem;color:var(--muted);margin-top:0.3rem;display:block;">3 questions — choose any 2. <span style="color:var(--danger);">If you attempt all 3, he picks your <em>worst</em> 2.</span> Covers <strong style="color:var(--text);">CPS #6 through #9 only.</strong></span>
       </div>
     </div>
 
@@ -2116,7 +2128,7 @@
             <tr><td>ACTIONS(s)</td><td>Returns the set of legal moves in state s</td></tr>
             <tr><td>RESULT(s, a)</td><td>The transition model — result of taking action a in state s</td></tr>
             <tr><td>TERMINAL-TEST(s)</td><td>True when the game is over, false otherwise</td></tr>
-            <tr><td>UTILITY(s, p)</td><td>Numerical value of the outcome for player p at terminal state s (e.g., +1, 0, −1)</td></tr>
+            <tr><td>UTILITY(s, p)</td><td>Numerical value of the outcome for player p at terminal state s. Game-specific: +1/0/−1 for tic-tac-toe/chess; 0 to +192 for backgammon.</td></tr>
           </tbody>
         </table>
       </div>
@@ -2150,7 +2162,22 @@
   <!-- 2. TIC-TAC-TOE PROGRAMS -->
   <div id="g-ttt">
     <div class="section-title"><div class="dot" style="background:var(--accent-ai)"></div>2 · Tic-Tac-Toe Programs — 3 Versions</div>
+    <div class="callout warn" style="margin-bottom:1rem">
+      <div class="icon">📋</div>
+      <div>The slides number 5 versions total: <strong>Program #1</strong> (naive baseline) → <strong>#2</strong> (strategy) → <strong>#3</strong> (magic square) → <strong>Version #4</strong> (eval functions / cutoff) → <strong>Version #5</strong> (Alpha-Beta). Each version improves on the last.</div>
+    </div>
     <div class="nn-grid">
+      <div class="nn-card">
+        <div class="tag" style="color:var(--muted)">Program #1</div>
+        <h4>Naive Baseline</h4>
+        <p>The simplest brute-force approach. Checks every row, column, and diagonal exhaustively to find a move. Board values: 0=empty, 1=X, 2=O.</p>
+        <ul>
+          <li>No prioritization — just scans the full board for any valid move</li>
+          <li>Faster per-move than #2 (fewer conditions) but uses more space</li>
+          <li>Cannot generalize to other games or domains</li>
+          <li><strong>Does not meet requirements for a good AI technique</strong> — the entire point of #2 and #3 is to improve on it</li>
+        </ul>
+      </div>
       <div class="nn-card">
         <div class="tag" style="color:var(--accent-ai)">Program #2</div>
         <h4>Strategy-Based</h4>
@@ -2159,9 +2186,17 @@
           <li><strong>Make1</strong> — returns a corner square (1,3,7,9)</li>
           <li><strong>Make2</strong> — returns center (5) if blank, else a non-corner square (2,4,6,8)</li>
           <li><strong>Posswin(p)</strong> — returns 0 if player p can't win next move; otherwise returns the winning square number</li>
-          <li><strong>Go(n)</strong> — makes a move in square n</li>
+          <li><strong>Go(n)</strong> — moves in square n; sets Board[n]=3 if Turn is odd (X), 5 if Turn is even (O); increments Turn</li>
           <li>Posswin works by multiplying row values: product 18 (3×3×2) = X can win; product 50 (5×5×2) = O can win</li>
         </ul>
+        <div style="background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:.6rem;margin-top:.5rem;font-size:.82rem">
+          <strong style="color:var(--accent-ai)">Move priority order:</strong>
+          <ol style="margin:.3rem 0 0 1rem;color:var(--muted)">
+            <li>If Posswin(<em>self</em>) ≠ 0 → win immediately</li>
+            <li>If Posswin(<em>opponent</em>) ≠ 0 → block opponent's win</li>
+            <li>Otherwise → call Make1 or Make2 based on move number</li>
+          </ol>
+        </div>
       </div>
       <div class="nn-card">
         <div class="tag" style="color:var(--accent-gen)">Program #3</div>
@@ -2206,12 +2241,36 @@
       </span>
     </div>
     <div class="card">
-      <h3>Example from the slides (Move 4, X's turn)</h3>
-      <p style="color:var(--muted);font-size:.86rem;margin-bottom:.6rem">X owns: 8, 7, 1 &nbsp;|&nbsp; O owns: 5, 3, 9</p>
+      <h3>Full Game Trace from the Slides (Program #3)</h3>
+      <p style="color:var(--muted);font-size:.83rem;margin-bottom:.5rem">Board positions = magic square values. Each player calls Posswin(self) to win and Posswin(opponent) to block.</p>
+      <div style="overflow-x:auto">
+        <table style="font-size:.82rem;width:100%">
+          <thead><tr><th>Move</th><th>Player</th><th>Action</th><th>Pairs Checked (15 − sum)</th><th>Square Chosen</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>O1</td><td>Make2</td><td>—</td><td><strong>5</strong> (center)</td></tr>
+            <tr><td>2</td><td>X1</td><td>Make1</td><td>—</td><td><strong>8</strong> (corner)</td></tr>
+            <tr><td>3</td><td>O2</td><td>Make2</td><td>—</td><td><strong>3</strong> (non-corner)</td></tr>
+            <tr><td>4</td><td>X2</td><td>Posswin</td><td>X pairs: (8) only 1 sq → check O: 15−(5+3)=7 blank</td><td><strong>7</strong> (blocks O or wins)</td></tr>
+            <tr><td>5</td><td>O3</td><td>Posswin</td><td>O pairs: (5,3)→7 occ; (5+8+7)=0 OOB → Make2</td><td><strong>9</strong></td></tr>
+            <tr><td>6</td><td>X3</td><td>Posswin</td><td>X pairs: (8,7)→0 OOB; (8+7+1=1)→15−(8+7)=0; 15−(7+1)=7 occ; 15−(8+1)=6 blank? No, 15−(3+9)=3 occ; 15−(5+9)=1 blank</td><td><strong>1</strong></td></tr>
+            <tr><td>7</td><td>O4</td><td>Posswin</td><td>O pairs: (5+3)→7 occ; (5+9)→1 occ; (5+6)?—checks (8+1)→6 blank</td><td><strong>6</strong></td></tr>
+            <tr><td>8 (X4)</td><td>X</td><td>Posswin(O)</td><td>O pairs: (5,3)→7 occ; (5,9)→1 occ; <strong>(5,6)→4 blank</strong>; (3,9)→3 occ; (3,6)→6 occ; (9,6)→0 OOB</td><td><strong>4</strong> (blocks O's win!)</td></tr>
+            <tr><td>9</td><td>O5</td><td>Posswin</td><td>All winning squares occupied or OOB → only 2 left</td><td><strong>2</strong> → Draw</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--accent-both)">
+      <h3 style="color:var(--accent-both)">Move 8 Detail — X calls Posswin(O) to block</h3>
+      <p style="color:var(--muted);font-size:.86rem;margin-bottom:.5rem"><strong>State:</strong> X owns: 8, 7, 1 &nbsp;|&nbsp; O owns: 5, 3, 9, <strong>6</strong></p>
+      <p style="color:var(--muted);font-size:.84rem;margin-bottom:.4rem">X checks ALL of O's pairs (calling Posswin(O) to find where O would win):</p>
       <ul style="color:var(--muted);font-size:.86rem;padding-left:1.2rem">
-        <li>X checks pair (5,3): 15−(5+3)=7 → 7 is X's, already occupied</li>
-        <li>X checks pair (5,9): 15−(5+9)=1 → 1 is X's, already occupied</li>
-        <li>X checks pair (5,6): 15−(5+6)=4 → square 4 is blank → <strong style="color:var(--accent-both)">X moves to 4 to block O's win!</strong></li>
+        <li>(5,3): 15−8 = 7 → 7 is occupied — skip</li>
+        <li>(5,9): 15−14 = 1 → 1 is occupied — skip</li>
+        <li><strong>(5,6): 15−11 = 4 → square 4 is blank → O would win here → X moves to 4 to block!</strong></li>
+        <li>(3,9): 15−12 = 3 → occupied — skip</li>
+        <li>(3,6): 15−9 = 6 → occupied — skip</li>
+        <li>(9,6): 15−15 = 0 → out of range — skip</li>
       </ul>
     </div>
   </div>
@@ -2260,13 +2319,16 @@
     </div>
     <div class="card" style="border-top:3px solid var(--warn)">
       <h3 style="color:var(--warn)">Minimax Worked Example (from slides)</h3>
-      <p style="color:var(--muted);font-size:.86rem;margin-bottom:.6rem">Tree: Root A (MAX) → B, C, D (MIN) → leaf values</p>
+      <p style="color:var(--muted);font-size:.86rem;margin-bottom:.6rem">Tree: Root A (MAX) → B, C, D (MIN) → leaf values. The algorithm uses negamax convention throughout.</p>
       <ul style="color:var(--muted);font-size:.86rem;padding-left:1.2rem">
-        <li>B (MIN) → children with values: MIN picks lowest → backs up <strong>3</strong></li>
-        <li>C (MIN) → children → backs up <strong>2</strong></li>
-        <li>D (MIN) → children → backs up <strong>2</strong></li>
-        <li>A (MAX) → MAX(3, 2, 2) = <strong>3</strong> → Best path: <strong>A → C → I</strong> (Best Score: −2 from MIN's perspective)</li>
+        <li>Hypothetical tree (slides 8–9): B backs up <strong>3</strong>, C backs up <strong>2</strong>, D backs up <strong>2</strong> → root MAX picks <strong>3</strong> (via B)</li>
+        <li>Real tic-tac-toe trace (slide 54): <strong>Best Path = A → C → I</strong></li>
+        <li>Real tic-tac-toe trace (slide 54): <strong>Best Score at root = −2</strong> (negamax value — the algorithm negates values at each level, so −2 is the negamax return at root)</li>
       </ul>
+      <div class="callout warn" style="margin-top:.6rem">
+        <div class="icon">⚠️</div>
+        <div>These are two separate tree examples in the slides. Do not mix the backed-up values (3, 2, 2) from the hypothetical tree with the result (ACI, −2) from the tic-tac-toe trace. On an exam, the answer for the worked example is: <strong>Best Path = ACI, Best Score = −2.</strong></div>
+      </div>
     </div>
   </div>
 
@@ -2349,12 +2411,12 @@
     </div>
     <div class="card" style="border-top:3px solid #06b6d4">
       <h3 style="color:#06b6d4">Alpha-Beta Worked Example (from slides)</h3>
-      <p style="color:var(--muted);font-size:.86rem;margin-bottom:.6rem">Same tree as Minimax example. Terms: CPT=Change Pass Threshold, NCPT=No Change, NPr=No Pruning, Pr=Prune</p>
+      <p style="color:var(--muted);font-size:.86rem;margin-bottom:.6rem">The slides use a separate tree for the Alpha-Beta trace. Tree annotation terms: <strong>CPT</strong>=Change Pass Threshold, <strong>NCPT</strong>=No Change, <strong>NPr</strong>=No Pruning, <strong>Pr</strong>=Prune</p>
       <ul style="color:var(--muted);font-size:.86rem;padding-left:1.2rem">
         <li>Alpha-Beta explores fewer nodes than Minimax by pruning branches</li>
         <li>Best path: <strong>A → C → H</strong></li>
         <li>Best score at root: <strong>4</strong></li>
-        <li>Result may differ from plain Minimax because pruning can affect which path is selected</li>
+        <li><strong>Important:</strong> Alpha-Beta always returns the <em>same optimal value</em> as Minimax — pruning never changes the result. The slides use a different worked tree for the Alpha-Beta trace than for the Minimax trace, which is why the values differ (−2 vs 4). On the same tree, both algorithms would agree on the value; they may choose a different path only when multiple paths tie.</li>
       </ul>
     </div>
     <div class="callout info">
@@ -2367,7 +2429,9 @@
   <div id="flash6">
     <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>7 · Flashcards</div>
     <div class="flashcards">
-      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What are the 6 components of a formal game definition?</div><div class="toggle">tap to reveal ▾</div><div class="a">S₀ (initial state), PLAYER(s), ACTIONS(s), RESULT(s,a), TERMINAL-TEST(s), UTILITY(s,p). Terminal states have utility values like +1, 0, −1.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What are the 6 components of a formal game definition?</div><div class="toggle">tap to reveal ▾</div><div class="a">S₀ (initial state), PLAYER(s), ACTIONS(s), RESULT(s,a), TERMINAL-TEST(s), UTILITY(s,p). Utility is game-specific: +1/0/−1 for tic-tac-toe; 0 to +192 for backgammon.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">Why was Program #1 replaced by Program #2?</div><div class="toggle">tap to reveal ▾</div><div class="a">Program #1 (brute-force row/column scanning) "does not appear to meet any of our requirements for a good AI technique." It cannot generalize, has no strategic reasoning, and is hard to modify. Program #2 introduced human-like strategies (Make1, Make2, Posswin) that are understandable and adaptable.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is the move priority order in Program #2?</div><div class="toggle">tap to reveal ▾</div><div class="a">1. If Posswin(self) ≠ 0 → win now. 2. If Posswin(opponent) ≠ 0 → block opponent's win. 3. Otherwise → call Make1 (corner) or Make2 (center/non-corner) based on move number.</div></div>
       <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What does Posswin(p) do in tic-tac-toe?</div><div class="toggle">tap to reveal ▾</div><div class="a">Returns 0 if player p cannot win on the next move. Returns the square number of the winning move if p CAN win. Works by multiplying row/column values: 18=X can win (3×3×2), 50=O can win (5×5×2).</div></div>
       <div class="fc" onclick="this.classList.toggle('open')"><div class="q">How does the magic square Posswin work?</div><div class="toggle">tap to reveal ▾</div><div class="a">For each pair of your squares, compute 15 − (sq1+sq2). If the result is 1–9 and that square is blank → it's a winning (or blocking) move. If ≤0, >9, or occupied → skip that pair.</div></div>
       <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is the Minimax algorithm's core idea?</div><div class="toggle">tap to reveal ▾</div><div class="a">Recursively evaluate the full game tree. At MAX nodes: pick the highest value. At MIN nodes: pick the lowest. Back up values from terminal/cutoff nodes to the root. Return the optimal move.</div></div>
@@ -2380,15 +2444,17 @@
 
   <!-- TL;DR -->
   <div id="tldr6">
-    <div class="section-title"><div class="dot" style="background:#06b6d4"></div>TL;DR — 6 Things You Must Know</div>
+    <div class="section-title"><div class="dot" style="background:#06b6d4"></div>TL;DR — 8 Things You Must Know</div>
     <div class="card">
       <ul style="color:var(--text);font-size:.93rem;list-style:none;padding:0">
-        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">1.</strong> A game = S₀ + PLAYER + ACTIONS + RESULT + TERMINAL-TEST + UTILITY. <strong>MAX maximizes, MIN minimizes.</strong></li>
-        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">2.</strong> Posswin: product 18 (3×3×2) = X wins; 50 (5×5×2) = O wins. Magic squares: <strong>15 − (sq1+sq2)</strong> = needed square.</li>
-        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">3.</strong> <strong>Minimax:</strong> recursively explore the tree, back up values — MAX takes highest, MIN takes lowest. Negate values when switching players.</li>
-        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">4.</strong> When the tree is too deep: <strong>cut off at depth d</strong> and use an <strong>evaluation function</strong> instead of utility.</li>
-        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">5.</strong> Evaluation function = <strong>Σ(weight × feature)</strong>. Must order states correctly, be fast, and correlate with winning chances.</li>
-        <li style="padding:.45rem 0"><strong style="color:#06b6d4">6.</strong> <strong>Alpha-Beta:</strong> prune when Pass-Thresh ≥ Use-Thresh. Pass negated thresholds to recursive calls. Terminal in MIN's turn → negate f-value first.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">1.</strong> <strong>5 versions:</strong> #1 naive baseline → #2 strategy (Make1/Make2/Posswin) → #3 magic square → Version #4 eval functions → Version #5 Alpha-Beta. Each improves on the last.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">2.</strong> A game = S₀ + PLAYER + ACTIONS + RESULT + TERMINAL-TEST + UTILITY. <strong>MAX maximizes, MIN minimizes.</strong> Utility is game-specific: +1/0/−1 for tic-tac-toe; 0–192 for backgammon.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">3.</strong> Program #2 move priority: <strong>(1) win</strong> → <strong>(2) block</strong> → <strong>(3) Make1/Make2</strong>. Posswin: product 18 (3×3×2) = X wins; 50 (5×5×2) = O wins.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">4.</strong> Magic squares: <strong>15 − (sq1+sq2)</strong> = needed square. Call Posswin(self) to win, Posswin(opponent) to block. Worked example result: Best Path = ACI, Best Score = −2.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">5.</strong> <strong>Minimax:</strong> recursively explore the tree, back up values — MAX takes highest, MIN takes lowest. Negate values when switching players (negamax). Slides result: Best Path = ACI, Best Score = −2.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">6.</strong> When the tree is too deep: <strong>cut off at depth d</strong> and use an <strong>evaluation function</strong> instead of utility. Eval = Σ(weight × feature). Must order states correctly, be fast, correlate with winning chances.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">7.</strong> <strong>Alpha-Beta:</strong> prune when Pass-Thresh ≥ Use-Thresh. Pass <em>negated and swapped</em> thresholds to recursive calls. Terminal in MIN's turn → negate f-value first. Slides result: Best Path = ACH, Best Score = 4.</li>
+        <li style="padding:.45rem 0"><strong style="color:#06b6d4">8.</strong> Alpha-Beta <strong>always returns the same optimal value as Minimax</strong> — it never changes the result, only skips branches that cannot affect it.</li>
       </ul>
     </div>
     <div class="summary-banner">
@@ -3999,6 +4065,7 @@
   <img src="goonis%20peaking%20around%20the%20corner.png" alt="Professor Goonis peeking" />
 </div>
 <button id="goonis-toggle" onclick="toggleGoonis()">✋ Goonis pls leave me alone</button>
+<div id="version-badge">v1.0</div>
 
 </body>
 </html>
