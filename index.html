@@ -3,13 +3,14 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Final Exam Study Guide</title>
+  <title>Goonis Final Exam</title>
   <style>
     :root {
       --bg: #0f1117;
       --surface: #1a1d27;
       --surface2: #22263a;
       --border: #2e3350;
+      --tab-bg: #0c0e16;
       --accent-ai: #4f8ef7;
       --accent-gen: #a855f7;
       --accent-both: #22d3a5;
@@ -17,6 +18,15 @@
       --muted: #8892a4;
       --warn: #f59e0b;
       --danger: #ef4444;
+    }
+    body.light {
+      --bg: #f0f3fa;
+      --surface: #ffffff;
+      --surface2: #e4e9f5;
+      --border: #c8d0e2;
+      --tab-bg: #ffffff;
+      --text: #1a1d2e;
+      --muted: #56607a;
     }
     * { box-sizing: border-box; margin: 0; padding: 0; }
     body {
@@ -31,7 +41,7 @@
       position: sticky;
       top: 0;
       z-index: 100;
-      background: #0c0e16;
+      background: var(--tab-bg);
       border-bottom: 1px solid var(--border);
       display: flex;
       gap: 0;
@@ -237,12 +247,13 @@
     }
     .cps-cards {
       display: grid;
-      grid-template-columns: 1fr 1fr;
+      grid-template-columns: repeat(3, 1fr);
       gap: 1.25rem;
       width: 100%;
-      max-width: 700px;
+      max-width: 960px;
     }
-    @media (max-width: 560px) { .cps-cards { grid-template-columns: 1fr; } }
+    @media (max-width: 800px) { .cps-cards { grid-template-columns: repeat(2, 1fr); } }
+    @media (max-width: 520px) { .cps-cards { grid-template-columns: 1fr; } }
     .cps-card {
       background: var(--surface);
       border: 1px solid var(--border);
@@ -266,6 +277,8 @@
     .cps-card.c4::before { background: var(--warn); }
     .cps-card.c5::before { background: #ec4899; }
     .cps-card.c6::before { background: #06b6d4; }
+    .cps-card.c7::before { background: #84cc16; }
+    .cps-card.c8::before { background: #f97316; }
     .cps-card:hover {
       transform: translateY(-3px);
       box-shadow: 0 12px 32px rgba(0,0,0,0.4);
@@ -275,6 +288,8 @@
     .cps-card.c4:hover { border-color: var(--warn); }
     .cps-card.c5:hover { border-color: #ec4899; }
     .cps-card.c6:hover { border-color: #06b6d4; }
+    .cps-card.c7:hover { border-color: #84cc16; }
+    .cps-card.c8:hover { border-color: #f97316; }
     .cps-card .num {
       font-size: 0.72rem;
       font-weight: 700;
@@ -287,6 +302,8 @@
     .cps-card.c4 .num { color: var(--warn); }
     .cps-card.c5 .num { color: #ec4899; }
     .cps-card.c6 .num { color: #06b6d4; }
+    .cps-card.c7 .num { color: #84cc16; }
+    .cps-card.c8 .num { color: #f97316; }
     .cps-card h2 {
       font-size: 1.15rem;
       font-weight: 800;
@@ -330,7 +347,116 @@
     .cps-card.c4 .go-btn { background: var(--warn); color: #0f1117; }
     .cps-card.c5 .go-btn { background: #ec4899; color: #fff; }
     .cps-card.c6 .go-btn { background: #06b6d4; color: #0f1117; }
+    .cps-card.c7 .go-btn { background: #84cc16; color: #0f1117; }
+    .cps-card.c8 .go-btn { background: #f97316; color: #0f1117; }
+    .cps-card.c9::before { background: #e879f9; }
+    .cps-card.c9:hover { border-color: #e879f9; }
+    .cps-card.c9 .num { color: #e879f9; }
+    .cps-card.c9 .go-btn { background: #e879f9; color: #0f1117; }
+    .cps-card.cr::before { background: #fbbf24; }
+    .cps-card.cr:hover { border-color: #fbbf24; }
+    .cps-card.cr .num { color: #fbbf24; }
+    .cps-card.cr .go-btn { background: #fbbf24; color: #0f1117; }
+    /* practice question expand cards */
+    .pq-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      margin-bottom: .75rem;
+      overflow: hidden;
+    }
+    .pq-card summary {
+      padding: .9rem 1.1rem;
+      cursor: pointer;
+      font-size: .9rem;
+      font-weight: 600;
+      color: var(--text);
+      list-style: none;
+      display: flex;
+      align-items: flex-start;
+      gap: .65rem;
+      line-height: 1.5;
+    }
+    .pq-card summary::-webkit-details-marker { display: none; }
+    .pq-card summary::after {
+      content: '▸';
+      margin-left: auto;
+      color: var(--muted);
+      font-size: .8rem;
+      flex-shrink: 0;
+      margin-top: .15rem;
+      transition: transform .2s;
+    }
+    .pq-card[open] summary::after { transform: rotate(90deg); }
+    .pq-answer {
+      padding: .75rem 1.1rem 1rem;
+      border-top: 1px solid var(--border);
+      font-size: .87rem;
+      color: var(--text);
+      line-height: 1.65;
+    }
+    .pq-answer strong { color: #fbbf24; }
+    .cpsbadge {
+      display: inline-block;
+      font-size: .65rem;
+      font-weight: 800;
+      letter-spacing: .06em;
+      padding: .15rem .5rem;
+      border-radius: 5px;
+      white-space: nowrap;
+      flex-shrink: 0;
+      margin-top: .1rem;
+    }
     .cps-card .go-btn:hover { opacity: 0.85; }
+
+    /* ── FLASHCARD CAROUSEL ── */
+    .fc-carousel { margin-bottom: 2.5rem; }
+    .carousel-filters { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 1.2rem; }
+    .cf-btn {
+      padding: 0.32rem 0.75rem; border-radius: 20px;
+      border: 1px solid var(--border); background: var(--surface);
+      color: var(--muted); font-size: 0.78rem; font-weight: 600;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .cf-btn.active { background: #fbbf24; color: #0f1117; border-color: #fbbf24; }
+    .carousel-stage { margin-bottom: 1rem; }
+    .carousel-fc {
+      width: 100%; background: var(--surface2);
+      border: 2px solid var(--border); border-radius: 16px;
+      padding: 2rem 2.2rem; cursor: pointer;
+      transition: border-color 0.2s; min-height: 200px;
+      display: flex; flex-direction: column; justify-content: center;
+    }
+    .carousel-fc:hover { border-color: #fbbf24; }
+    .carousel-fc .cq { font-size: 1.1rem; font-weight: 700; color: var(--text); line-height: 1.55; }
+    .carousel-fc .carousel-hint { font-size: 0.72rem; color: #fbbf24; margin-top: 0.35rem; transition: opacity 0.3s; }
+    .carousel-fc .ca {
+      font-size: 0.93rem; color: var(--muted); line-height: 1.65;
+      border-top: 1px solid var(--border); padding-top: 0.9rem;
+      margin-top: 0.9rem; display: none;
+    }
+    .carousel-fc.revealed .ca { display: block; }
+    .carousel-fc.revealed .carousel-hint { opacity: 0.28; }
+    .carousel-nav {
+      display: flex; align-items: center; justify-content: center;
+      gap: 1.2rem; margin-bottom: 2rem;
+    }
+    .carousel-nav button {
+      padding: 0.55rem 1.4rem; border-radius: 8px;
+      border: 1px solid var(--border); background: var(--surface);
+      color: var(--text); font-size: 0.87rem; font-weight: 600;
+      cursor: pointer; transition: all 0.15s;
+    }
+    .carousel-nav button:hover:not(:disabled) { border-color: #fbbf24; color: #fbbf24; }
+    .carousel-nav button:disabled { opacity: 0.3; cursor: default; }
+    .carousel-counter { font-size: 0.85rem; color: var(--muted); min-width: 65px; text-align: center; }
+    .view-all-header {
+      font-size: 0.78rem; font-weight: 700; color: var(--muted);
+      text-transform: uppercase; letter-spacing: 0.08em;
+      padding-top: 1.5rem; margin-bottom: 0.8rem;
+      border-top: 1px solid var(--border);
+    }
+
     .landing-footer {
       margin-top: 3rem;
       font-size: 0.78rem;
@@ -372,6 +498,135 @@
       flex-shrink: 0;
     }
     .step-list li strong { color: var(--text); }
+
+    /* ── GOONIS WIDGET ── */
+    .goonis-wrap {
+      display: inline-flex;
+      flex-direction: column;
+      align-items: center;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+      margin: 0.5rem;
+    }
+    .goonis-wrap img {
+      width: 220px;
+      height: auto;
+      object-fit: contain;
+      border-radius: 0;
+      border: none;
+      filter: drop-shadow(0 4px 18px rgba(34,211,165,0.25));
+      transition: transform 0.2s, filter 0.2s;
+      display: block;
+      background: transparent;
+    }
+    .goonis-wrap.large img { width: 300px; }
+    .goonis-wrap:hover img {
+      transform: scale(1.07) rotate(-3deg);
+      filter: drop-shadow(0 6px 28px rgba(34,211,165,0.55));
+    }
+    .goonis-bubble {
+      position: absolute;
+      top: 10px;
+      left: calc(100% + 14px);
+      background: var(--surface2);
+      border: 3px solid var(--accent-both);
+      border-radius: 18px;
+      padding: 0.75rem 1.125rem;
+      font-size: 1.05rem;
+      font-weight: 600;
+      color: var(--text);
+      white-space: normal;
+      text-align: center;
+      width: 262px;
+      display: none;
+      z-index: 300;
+      box-shadow: 0 8px 35px rgba(0,0,0,0.69);
+      animation: gPop 0.15s ease;
+    }
+    .goonis-bubble::after {
+      content: '';
+      position: absolute;
+      top: 16px;
+      right: 100%;
+      border: 11px solid transparent;
+      border-right-color: var(--accent-both);
+    }
+    .goonis-bubble.visible { display: block; }
+    .goonis-label {
+      font-size: 0.63rem;
+      color: var(--muted);
+      margin-top: 0.4rem;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+    }
+    @keyframes gPop {
+      from { opacity: 0; transform: scale(0.8); }
+      to   { opacity: 1; transform: scale(1); }
+    }
+
+    /* ── GOONIS PEEK ── */
+    #goonis-peek {
+      position: fixed;
+      left: 0;
+      bottom: 0;
+      width: 400px;
+      z-index: 900;
+      pointer-events: none;
+      transform: translateX(-100%);
+      will-change: transform;
+      filter: drop-shadow(6px 0 24px rgba(0,0,0,0.6));
+    }
+    #goonis-peek img {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+    #theme-toggle {
+      margin-left: auto;
+      padding: 0.5rem 0.9rem;
+      font-size: 1rem;
+      background: none;
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      cursor: pointer;
+      color: var(--muted);
+      align-self: center;
+      transition: color 0.2s, border-color 0.2s, background 0.2s;
+      line-height: 1;
+    }
+    #theme-toggle:hover {
+      color: var(--text);
+      border-color: var(--accent-both);
+      background: var(--surface2);
+    }
+    #goonis-toggle {
+      position: fixed;
+      bottom: 14px;
+      left: 14px;
+      z-index: 901;
+      background: rgba(0,0,0,0.45);
+      border: 1px solid rgba(255,255,255,0.35);
+      border-radius: 8px;
+      color: rgba(255,255,255,0.75);
+      font-size: 0.78rem;
+      font-family: inherit;
+      padding: 6px 14px;
+      cursor: pointer;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity 0.4s, color 0.2s, border-color 0.2s, background 0.2s;
+      letter-spacing: 0.03em;
+    }
+    #goonis-toggle.show {
+      opacity: 1;
+      pointer-events: auto;
+    }
+    #goonis-toggle:hover {
+      color: #fff;
+      border-color: rgba(255,255,255,0.7);
+      background: rgba(0,0,0,0.65);
+    }
   </style>
 </head>
 <body>
@@ -384,16 +639,29 @@
   <button class="tab-btn" onclick="switchTab('cps4', this)">CPS #4 — Machine Learning</button>
   <button class="tab-btn" onclick="switchTab('cps5', this)">CPS #5 — Expert Systems</button>
   <button class="tab-btn" onclick="switchTab('cps6', this)">CPS #6 — Game Playing</button>
+  <button class="tab-btn" onclick="switchTab('cps7', this)">CPS #7 — Intelligent Search</button>
+  <button class="tab-btn" onclick="switchTab('cps8', this)">CPS #8 — NLP &amp; Q&amp;A Systems</button>
+  <button class="tab-btn" onclick="switchTab('cps9', this)">CPS #9 — Goal Stack Planning</button>
+  <button class="tab-btn" onclick="switchTab('review', this)">⭐ Exam Prep</button>
+  <button id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
 </div>
 
 <!-- ══════════════════ LANDING ══════════════════ -->
 <div id="home" class="tab-content active">
   <div class="landing">
     <div class="landing-title">
-      <span class="hi">Final</span> Exam<br/>Study Guide
+      Goonis <span class="hi">Final</span> Exam
     </div>
-    <p class="landing-sub">Everything you need to pass. Broken down, cleaned up, made human.</p>
+    <p class="landing-sub">Everything you need to pass. Broken down, cleaned up, made Less Goonis.</p>
     <div class="landing-tag">Spring 2026 · Bachelor's Degree Final</div>
+
+    <div style="display:flex;justify-content:center;margin:1.8rem 0 0.5rem">
+      <div class="goonis-wrap large" onclick="goonisClick(this)">
+        <div class="goonis-bubble"></div>
+        <img src="happy%20goonis.png" alt="Goonis" />
+        <div class="goonis-label">click goonis for wisdom</div>
+      </div>
+    </div>
 
     <div class="cps-cards">
       <div class="cps-card c2" onclick="switchTab('cps2', document.querySelectorAll('.tab-btn')[1])">
@@ -427,7 +695,21 @@
         </div>
         <button class="go-btn">Open Notes →</button>
       </div>
-    </div>
+
+      <div class="cps-card c4" onclick="switchTab('cps4', document.querySelectorAll('.tab-btn')[3])">
+        <div class="num">CPS #4</div>
+        <h2>Machine Learning &amp; Rule Learning</h2>
+        <p>How AI learns rules automatically from data — inductive vs deductive learning, the PSR algorithm, and the bank loan worked example.</p>
+        <div class="topics">
+          <span class="topic-chip">Inductive vs Deductive</span>
+          <span class="topic-chip">PSR Algorithm</span>
+          <span class="topic-chip">Separate &amp; Conquer</span>
+          <span class="topic-chip">Worked Example</span>
+          <span class="topic-chip">Final Rules</span>
+          <span class="topic-chip">Flashcards</span>
+        </div>
+        <button class="go-btn">Open Notes →</button>
+      </div>
 
       <div class="cps-card c5" onclick="switchTab('cps5', document.querySelectorAll('.tab-btn')[4])">
         <div class="num">CPS #5</div>
@@ -460,20 +742,71 @@
         <button class="go-btn">Open Notes →</button>
       </div>
 
-      <div class="cps-card c4" onclick="switchTab('cps4', document.querySelectorAll('.tab-btn')[3])">
-        <div class="num">CPS #4</div>
-        <h2>Machine Learning &amp; Rule Learning</h2>
-        <p>How AI learns rules automatically from data — inductive vs deductive learning, the PSR algorithm, and the bank loan worked example.</p>
+      <div class="cps-card c7" onclick="switchTab('cps7', document.querySelectorAll('.tab-btn')[6])">
+        <div class="num">CPS #7</div>
+        <h2>Intelligent Search Methods</h2>
+        <p>Greedy, Uniform Cost, Total Cost, and A* search — heuristics, admissibility, the 8-puzzle, and memory-bounded variants.</p>
         <div class="topics">
-          <span class="topic-chip">Inductive vs Deductive</span>
-          <span class="topic-chip">PSR Algorithm</span>
-          <span class="topic-chip">Separate &amp; Conquer</span>
-          <span class="topic-chip">Worked Example</span>
-          <span class="topic-chip">Final Rules</span>
+          <span class="topic-chip">Heuristic Functions</span>
+          <span class="topic-chip">Greedy Search</span>
+          <span class="topic-chip">Uniform Cost</span>
+          <span class="topic-chip">A* Algorithm</span>
+          <span class="topic-chip">Admissibility</span>
+          <span class="topic-chip">8-Puzzle</span>
+          <span class="topic-chip">IDA* / RBFS</span>
           <span class="topic-chip">Flashcards</span>
         </div>
         <button class="go-btn">Open Notes →</button>
       </div>
+
+      <div class="cps-card c8" onclick="switchTab('cps8', document.querySelectorAll('.tab-btn')[7])">
+        <div class="num">CPS #8</div>
+        <h2>NLP &amp; Question Answering</h2>
+        <p>How computers understand language and answer questions — from rule-based parsing to structured semantics, world models, and LLM-powered generative QA.</p>
+        <div class="topics">
+          <span class="topic-chip">3 QA Programs</span>
+          <span class="topic-chip">Syntactic/Semantic</span>
+          <span class="topic-chip">Slot &amp; Filler</span>
+          <span class="topic-chip">Scripts</span>
+          <span class="topic-chip">QA Pipeline</span>
+          <span class="topic-chip">BERT / GPT / T5</span>
+          <span class="topic-chip">Worked Examples</span>
+          <span class="topic-chip">Flashcards</span>
+        </div>
+        <button class="go-btn">Open Notes →</button>
+      </div>
+
+      <div class="cps-card c9" onclick="switchTab('cps9', document.querySelectorAll('.tab-btn')[8])">
+        <div class="num">CPS #9</div>
+        <h2>Goal Stack Planning</h2>
+        <p>How an AI builds a step-by-step plan using STRIPS operators — block-world predicates, the 4-step planning loop, and full worked examples from initial state to goal.</p>
+        <div class="topics">
+          <span class="topic-chip">Block World</span>
+          <span class="topic-chip">Predicates</span>
+          <span class="topic-chip">STACK / UNSTACK</span>
+          <span class="topic-chip">PICKUP / PUTDOWN</span>
+          <span class="topic-chip">P / D / A Lists</span>
+          <span class="topic-chip">Planning Algorithm</span>
+          <span class="topic-chip">Worked Examples</span>
+          <span class="topic-chip">Flashcards</span>
+        </div>
+        <button class="go-btn">Open Notes →</button>
+      </div>
+
+      <div class="cps-card cr" onclick="switchTab('review', document.querySelectorAll('.tab-btn')[9])">
+        <div class="num">⭐ ALL CPS</div>
+        <h2>Cumulative Exam Prep</h2>
+        <p>Every key concept across CPS #2–9 in one place — mixed flashcards tagged by topic and exam-style practice questions with full answers.</p>
+        <div class="topics">
+          <span class="topic-chip">Mixed Flashcards</span>
+          <span class="topic-chip">Practice Questions</span>
+          <span class="topic-chip">Answers Included</span>
+          <span class="topic-chip">Tagged by CPS</span>
+          <span class="topic-chip">All 8 Topics</span>
+        </div>
+        <button class="go-btn">Open Review →</button>
+      </div>
+    </div>
 
     <div class="landing-footer">You're almost done. One more final. Let's get it.</div>
   </div>
@@ -1104,6 +1437,13 @@
     <h1>CPS #5 — <span style="color:#ec4899">Intelligent Expert Systems</span></h1>
     <p>Decision Trees · IF-THEN Rules · Inference Engines · Spring 2026</p>
     <div class="badge">Click any flashcard to reveal the answer</div>
+    <div style="display:flex;justify-content:flex-end;margin-top:0.75rem">
+      <div class="goonis-wrap" onclick="goonisClick(this)">
+        <div class="goonis-bubble"></div>
+        <img src="GOONIS%20YELLING.png" alt="Goonis" />
+        <div class="goonis-label">click goonis</div>
+      </div>
+    </div>
   </div>
 
   <nav class="nav">
@@ -1725,6 +2065,13 @@
     <h1>CPS #6 — <span style="color:#06b6d4">Two-Player Game Playing</span></h1>
     <p>Adversarial Search · Minimax · Alpha-Beta Pruning · Spring 2026</p>
     <div class="badge">Click any flashcard to reveal the answer</div>
+    <div style="display:flex;justify-content:flex-end;margin-top:0.75rem">
+      <div class="goonis-wrap" onclick="goonisClick(this)">
+        <div class="goonis-bubble"></div>
+        <img src="GOONIS%20BEING%20SWAGGY.png" alt="Goonis" />
+        <div class="goonis-label">click goonis</div>
+      </div>
+    </div>
   </div>
 
   <nav class="nav">
@@ -2040,7 +2387,1381 @@
 </div>
 </div><!-- /cps6 -->
 
+<!-- ══════════════════ CPS #7 ══════════════════ -->
+<div id="cps7" class="tab-content">
+<div class="container">
+  <div class="hero">
+    <h1>CPS #7 — <span style="color:#84cc16">Intelligent Search Methods</span></h1>
+    <p>Heuristic Search · A* · 8-Puzzle · Memory-Bounded Search · Spring 2026</p>
+    <div class="badge">Click any flashcard to reveal the answer</div>
+  </div>
+
+  <nav class="nav">
+    <a href="#s-overview">Overview &amp; Criteria</a>
+    <a href="#s-functions">Key Functions</a>
+    <a href="#s-greedy">Greedy Search</a>
+    <a href="#s-uniform">Uniform Cost</a>
+    <a href="#s-total">Total Cost</a>
+    <a href="#s-astar">A* Search</a>
+    <a href="#s-heuristics">8-Puzzle Heuristics</a>
+    <a href="#s-relax">Condition Relaxation</a>
+    <a href="#s-memory">Memory-Bounded</a>
+    <a href="#flash7">Flashcards</a>
+    <a href="#tldr7">TL;DR</a>
+  </nav>
+
+  <!-- 1. OVERVIEW -->
+  <div id="s-overview">
+    <div class="section-title"><div class="dot" style="background:#84cc16"></div>1 · Overview &amp; Performance Criteria</div>
+    <div class="def" style="border-color:#84cc16">
+      <strong style="color:#84cc16">Intelligent / Informed / Heuristic Search</strong><br/>
+      A search strategy that uses <em>problem-specific knowledge</em> — the heuristic function h(n) — to guide the search toward the goal more efficiently than uninformed strategies. The general approach is called <strong>Best-First Search</strong>: always expand the node with the lowest evaluation function value f(n).
+    </div>
+    <div class="card">
+      <h3>4 Criteria for Measuring Search Performance</h3>
+      <div class="table-wrap" style="margin-top:.5rem">
+        <table>
+          <thead><tr><th>Criterion</th><th>Question it answers</th></tr></thead>
+          <tbody>
+            <tr><td>Completeness</td><td>Is the algorithm guaranteed to find a solution when one exists?</td></tr>
+            <tr><td>Optimality</td><td>Does the strategy find the optimal (best/lowest cost) solution?</td></tr>
+            <tr><td>Time Complexity</td><td>How long does it take to find a solution?</td></tr>
+            <tr><td>Space Complexity</td><td>How much memory is needed to perform the search?</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2. KEY FUNCTIONS -->
+  <div id="s-functions">
+    <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>2 · Key Functions</div>
+    <div class="split">
+      <div class="card ai">
+        <h3 style="color:var(--accent-ai)">g(n)</h3>
+        <ul>
+          <li>The <strong>actual cost</strong> from the root (start) node to current node n</li>
+          <li>Known exactly — computed as we traverse the tree</li>
+          <li>Example: g(Arad)=0, g(Sibiu)=140</li>
+        </ul>
+      </div>
+      <div class="card gen">
+        <h3 style="color:var(--accent-gen)">h(n) and h*(n)</h3>
+        <ul>
+          <li><strong>h*(n)</strong> = the true lowest cost from node n to the goal (unknown)</li>
+          <li><strong>h(n)</strong> = our <em>estimate</em> of h*(n) — the heuristic function</li>
+          <li>Must never overestimate: <strong>h(n) ≤ h*(n)</strong> for admissibility</li>
+          <li>Example: straight-line distance to Bucharest</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h3>f(n) — The Evaluation Function</h3>
+      <p style="color:var(--muted);font-size:.88rem;margin-bottom:.7rem">Different search strategies use different f(n):</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Strategy</th><th>f(n) =</th><th>Optimal?</th></tr></thead>
+          <tbody>
+            <tr><td>Uniform Cost Search</td><td>g(n)</td><td style="color:var(--accent-both)">Yes (exhaustive)</td></tr>
+            <tr><td>Greedy Best-First</td><td>h(n)</td><td style="color:var(--danger)">No</td></tr>
+            <tr><td>Total Cost Search</td><td>g(n) + h(n)</td><td style="color:var(--danger)">No (h may overestimate)</td></tr>
+            <tr><td>A* Search</td><td>g(n) + h(n) <em>with h(n) ≤ h*(n)</em></td><td style="color:var(--accent-both)">Yes</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. GREEDY -->
+  <div id="s-greedy">
+    <div class="section-title"><div class="dot" style="background:var(--warn)"></div>3 · Greedy Best-First Search</div>
+    <div class="def" style="border-color:var(--warn)">
+      <strong style="color:var(--warn)">f(n) = h(n)</strong> — only the heuristic, ignores actual path cost. Expands the node that <em>looks closest to the goal</em>.
+    </div>
+    <div class="split">
+      <div class="card ai"><h3>Greedy Algorithm (Simplified)</h3>
+        <ol class="step-list" style="margin:0">
+          <li>OPEN = [start node sorted by h(n)], CLOSED = []</li>
+          <li>Remove leftmost (lowest h) node X from OPEN</li>
+          <li>If X = goal → return path</li>
+          <li>Generate children, assign f=h(n), add ALL to OPEN</li>
+          <li>Put X on CLOSED; re-sort OPEN by h(n). Repeat</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Performance</h3>
+        <ul>
+          <li><strong>Complete:</strong> Yes</li>
+          <li><strong>Optimal:</strong> <span style="color:var(--danger)">No</span> — greedily follows h(n) and can miss a cheaper path</li>
+          <li><strong>Time &amp; Space:</strong> Linear if |h(n)−h*(n)| ≤ O(log h*(n))</li>
+        </ul>
+        <h3 style="margin-top:.8rem;color:var(--danger)">Map Problem Example</h3>
+        <ul>
+          <li>Greedy path: Arad→Sibiu→Fagaras→Bucharest = <strong>450</strong></li>
+          <li>Optimal path: Arad→Sibiu→RV→Pitesti→Bucharest = <strong>418</strong></li>
+          <li>Greedy missed the optimal by 32!</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. UNIFORM COST -->
+  <div id="s-uniform">
+    <div class="section-title"><div class="dot" style="background:var(--accent-ai)"></div>4 · Uniform Cost Search</div>
+    <div class="def" style="border-color:var(--accent-ai)">
+      <strong style="color:var(--accent-ai)">f(n) = g(n)</strong> — only actual path cost from start to n. Expands the cheapest node reached so far. The <em>only conventional search that qualifies as Best-First</em>.
+    </div>
+    <div class="split">
+      <div class="card ai">
+        <h3>Algorithm</h3>
+        <ol class="step-list" style="margin:0">
+          <li>OPEN = [start, f=g(n)=0], CLOSED = []</li>
+          <li>Remove leftmost (lowest g) node X</li>
+          <li>If X = goal → return path</li>
+          <li>Generate children, assign f=g(n), add to OPEN</li>
+          <li>Put X on CLOSED; re-sort OPEN by g(n). Repeat</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Performance</h3>
+        <ul>
+          <li><strong>Complete:</strong> Yes (exhaustive)</li>
+          <li><strong>Optimal:</strong> Yes (exhaustive)</li>
+          <li><strong>Time &amp; Space:</strong> Exponential</li>
+        </ul>
+        <p style="color:var(--muted);font-size:.84rem;margin-top:.5rem">Trade-off: guaranteed optimal but expensive — it ignores direction entirely and expands in all directions by cost.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. TOTAL COST -->
+  <div id="s-total">
+    <div class="section-title"><div class="dot" style="background:var(--accent-gen)"></div>5 · Total Cost Best-First Search</div>
+    <div class="def" style="border-color:var(--accent-gen)">
+      <strong style="color:var(--accent-gen)">f(n) = g(n) + h(n)</strong> — combines actual path cost AND estimated remaining cost. An improvement over Greedy that also considers how far we've already traveled.
+    </div>
+    <div class="split">
+      <div class="card ai">
+        <h3>Algorithm</h3>
+        <ol class="step-list" style="margin:0">
+          <li>OPEN = [root, f=g+h], CLOSED = []</li>
+          <li>Remove lowest f node X</li>
+          <li>If X = goal → return path</li>
+          <li>Generate children; <strong>discard if already on OPEN or CLOSED</strong></li>
+          <li>Assign f values, add to OPEN; re-sort. Repeat</li>
+        </ol>
+      </div>
+      <div class="card">
+        <h3>Performance</h3>
+        <ul>
+          <li><strong>Complete:</strong> Yes</li>
+          <li><strong>Optimal:</strong> <span style="color:var(--danger)">No</span> — can miss best goal if h(n) overestimates</li>
+          <li><strong>Time &amp; Space:</strong> Linear if |h(n)−h*(n)| ≤ O(log h*(n))</li>
+        </ul>
+        <p style="color:var(--muted);font-size:.84rem;margin-top:.5rem">Why not optimal? Discarding children already on OPEN/CLOSED can lose a better path. A* fixes this.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6. A* -->
+  <div id="s-astar">
+    <div class="section-title"><div class="dot" style="background:#84cc16"></div>6 · A* Search — The Optimal Informed Search</div>
+    <div class="def" style="border-color:#84cc16">
+      <strong style="color:#84cc16">f(n) = g(n) + h(n) with h(n) ≤ h*(n)</strong><br/>
+      Same formula as Total Cost, but adds the <strong>admissibility condition</strong>: h(n) must never overestimate the true cost. This guarantees optimality.
+    </div>
+    <div class="callout info">
+      <div class="icon">⭐</div>
+      <div><strong>Key fix over Total Cost:</strong> instead of discarding children already on OPEN or CLOSED, A* (Final) <em>keeps them and updates if a cheaper path is found</em>. This is the critical improvement that makes it optimal.</div>
+    </div>
+    <div class="card">
+      <h3>A* Algorithm — FINAL (Key Steps)</h3>
+      <ol class="step-list">
+        <li>OPEN = [start node, f=h(start)], CLOSED = []. Pick BESTNODE = lowest f on OPEN. Place on CLOSED.</li>
+        <li>If BESTNODE = goal → done. Otherwise generate successors.</li>
+        <li>For each SUCCESSOR: compute g(S) = g(BESTNODE) + edge cost; f(S) = g(S) + h(S)</li>
+        <li><strong>If S already on OPEN (called OLD):</strong> compare g values. If new path cheaper → update OLD's parent to BESTNODE, update g(OLD) and f(OLD)</li>
+        <li><strong>If S already on CLOSED (called OLD):</strong> same comparison. If new path cheaper → reset parent, update g and f, <em>propagate improvements to OLD's successors</em></li>
+        <li><strong>If S is new:</strong> point S to BESTNODE, add to OPEN</li>
+        <li>Re-sort OPEN by f values. Repeat from step 1.</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>A* Performance</h3>
+      <ul>
+        <li><strong>Complete:</strong> Yes</li>
+        <li><strong>Optimal:</strong> <span style="color:var(--accent-both)">Yes</span> — proven by refutation (see proof below)</li>
+        <li><strong>Time &amp; Space:</strong> Linear if |h(n)−h*(n)| ≤ O(log h*(n))</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:3px solid #84cc16">
+      <h3 style="color:#84cc16">Proof of A* Optimality (Refutation)</h3>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:.6rem">Assume A* selects a suboptimal goal G2 with f(G2) &gt; f* (where f* = optimal cost). Since G2 is a goal, h(G2)=0 so g(G2) &gt; f*.</p>
+      <ul style="color:var(--muted);font-size:.85rem;padding-left:1.2rem">
+        <li>There must exist some leaf node n on an optimal path to goal G</li>
+        <li>Because h is admissible: f* ≥ f(n)</li>
+        <li>If G2 was chosen instead of n: f(n) ≥ f(G2)</li>
+        <li>Combining: f* ≥ f(G2) → f* ≥ g(G2)</li>
+        <li>But we assumed g(G2) &gt; f* — <strong>contradiction!</strong></li>
+        <li>∴ A* never selects a suboptimal goal → <strong>A* is optimal</strong></li>
+      </ul>
+    </div>
+    <div class="card">
+      <h3>Admissibility vs Consistency</h3>
+      <div class="split" style="margin:.5rem 0 0">
+        <div>
+          <p style="color:var(--accent-both);font-size:.85rem;font-weight:700">Admissible:</p>
+          <p style="color:var(--muted);font-size:.84rem">h(n) ≤ h*(n) — never overestimates. Required for A* tree search to be optimal.</p>
+        </div>
+        <div>
+          <p style="color:var(--accent-gen);font-size:.85rem;font-weight:700">Consistent (Monotone):</p>
+          <p style="color:var(--muted);font-size:.84rem">h(n) ≤ k(n,a,n') + h(n') — triangle inequality. Implies f-cost is non-decreasing along any path. Required for A* graph search optimality.</p>
+        </div>
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid #84cc16">
+      <h3 style="color:#84cc16">A* on the Map Problem (Arad → Bucharest)</h3>
+      <p style="color:var(--muted);font-size:.84rem;margin-bottom:.5rem">Expands: Arad(366) → Sibiu(393) → RV(413) → Fagaras(415) → Pitesti(417) → <strong>Bucharest(418)</strong></p>
+      <p style="color:var(--accent-both);font-size:.84rem">Optimal path cost: <strong>418</strong>. Greedy found 450. A* wins.</p>
+    </div>
+  </div>
+
+  <!-- 7. 8-PUZZLE HEURISTICS -->
+  <div id="s-heuristics">
+    <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>7 · Heuristics for the 8-Puzzle</div>
+    <div class="callout info">
+      <div class="icon">🧩</div>
+      <div>The 8-puzzle: a 3×3 grid with tiles 1–8 and one blank. Goal: reach the goal configuration. The question is — what heuristic to use for h(n)?</div>
+    </div>
+    <div class="nn-grid">
+      <div class="nn-card">
+        <div class="tag" style="color:var(--accent-ai)">h₁(n)</div>
+        <h4>Tiles Out of Place</h4>
+        <p>Count how many tiles are NOT in their goal position. Simple, but ignores how far tiles need to move.</p>
+        <ul><li>Admissible: Yes</li><li>Accuracy: Low</li><li>Created by: Relax-2</li></ul>
+      </div>
+      <div class="nn-card">
+        <div class="tag" style="color:var(--accent-gen)">h₂(n) — Manhattan</div>
+        <h4>Manhattan Distance</h4>
+        <p>Sum of horizontal + vertical moves each tile needs to reach its goal position. Ignores other tiles blocking the way.</p>
+        <p style="color:var(--muted);font-size:.8rem">h_Manhattan = Σ |x−x_goal| + |y−y_goal|</p>
+        <ul><li>Admissible: Yes</li><li>Accuracy: Good</li><li>Created by: Relax-1</li></ul>
+      </div>
+      <div class="nn-card">
+        <div class="tag" style="color:var(--accent-both)">Euclidean</div>
+        <h4>Euclidean Distance</h4>
+        <p>Straight-line (as-the-crow-flies) distance from each tile to its goal.</p>
+        <p style="color:var(--muted);font-size:.8rem">h_Euclidean = Σ √((x−x_g)² + (y−y_g)²)</p>
+        <ul><li>Admissible: Yes</li><li>Accuracy: Moderate (weaker than Manhattan — puzzle can't move diagonally)</li><li>h_Euclidean ≤ h_Manhattan always</li></ul>
+      </div>
+      <div class="nn-card" style="border-top:3px solid #84cc16">
+        <div class="tag" style="color:#84cc16">Linear Conflict</div>
+        <h4>Linear Conflict</h4>
+        <p>Manhattan + 2×(number of linear conflicts). A conflict exists when two tiles are in the correct row/column but in wrong relative order — they must swap, costing extra moves.</p>
+        <ul>
+          <li>Admissible: Yes</li>
+          <li>Accuracy: Excellent (dominates Manhattan)</li>
+          <li>h_LC ≥ h_Manhattan always</li>
+          <li>Example: Manhattan expanded 327 nodes; Linear Conflict expanded 213</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Heuristic Strength Ranking</h3>
+      <div class="formula" style="text-align:center">
+        <span class="label">Ordering by accuracy (strongest → weakest)</span>
+        Linear Conflict  &gt;  Manhattan  &gt;  Euclidean
+      </div>
+      <p style="color:var(--muted);font-size:.84rem;margin-top:.5rem">Stronger heuristic = fewer nodes expanded = faster search. All three are admissible, so all guarantee optimality with A*.</p>
+    </div>
+  </div>
+
+  <!-- 8. CONDITION RELAXATION -->
+  <div id="s-relax">
+    <div class="section-title"><div class="dot" style="background:var(--warn)"></div>8 · Condition Relaxation — How to Invent Heuristics</div>
+    <div class="def" style="border-color:var(--warn)">
+      <strong style="color:var(--warn)">Condition Relaxation</strong><br/>
+      A principled way to invent admissible heuristics: take the real problem's constraints and <em>remove one or more</em> of them. The optimal cost in the relaxed problem ≤ optimal cost in the real problem → admissible by construction.
+    </div>
+    <div class="card">
+      <h3>8-Puzzle: Real Rule</h3>
+      <p style="color:var(--muted);font-size:.88rem">A tile can move from square A to square B if: (1) A is horizontally or vertically adjacent to B, AND (2) B is blank.</p>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Relaxation</th><th>New Rule</th><th>Heuristic Generated</th></tr></thead>
+        <tbody>
+          <tr><td>Relax-1</td><td>A tile can move from A to B if A is adjacent to B (remove "B must be blank")</td><td><strong>h₂(n)</strong> — Manhattan distance</td></tr>
+          <tr><td>Relax-2</td><td>A tile can move from A to B freely (remove both conditions)</td><td><strong>h₁(n)</strong> — tiles out of place</td></tr>
+          <tr><td>Relax-3 (Gaschnig)</td><td>A tile can move from A to B if B is blank (remove "must be adjacent")</td><td><strong>Gaschnig heuristic</strong> — equals h₂(n) in some cases</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- 9. MEMORY-BOUNDED -->
+  <div id="s-memory">
+    <div class="section-title"><div class="dot" style="background:var(--accent-gen)"></div>9 · Memory-Bounded Search Variants</div>
+    <div class="split">
+      <div class="card gen">
+        <h3>IDA* (Iterative Deepening A*)</h3>
+        <ul>
+          <li>Adapts iterative deepening to heuristic search</li>
+          <li>Cutoff = f-cost (g+h) instead of depth</li>
+          <li>Each iteration: cutoff = smallest f-cost that exceeded the previous cutoff</li>
+          <li>Uses only <strong>linear memory</strong></li>
+          <li>Good for problems with unit step costs</li>
+          <li>Trade-off: may re-expand nodes multiple times</li>
+        </ul>
+        <h3 style="margin-top:.8rem">IDA* Steps</h3>
+        <ol style="color:var(--muted);font-size:.82rem;padding-left:1.2rem">
+          <li>Set c = f(start node)</li>
+          <li>Set L = list of initial nodes</li>
+          <li>Take first node n from L. If L empty → increment c, restart</li>
+          <li>If n is goal → return it</li>
+          <li>Remove n from L; add children n' with f(n') ≤ c to front of L. Repeat from step 3</li>
+        </ol>
+      </div>
+      <div class="card ai">
+        <h3>RBFS (Recursive Best-First Search)</h3>
+        <ul>
+          <li>Mimics best-first search using only <strong>linear space</strong></li>
+          <li>Tracks f_limit = best f-value of alternative paths from any ancestor</li>
+          <li>If current node exceeds f_limit → unwind and try the alternative</li>
+          <li>Replaces f-values with <strong>backed-up values</strong> from children when backtracking</li>
+          <li>More efficient than IDA* but still re-expands nodes</li>
+        </ul>
+        <h3 style="margin-top:.8rem">SMA*</h3>
+        <ul>
+          <li>Simplified Memory-Bounded A*</li>
+          <li>Uses available memory optimally</li>
+          <li>Drops worst leaf nodes when memory is full, remembering their f-values</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <div id="flash7">
+    <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>10 · Flashcards</div>
+    <div class="flashcards">
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is an admissible heuristic?</div><div class="toggle">tap to reveal ▾</div><div class="a">h(n) ≤ h*(n) — the heuristic never overestimates the true cost to the goal. This is the condition that makes A* optimal.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">f(n) formulas for all 4 strategies?</div><div class="toggle">tap to reveal ▾</div><div class="a">Uniform Cost: f=g(n). Greedy: f=h(n). Total Cost: f=g(n)+h(n). A*: f=g(n)+h(n) with h(n)≤h*(n).</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">Why is Greedy Best-First not optimal?</div><div class="toggle">tap to reveal ▾</div><div class="a">It only uses h(n) and ignores actual path cost g(n). It greedily follows what looks closest to the goal but can miss a cheaper overall path. Map example: finds 450, optimal is 418.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What's the key difference between Total Cost and A*?</div><div class="toggle">tap to reveal ▾</div><div class="a">Both use f=g+h, but: Total Cost discards children already on OPEN/CLOSED (loses better paths). A* keeps them and updates if a cheaper path is found. A* also requires h(n)≤h*(n) (admissibility).</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What are the three 8-puzzle heuristics ranked by strength?</div><div class="toggle">tap to reveal ▾</div><div class="a">Linear Conflict > Manhattan > Euclidean. All admissible. Manhattan = sum of tile distances (horizontal+vertical). Linear Conflict = Manhattan + 2 per conflicting tile pair in same row/column.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is condition relaxation?</div><div class="toggle">tap to reveal ▾</div><div class="a">Remove one or more constraints from the problem to create an easier version. The optimal cost in the relaxed problem ≤ real cost → automatically admissible. Example: Relax-1 removes "B must be blank" → Manhattan distance.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is a consistent (monotone) heuristic?</div><div class="toggle">tap to reveal ▾</div><div class="a">h(n) ≤ k(n,a,n') + h(n') — triangle inequality. Stronger than admissibility. Guarantees f-cost is non-decreasing along any path: f(n) ≤ f(n'). Required for A* graph search optimality.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">IDA* vs RBFS — key difference?</div><div class="toggle">tap to reveal ▾</div><div class="a">Both use linear memory. IDA* uses an f-cost cutoff, iterating with increasing cutoffs. RBFS mimics best-first search recursively, tracking f_limit from ancestor nodes and backing up values when unwinding.</div></div>
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div id="tldr7">
+    <div class="section-title"><div class="dot" style="background:#84cc16"></div>TL;DR — 7 Things You Must Know</div>
+    <div class="card">
+      <ul style="color:var(--text);font-size:.93rem;list-style:none;padding:0">
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#84cc16">1.</strong> 4 criteria: <strong>Completeness, Optimality, Time complexity, Space complexity</strong>.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#84cc16">2.</strong> g(n) = actual cost from start. h(n) = estimated cost to goal. f(n) = g+h.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#84cc16">3.</strong> <strong>Greedy</strong> (f=h): fast but not optimal. <strong>Uniform Cost</strong> (f=g): optimal but slow. <strong>Total Cost</strong> (f=g+h): not optimal. <strong>A*</strong> (f=g+h, admissible h): optimal and efficient.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#84cc16">4.</strong> <strong>Admissibility: h(n) ≤ h*(n)</strong> — never overestimate. This is what makes A* optimal.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#84cc16">5.</strong> 8-puzzle heuristics: <strong>h₁ = tiles out of place</strong>, <strong>h₂ = Manhattan distance</strong>, <strong>Linear Conflict = Manhattan + 2×conflicts</strong>. Ranking: LC &gt; Manhattan &gt; Euclidean.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#84cc16">6.</strong> <strong>Condition relaxation</strong>: remove constraints to invent admissible heuristics. Relax-1→Manhattan, Relax-2→tiles out of place.</li>
+        <li style="padding:.45rem 0"><strong style="color:#84cc16">7.</strong> Memory-bounded: <strong>IDA*</strong> = iterative deepening with f-cost cutoff. <strong>RBFS</strong> = best-first with linear memory using backed-up f-values.</li>
+      </ul>
+    </div>
+    <div class="summary-banner">
+      <h3>Intelligent Search in one sentence</h3>
+      <p>Use <strong>A*</strong> with an admissible heuristic — it combines the actual cost traveled with an optimistic estimate of remaining cost to <strong>guarantee finding the optimal solution</strong> faster than any uninformed search.</p>
+    </div>
+
+    <div style="display:flex;flex-direction:column;align-items:center;margin:2rem 0 1rem;gap:0.5rem">
+      <div class="goonis-wrap large" onclick="goonisClick(this)">
+        <div class="goonis-bubble"></div>
+        <img src="goonis%20celebrating.png" alt="Goonis" />
+        <div class="goonis-label">you finished — click goonis</div>
+      </div>
+      <p style="color:var(--muted);font-size:0.85rem;text-align:center">That's all 6 CPS components. Go get that degree. 🎓</p>
+    </div>
+  </div>
+
+</div>
+</div><!-- /cps7 -->
+
+<!-- ══════════════════ CPS #8 ══════════════════ -->
+<div id="cps8" class="tab-content">
+<div class="container">
+  <div class="hero">
+    <h1>CPS #8 — <span style="color:#f97316">NLP &amp; Question Answering</span></h1>
+    <p>Traditional AI Programs · Semantic Analysis · Scripts · GenAI QA · Worked Examples · Spring 2026</p>
+    <div class="badge">Click any flashcard to reveal the answer</div>
+  </div>
+
+  <nav class="nav">
+    <a href="#qa-overview">Overview</a>
+    <a href="#qa-programs">3 Programs</a>
+    <a href="#qa-syntax">Syntax &amp; Semantics</a>
+    <a href="#qa-scripts">Scripts</a>
+    <a href="#qa-types">Q Types</a>
+    <a href="#qa-pipeline">Pipeline</a>
+    <a href="#qa-algos">Algorithms</a>
+    <a href="#qa-llm">LLMs</a>
+    <a href="#qa-worked">Worked Examples</a>
+    <a href="#qa-derivation">Derivation</a>
+    <a href="#qa-flash">Flashcards</a>
+    <a href="#qa-tldr">TL;DR</a>
+  </nav>
+
+    <!-- OVERVIEW -->
+    <div id="qa-overview">
+      <div class="section-title"><div class="dot" style="background:#f97316"></div>1 · What is a Question Answering System?</div>
+      <div class="def" style="border-color:#f97316">
+        <strong style="color:#f97316">QA System</strong><br/>
+        A program that reads text (a story/passage) and returns a precise answer to a natural-language question — not just a matching document.
+      </div>
+      <div class="card" style="border-top:3px solid #f97316">
+        <h3 style="color:#f97316">Two Approaches Covered</h3>
+        <table class="table">
+          <thead><tr><th>Approach</th><th>Method</th><th>Key Idea</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Traditional AI</strong></td><td>Structured semantic representations</td><td>Parse → represent meaning → match</td></tr>
+            <tr><td><strong>Generative AI</strong></td><td>LLMs (BERT / GPT / T5)</td><td>Generate answers token-by-token</td></tr>
+          </tbody>
+        </table>
+        <p style="margin-top:.75rem;font-size:.88rem;color:var(--muted)">Three core AI techniques used throughout: <strong>Search</strong>, <strong>Use of Knowledge</strong>, <strong>Abstraction</strong>.</p>
+      </div>
+    </div>
+
+    <!-- 3 PROGRAMS -->
+    <div id="qa-programs">
+      <div class="section-title"><div class="dot" style="background:#f97316"></div>2 · The Three QA Programs (Traditional AI)</div>
+      <div class="def" style="border-color:#f97316">
+        <strong style="color:#f97316">Running Example</strong><br/>
+        Story: <em>"Mary went shopping for a new coat. She found a red one she really liked. When she got it home, she discovered that it went perfectly with her favorite dress."</em><br/>
+        Q1: What did Mary go shopping for? &nbsp;|&nbsp; Q2: What did Mary find that she liked? &nbsp;|&nbsp; Q3: Did Mary buy anything?
+      </div>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:1rem;margin-top:1rem">
+        <div class="nn-card" style="border-top:3px solid #f97316">
+          <div class="tag" style="color:#f97316">Program 1 — Pattern Matching</div>
+          <p style="font-size:.87rem;color:var(--muted)">Simple keyword/pattern search. Brittle — depends on exact wording.</p>
+          <ul style="font-size:.85rem;color:var(--text);padding-left:1.1rem">
+            <li>Q1 ✓ Q2 ✓ (if phrasing matches)</li>
+            <li>Q3 ✗ — no direct phrase to match</li>
+          </ul>
+        </div>
+        <div class="nn-card" style="border-top:3px solid #f97316">
+          <div class="tag" style="color:#f97316">Program 2 — Structured Semantics</div>
+          <p style="font-size:.87rem;color:var(--muted)">Converts text → structured form (slot-and-filler). Matches meaning, not words.</p>
+          <ul style="font-size:.85rem;color:var(--text);padding-left:1.1rem">
+            <li>Uses <strong>EnglishKnow</strong> to parse</li>
+            <li>Q1 ✓ Q2 ✓ Q3 ✗ (still missing inference)</li>
+          </ul>
+        </div>
+        <div class="nn-card" style="border-top:3px solid #f97316">
+          <div class="tag" style="color:#f97316">Program 3 — World Model + Script</div>
+          <p style="font-size:.87rem;color:var(--muted)">Adds background knowledge (WorldModel + Scripts). Can infer unstated facts.</p>
+          <ul style="font-size:.85rem;color:var(--text);padding-left:1.1rem">
+            <li>Instantiates Shopping Script</li>
+            <li>Q1 ✓ Q2 ✓ <strong>Q3 ✓</strong> — "She bought a red coat."</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="card" style="border-top:3px solid #f97316;margin-top:1rem">
+        <h3 style="color:#f97316">Program 2 — Data Structures</h3>
+        <table class="table">
+          <thead><tr><th>Structure</th><th>What It Holds</th></tr></thead>
+          <tbody>
+            <tr><td><strong>EnglishKnow</strong></td><td>Grammar + word meanings + semantic rules for parsing English both ways</td></tr>
+            <tr><td><strong>InputText</strong></td><td>Raw input text (character form)</td></tr>
+            <tr><td><strong>StructuredText</strong></td><td>Meaning-oriented representation of the text (pronouns resolved)</td></tr>
+            <tr><td><strong>InputQuestion</strong></td><td>Raw question (character form)</td></tr>
+            <tr><td><strong>StructQuestion</strong></td><td>Structured question (same form as StructuredText, with answer marker X)</td></tr>
+          </tbody>
+        </table>
+        <div class="formula" style="margin-top:.75rem">
+          Algorithm: (1) Convert InputText → StructuredText using EnglishKnow<br/>
+          (2) Convert InputQuestion → StructQuestion (mark answer slot with X)<br/>
+          (3) Match StructQuestion against StructuredText → return X
+        </div>
+      </div>
+
+      <div class="card" style="border-top:3px solid #f97316;margin-top:1rem">
+        <h3 style="color:#f97316">Program 3 — Additional Data Structures</h3>
+        <table class="table">
+          <thead><tr><th>Structure</th><th>What It Adds</th></tr></thead>
+          <tbody>
+            <tr><td><strong>WorldModel</strong></td><td>Background knowledge about objects, actions, and stereotypical situations (Scripts)</td></tr>
+            <tr><td><strong>IntegratedText</strong></td><td>StructuredText + inferences from WorldModel (contains events not explicitly stated)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- SYNTACTIC & SEMANTIC ANALYSIS -->
+    <div id="qa-syntax">
+      <div class="section-title"><div class="dot" style="background:#f97316"></div>3 · Syntactic &amp; Semantic Analysis</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+        <div class="card" style="border-top:3px solid #f97316">
+          <h3 style="color:#f97316">Syntactic Analysis (Parsing)</h3>
+          <p style="font-size:.87rem;color:var(--muted)">Checks if the sentence is grammatically correct. Feeds parsed structure to the semantic processor.</p>
+          <div class="formula">
+            ✓ "John carried a monkey on his back"<br/>
+            ✗ "John on carried his monkey a back" ← wrong word order
+          </div>
+        </div>
+        <div class="card" style="border-top:3px solid #f97316">
+          <h3 style="color:#f97316">Semantic Analysis</h3>
+          <p style="font-size:.87rem;color:var(--muted)">Checks if the sentence is <em>meaningful</em>. Produces the Structured Semantic Representation.</p>
+          <div class="formula">
+            ✓ "John killed the long dark poisonous snake."<br/>
+            ✗ "The big orange carrot killed the snake." ← semantically wrong
+          </div>
+        </div>
+      </div>
+
+      <div class="card" style="border-top:3px solid #f97316;margin-top:1rem">
+        <h3 style="color:#f97316">Slot-and-Filler Representation (Program 2 example)</h3>
+        <p style="font-size:.85rem;color:var(--muted);margin-bottom:.75rem">Text: <em>"She found a red one she really liked."</em></p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1rem">
+          <div class="formula" style="font-size:.82rem">
+            <strong>Event1</strong><br/>
+            &nbsp; instance: Finding<br/>
+            &nbsp; tense: Past<br/>
+            &nbsp; agent: Mary<br/>
+            &nbsp; object: Thing1<br/><br/>
+            <strong>Thing1</strong><br/>
+            &nbsp; instance: Coat<br/>
+            &nbsp; color: Red
+          </div>
+          <div class="formula" style="font-size:.82rem">
+            <strong>Event2</strong><br/>
+            &nbsp; instance: Liking<br/>
+            &nbsp; tense: Past<br/>
+            &nbsp; modifier: Much<br/>
+            &nbsp; object: Thing1<br/><br/>
+            <strong>StructQuestion (Q2)</strong><br/>
+            &nbsp; instance: Finding<br/>
+            &nbsp; agent: Mary<br/>
+            &nbsp; object: <strong>X</strong> ← answer marker
+          </div>
+        </div>
+        <p style="font-size:.83rem;color:var(--accent-both);margin-top:.75rem">Match: X = Thing1 → answer = <strong>"Red Coat"</strong></p>
+      </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <div id="qa-scripts">
+      <div class="section-title"><div class="dot" style="background:#f97316"></div>4 · Scripts &amp; the World Model</div>
+      <div class="def" style="border-color:#f97316">
+        <strong style="color:#f97316">Script</strong><br/>
+        Stored knowledge about <em>stereotypical events</em> — a sequence of expected steps for a common situation (e.g. shopping). Used by Program 3 to fill in implied facts.
+      </div>
+      <div class="card" style="border-top:3px solid #f97316">
+        <h3 style="color:#f97316">Shopping Script</h3>
+        <div class="formula" style="font-size:.84rem">
+          roles: C (customer), S (salesperson)<br/>
+          props: M (merchandise), D (dollars)<br/>
+          location: L (a store)<br/><br/>
+          1. C enters L &nbsp;→&nbsp; 2. C looks around &nbsp;→&nbsp; 3. C searches for M<br/>
+          7. C finds M' &nbsp;→&nbsp; 10. C buys M' &nbsp;→&nbsp; 14. C takes M' home &nbsp;→&nbsp; 15. C possesses M'
+        </div>
+        <p style="font-size:.83rem;color:var(--muted);margin-top:.6rem">When applied to the Mary story: M' = red coat. Step 10 ("C buys M'") is added to IntegratedText even though the text never says "Mary bought." This lets Program 3 answer Q3: <strong>"She bought a red coat."</strong></p>
+      </div>
+      <div class="def" style="border-color:#f97316;margin-top:.75rem">
+        <strong style="color:#f97316">Why World Models matter</strong><br/>
+        Without world knowledge, pronouns like "she" in <em>"Mary walked up to the salesperson. She asked where the toy department was."</em> cannot be resolved correctly — you need to know that <em>customers</em> ask questions, not salespeople.
+      </div>
+    </div>
+
+    <!-- TYPES OF QUESTIONS -->
+    <div id="qa-types">
+      <div class="section-title"><div class="dot" style="background:#f97316"></div>5 · Types of Questions (GenAI Approach)</div>
+      <table class="table">
+        <thead><tr><th>Type</th><th>Words</th><th>Answer Needed</th><th>Example</th></tr></thead>
+        <tbody>
+          <tr><td><strong style="color:#f97316">Factoid</strong></td><td>Who / What / When / Where</td><td>Specific fact from text</td><td>Who went to the market?</td></tr>
+          <tr><td><strong style="color:#f97316">Yes/No</strong></td><td>Did / Is / Was</td><td>Yes or No + evidence</td><td>Did John buy apples?</td></tr>
+          <tr><td><strong style="color:#f97316">Why/How</strong></td><td>Why / How</td><td>Reason / process (inference)</td><td>Why did John go to the market?</td></tr>
+          <tr><td><strong style="color:#f97316">Coreference</strong></td><td>He / She / It / They</td><td>Resolve pronoun to referent</td><td>Where did <em>he</em> go?</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- PIPELINE -->
+    <div id="qa-pipeline">
+      <div class="section-title"><div class="dot" style="background:#f97316"></div>6 · The 8-Step QA Pipeline</div>
+      <div class="card" style="border-top:3px solid #f97316">
+        <ol style="color:var(--text);font-size:.9rem;padding-left:1.2rem;line-height:2">
+          <li><strong>Read &amp; split</strong> the story into sentences (tokenization)</li>
+          <li><strong>Identify question type</strong> (Who/What/Why/Yes-No) — narrows the search space</li>
+          <li><strong>Extract keywords</strong> from the question — ignore stop words, keep content words</li>
+          <li><strong>Find most relevant sentence</strong> — similarity score between keywords and each sentence</li>
+          <li><strong>Resolve pronouns &amp; references</strong> — "she" → Amina; "they" → Sara &amp; Nina</li>
+          <li><strong>Extract answer span</strong> — shortest correct phrase, not the whole sentence</li>
+          <li><strong>Use inference</strong> — when answer is implied, not stated (Rain → took bus)</li>
+          <li><strong>Handle Yes/No</strong> — find evidence sentence; check if it confirms or denies</li>
+        </ol>
+      </div>
+      <div class="card" style="border-top:3px solid #f97316;margin-top:1rem">
+        <h3 style="color:#f97316">Direct vs Inferred Answers</h3>
+        <table class="table">
+          <thead><tr><th>Type</th><th>How to Spot It</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Direct</strong></td><td>You can point to the exact sentence</td><td>"Tuesday morning" → directly written</td></tr>
+            <tr><td><strong>Inferred</strong></td><td>Requires reasoning from clues</td><td>"Why give up seat?" → elderly man + crowded bus → kindness</td></tr>
+          </tbody>
+        </table>
+        <div class="formula" style="margin-top:.75rem;font-size:.83rem">
+          Pseudocode:<br/>
+          for s in split_sentences(story):<br/>
+          &nbsp;&nbsp;score = similarity(extract_keywords(question), s)<br/>
+          &nbsp;&nbsp;if score &gt; best_score: best_sentence = s
+        </div>
+      </div>
+    </div>
+
+    <!-- ALGORITHMS -->
+    <div id="qa-algos">
+      <div class="section-title"><div class="dot" style="background:#f97316"></div>7 · Algorithms &amp; Techniques</div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:1rem">
+        <div class="nn-card" style="border-top:3px solid #f97316">
+          <div class="tag" style="color:#f97316">1 — Rule-Based</div>
+          <p style="font-size:.85rem;color:var(--muted)">Pattern matching + handcrafted rules.</p>
+          <div class="formula" style="font-size:.81rem">If Q starts with "Who" → answer = PERSON entity</div>
+          <p style="font-size:.8rem;color:var(--muted);margin-top:.4rem">✓ Interpretable &nbsp; ✗ Not scalable, brittle</p>
+        </div>
+        <div class="nn-card" style="border-top:3px solid #f97316">
+          <div class="tag" style="color:#f97316">2 — Semantic Matching</div>
+          <p style="font-size:.85rem;color:var(--muted)">"purchase" ≈ "buy" via word embeddings.</p>
+          <div class="formula" style="font-size:.81rem">Word2Vec / GloVe → vector similarity</div>
+        </div>
+        <div class="nn-card" style="border-top:3px solid #f97316">
+          <div class="tag" style="color:#f97316">3 — ML (Feature-Based)</div>
+          <p style="font-size:.85rem;color:var(--muted)">Features: word overlap, POS tags, named entities.</p>
+          <div class="formula" style="font-size:.81rem">Classifiers: Logistic Regression, SVM</div>
+        </div>
+        <div class="nn-card" style="border-top:3px solid #f97316">
+          <div class="tag" style="color:#f97316">4 — Deep Learning</div>
+          <p style="font-size:.85rem;color:var(--muted)">Sequence models → attention → Transformers.</p>
+          <div class="formula" style="font-size:.81rem">LSTM/GRU → Attention → BERT/RoBERTa/LLMs</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- LLMs / GENERATIVE QA -->
+    <div id="qa-llm">
+      <div class="section-title"><div class="dot" style="background:#f97316"></div>8 · Generative QA &amp; LLMs</div>
+      <div class="card" style="border-top:3px solid #f97316">
+        <h3 style="color:#f97316">Extractive vs Generative QA</h3>
+        <table class="table">
+          <thead><tr><th>Approach</th><th>Mechanism</th><th>Output</th><th>Example</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Extractive</strong></td><td>Select span from story</td><td>Exact substring</td><td>"his phone battery died"</td></tr>
+            <tr><td><strong>Generative</strong></td><td>Generate sequence token-by-token</td><td>Free-form answer</td><td>"The alarm didn't ring because the phone battery died during the night."</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card" style="border-top:3px solid #f97316;margin-top:1rem">
+        <h3 style="color:#f97316">LLM Architecture Types</h3>
+        <table class="table">
+          <thead><tr><th>Type</th><th>Models</th><th>Best For</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Encoder-only</strong></td><td>BERT</td><td>Extractive QA — understand context, pick span</td></tr>
+            <tr><td><strong>Decoder-only</strong></td><td>GPT</td><td>Free-form (generative) QA — autoregressive generation</td></tr>
+            <tr><td><strong>Encoder–Decoder</strong></td><td>T5, BART</td><td>Best suited for QA tasks — reads passage, writes answer</td></tr>
+          </tbody>
+        </table>
+        <div class="formula" style="margin-top:.75rem;font-size:.85rem">
+          Seq2Seq structure:<br/>
+          <strong>Encoder</strong>: reads story + question &nbsp;→&nbsp; <strong>Decoder</strong>: generates answer<br/><br/>
+          Token-by-token example (David story):<br/>
+          Because → his → phone → battery → died
+        </div>
+      </div>
+      <div class="def" style="border-color:#f97316;margin-top:.75rem">
+        <strong style="color:#f97316">In-Context Learning</strong><br/>
+        LLMs can answer without retraining — just show a few examples in the prompt (few-shot). The model infers the pattern and applies it to new questions.
+      </div>
+      <div class="card" style="border-top:3px solid #f97316;margin-top:1rem">
+        <h3 style="color:#f97316">LLM on the Three Stories</h3>
+        <table class="table">
+          <thead><tr><th>Story</th><th>Task Difficulty</th><th>What LLM Does</th></tr></thead>
+          <tbody>
+            <tr><td><strong>Tom (Story 3)</strong></td><td>Low — fact extraction</td><td>Direct retrieval, minimal reasoning</td></tr>
+            <tr><td><strong>Sara (Story 4)</strong></td><td>Medium — coreference</td><td>Resolves "they" → Sara+Nina, "hers" → Nina's umbrella</td></tr>
+            <tr><td><strong>David (Story 5)</strong></td><td>High — multi-hop</td><td>Builds chain: battery died → alarm failed → oversleep → late</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- WORKED EXAMPLES -->
+    <div id="qa-worked">
+      <div class="section-title"><div class="dot" style="background:#f97316"></div>9 · Worked Example — Amina Story (Full Walkthrough)</div>
+      <div class="def" style="border-color:#f97316;font-size:.84rem">
+        <strong style="color:#f97316">Story:</strong> Amina left her blue backpack at home because she was late for school. Her brother Zaid drove her to school and gave her lunchbox before class started. After classes, Amina visited the library to return a novel she had borrowed. On the way home, she noticed it was raining, so she took the bus instead of walking. When she arrived home, she found her backpack on the kitchen chair, where her mother had placed it after packing snacks.
+      </div>
+      <div class="card" style="border-top:3px solid #f97316;margin-top:.75rem">
+        <table class="table">
+          <thead><tr><th>#</th><th>Question</th><th>Type</th><th>Step Used</th><th>Answer</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>Who drove Amina to school?</td><td>Who (fact)</td><td>Step 2→4: find "drove" + "school" → S2</td><td><strong>Zaid</strong></td></tr>
+            <tr><td>2</td><td>What color was Amina's backpack?</td><td>What (fact)</td><td>Step 4: noun phrase on "backpack" → S1</td><td><strong>Blue</strong></td></tr>
+            <tr><td>3</td><td>Where did Amina go after classes?</td><td>Where (fact)</td><td>Step 4: "after classes" → S3</td><td><strong>The library</strong></td></tr>
+            <tr><td>4</td><td>What did Amina return at the library?</td><td>What (fact)</td><td>Step 4: S3 → "to return..."</td><td><strong>A novel</strong></td></tr>
+            <tr><td>5</td><td>Where was the backpack found?</td><td>Where (fact)</td><td>Step 4: S5</td><td><strong>Kitchen chair</strong></td></tr>
+            <tr><td>6</td><td>Why did Amina take the bus?</td><td>Why (inference)</td><td>Step 7: raining → bus (causal)</td><td><strong>Because it was raining</strong></td></tr>
+            <tr><td>7</td><td>Did Amina walk home?</td><td>Yes/No</td><td>Step 8: "instead of walking" → No</td><td><strong>No</strong></td></tr>
+            <tr><td>8</td><td>Who placed the backpack on the chair?</td><td>Who (fact)</td><td>Step 4: S5 → "her mother had placed it"</td><td><strong>Her mother</strong></td></tr>
+            <tr><td>9</td><td>Who does "her mother" refer to?</td><td>Coreference</td><td>Step 5: "her" → Amina throughout</td><td><strong>Amina's mother</strong></td></tr>
+            <tr><td>10</td><td>Who does "she" refer to in "she took the bus"?</td><td>Coreference</td><td>Step 5: main female = Amina</td><td><strong>Amina</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- DERIVATION -->
+    <div id="qa-derivation">
+      <div class="section-title"><div class="dot" style="background:#f97316"></div>10 · Logic Derivation — Grandparent Rule</div>
+      <div class="card" style="border-top:3px solid #f97316">
+        <h3 style="color:#f97316">Prove: Max is grandparent of Maxi</h3>
+        <div class="formula" style="font-size:.87rem">
+          <strong>Rule:</strong> Grandparent(X, Z) :- Parent(X, Y) AND Parent(Y, Z)<br/><br/>
+          <strong>Given facts:</strong><br/>
+          1. Parent(Max, Spot)<br/>
+          2. Parent(Spot, Maxi)<br/><br/>
+          <strong>Apply rule:</strong> X = Max &nbsp;·&nbsp; Y = Spot &nbsp;·&nbsp; Z = Maxi<br/><br/>
+          <strong>Step-by-step:</strong><br/>
+          1. Max is a parent of Spot &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [Fact 1]<br/>
+          2. Spot is a parent of Maxi &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [Fact 2]<br/>
+          3. Max is a parent of Maxi's parent &nbsp; [from 1+2]<br/>
+          4. ∴ <strong>Grandparent(Max, Maxi)</strong> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp; [rule satisfied]
+        </div>
+      </div>
+    </div>
+
+    <!-- FLASHCARDS -->
+    <div id="qa-flash">
+      <div class="section-title"><div class="dot" style="background:#f97316"></div>Flashcards</div>
+      <div class="badge">Click any flashcard to reveal the answer</div>
+      <div class="flashcards">
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">What is the key difference between Program 2 and Program 3?</div>
+          <div class="back">Program 2 uses structured semantics (EnglishKnow) only. Program 3 adds a <strong>WorldModel + Scripts</strong>, allowing it to infer facts not explicitly stated (e.g. Mary bought the coat).</div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">What is a Script in AI?</div>
+          <div class="back">Stored knowledge about a <strong>stereotypical sequence of events</strong> (e.g. Shopping Script: enter → look → find → buy → take home). Used by Program 3 to fill in implied actions.</div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">What is a slot-and-filler representation?</div>
+          <div class="back">A structured way to represent sentence meaning using named slots (instance, tense, agent, object) and their fillers. The answer marker <strong>X</strong> is placed in the slot whose value is the answer to the question.</div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">What are the 3 LLM architecture types and their best uses?</div>
+          <div class="back"><strong>Encoder-only (BERT)</strong> → extractive QA (pick span). <strong>Decoder-only (GPT)</strong> → free-form generative QA. <strong>Encoder–Decoder (T5/BART)</strong> → best for QA tasks overall.</div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">What is the difference between syntactic and semantic errors?</div>
+          <div class="back"><strong>Syntactic:</strong> wrong grammar/word order — "John on carried his monkey." <strong>Semantic:</strong> grammatically fine but meaningless — "The big orange carrot killed the snake."</div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">What is In-Context Learning?</div>
+          <div class="back">LLMs learn from a few examples <strong>in the prompt</strong> without any retraining. Show Q+A pairs as examples and the model infers the pattern to answer the new question.</div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">What is IntegratedText (Program 3)?</div>
+          <div class="back">StructuredText (Program 2's representation) <strong>merged with background knowledge from WorldModel/Scripts</strong>. Contains implied events — e.g. "Mary buys a red coat" is added from the Shopping Script even though the text never says it.</div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">Name the 3 AI techniques that all QA programs rely on.</div>
+          <div class="back"><strong>Search</strong> — framework for finding answers when no direct method exists. <strong>Use of Knowledge</strong> — exploit domain/language structures. <strong>Abstraction</strong> — separate important features from noise.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TL;DR -->
+    <div id="qa-tldr">
+      <div class="section-title"><div class="dot" style="background:#f97316"></div>TL;DR — 8 Things You Must Know</div>
+      <div class="card">
+        <ul style="color:var(--text);font-size:.93rem;list-style:none;padding:0">
+          <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#f97316">1.</strong> <strong>3 Programs</strong>: Pattern matching (brittle) → Structured semantics (meaning-based) → World model + Scripts (inferential).</li>
+          <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#f97316">2.</strong> <strong>Slot-and-filler</strong>: sentences become Event objects with slots (instance/tense/agent/object). Answer marker X marks what to return.</li>
+          <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#f97316">3.</strong> <strong>Scripts</strong> = stereotypical event sequences. Shopping Script lets Program 3 infer "Mary bought a coat" and answer Q3.</li>
+          <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#f97316">4.</strong> <strong>4 question types</strong>: Factoid (Who/What/When/Where), Yes/No, Why/How (need inference), Coreference (pronoun resolution).</li>
+          <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#f97316">5.</strong> <strong>8-step pipeline</strong>: split → identify type → keywords → find sentence → resolve pronouns → extract span → infer → handle Yes/No.</li>
+          <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#f97316">6.</strong> <strong>Extractive QA</strong> = pick a span. <strong>Generative QA</strong> = generate token-by-token. BERT=extractive, GPT=generative, T5/BART=best for QA.</li>
+          <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#f97316">7.</strong> <strong>In-Context Learning</strong>: LLMs learn from prompt examples without retraining — show the pattern, they apply it.</li>
+          <li style="padding:.45rem 0"><strong style="color:#f97316">8.</strong> <strong>Grandparent rule</strong>: Grandparent(X,Z) :- Parent(X,Y) ∧ Parent(Y,Z). Given Parent(Max,Spot) + Parent(Spot,Maxi) → Grandparent(Max,Maxi).</li>
+        </ul>
+      </div>
+      <div class="summary-banner">
+        <h3>NLP QA in one sentence</h3>
+        <p>A QA system <strong>parses language into structured meaning</strong>, matches that meaning against a knowledge-enriched representation of the text (including inferred facts from scripts), and returns the answer — modern systems do this with LLMs that generate the answer token-by-token.</p>
+      </div>
+    </div>
+
+</div><!-- /container -->
+</div><!-- /cps8 -->
+
+<!-- ══════════════════ CPS #9 ══════════════════ -->
+<div id="cps9" class="tab-content">
+<div class="container">
+  <div class="hero">
+    <h1>CPS #9 — <span style="color:#e879f9">Goal Stack Planning</span></h1>
+    <p>STRIPS Block World · Predicates · P/D/A Operators · 4-Step Algorithm · Worked Examples · Spring 2026</p>
+    <div class="badge">Click any flashcard to reveal the answer</div>
+  </div>
+
+  <nav class="nav">
+    <a href="#p9-overview">Overview</a>
+    <a href="#p9-predicates">Predicates</a>
+    <a href="#p9-operators">Operators</a>
+    <a href="#p9-algo">Algorithm</a>
+    <a href="#p9-ex1">Example 1</a>
+    <a href="#p9-ex2">Example 2</a>
+    <a href="#p9-flash">Flashcards</a>
+    <a href="#p9-tldr">TL;DR</a>
+  </nav>
+
+    <!-- OVERVIEW -->
+    <div id="p9-overview">
+      <div class="section-title"><div class="dot" style="background:#e879f9"></div>1 · What is Goal Stack Planning?</div>
+      <div class="def" style="border-color:#e879f9">
+        <strong style="color:#e879f9">Goal Stack Planning</strong><br/>
+        An AI planning algorithm that works backwards from a goal state, using a stack to track what still needs to be achieved. At each step it either satisfies a condition directly or finds an action whose effects will satisfy it.
+      </div>
+      <div class="card" style="border-top:3px solid #e879f9">
+        <h3 style="color:#e879f9">System Architecture</h3>
+        <table class="table">
+          <thead><tr><th>Component</th><th>What It Holds</th></tr></thead>
+          <tbody>
+            <tr><td><strong>KB (Knowledge Base)</strong></td><td>Current state of the world — updated after every action</td></tr>
+            <tr><td><strong>Goal Stack (GS)</strong></td><td>Conditions and actions still to be resolved — top = currently working on</td></tr>
+            <tr><td><strong>Plan (Action List)</strong></td><td>Sequence of actions found so far — the output</td></tr>
+            <tr><td><strong>Planning Engine</strong></td><td>Runs the 4-step loop using STRIPS operators</td></tr>
+          </tbody>
+        </table>
+        <div class="formula" style="margin-top:.75rem">
+          Initial State → KB &nbsp;|&nbsp; Goal State → Goal Stack &nbsp;|&nbsp; Plan starts empty<br/>
+          Loop until Goal Stack empty → Plan is complete
+        </div>
+      </div>
+    </div>
+
+    <!-- PREDICATES -->
+    <div id="p9-predicates">
+      <div class="section-title"><div class="dot" style="background:#e879f9"></div>2 · Block World Predicates</div>
+      <div class="card" style="border-top:3px solid #e879f9">
+        <h3 style="color:#e879f9">The 5 Conditions</h3>
+        <table class="table">
+          <thead><tr><th>Predicate</th><th>Meaning</th></tr></thead>
+          <tbody>
+            <tr><td><strong>ON(A, B)</strong></td><td>Block A is directly on top of block B</td></tr>
+            <tr><td><strong>ONTABLE(A)</strong></td><td>Block A is resting on the table</td></tr>
+            <tr><td><strong>CLEAR(A)</strong></td><td>Nothing is on top of block A (arm can grab it)</td></tr>
+            <tr><td><strong>HOLDING(A)</strong></td><td>The robot arm is currently holding block A</td></tr>
+            <tr><td><strong>ARMEMPTY</strong></td><td>The robot arm is holding nothing</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="card" style="border-top:3px solid #e879f9;margin-top:1rem">
+        <h3 style="color:#e879f9">Key Logical Rules</h3>
+        <div class="formula" style="font-size:.88rem;line-height:2">
+          [∃x: HOLDING(x)] → ¬ARMEMPTY &nbsp;&nbsp;&nbsp;&nbsp;<em>(holding something = arm not empty)</em><br/>
+          ∀x: ONTABLE(x) → ¬∃y: ON(x,y) &nbsp;&nbsp;<em>(on table = nothing below it)</em><br/>
+          ∀x: [¬∃y: ON(y,x)] → CLEAR(x) &nbsp;&nbsp;&nbsp;<em>(nothing on top = clear)</em>
+        </div>
+      </div>
+    </div>
+
+    <!-- OPERATORS -->
+    <div id="p9-operators">
+      <div class="section-title"><div class="dot" style="background:#e879f9"></div>3 · STRIPS Operators (P / D / A)</div>
+      <div class="def" style="border-color:#e879f9">
+        Every action has three lists:<br/>
+        <strong style="color:#e879f9">P (Preconditions)</strong> — must be true <em>before</em> the action can run &nbsp;|&nbsp;
+        <strong style="color:#e879f9">D (Delete)</strong> — removed from KB after action &nbsp;|&nbsp;
+        <strong style="color:#e879f9">A (Add)</strong> — added to KB after action
+      </div>
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:1rem;margin-top:1rem">
+        <div class="nn-card" style="border-top:3px solid #e879f9">
+          <div class="tag" style="color:#e879f9">UNSTACK(A, B)</div>
+          <p style="font-size:.83rem;color:var(--muted)">Pick block A off block B.</p>
+          <div class="formula" style="font-size:.82rem">
+            P: ON(A,B) ∧ CLEAR(A) ∧ ARMEMPTY<br/>
+            D: ON(A,B) ∧ ARMEMPTY<br/>
+            A: HOLDING(A) ∧ CLEAR(B)
+          </div>
+        </div>
+        <div class="nn-card" style="border-top:3px solid #e879f9">
+          <div class="tag" style="color:#e879f9">STACK(A, B)</div>
+          <p style="font-size:.83rem;color:var(--muted)">Place block A on top of block B.</p>
+          <div class="formula" style="font-size:.82rem">
+            P: CLEAR(B) ∧ HOLDING(A)<br/>
+            D: CLEAR(B) ∧ HOLDING(A)<br/>
+            A: ARMEMPTY ∧ ON(A,B)
+          </div>
+        </div>
+        <div class="nn-card" style="border-top:3px solid #e879f9">
+          <div class="tag" style="color:#e879f9">PICKUP(A)</div>
+          <p style="font-size:.83rem;color:var(--muted)">Pick block A up from the table.</p>
+          <div class="formula" style="font-size:.82rem">
+            P: CLEAR(A) ∧ ONTABLE(A) ∧ ARMEMPTY<br/>
+            D: ONTABLE(A) ∧ ARMEMPTY<br/>
+            A: HOLDING(A)
+          </div>
+        </div>
+        <div class="nn-card" style="border-top:3px solid #e879f9">
+          <div class="tag" style="color:#e879f9">PUTDOWN(A)</div>
+          <p style="font-size:.83rem;color:var(--muted)">Put block A down on the table.</p>
+          <div class="formula" style="font-size:.82rem">
+            P: HOLDING(A)<br/>
+            D: HOLDING(A)<br/>
+            A: ONTABLE(A) ∧ ARMEMPTY ∧ CLEAR(A)
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ALGORITHM -->
+    <div id="p9-algo">
+      <div class="section-title"><div class="dot" style="background:#e879f9"></div>4 · Goal Stack Planning Algorithm</div>
+      <div class="card" style="border-top:3px solid #e879f9">
+        <h3 style="color:#e879f9">Initialization</h3>
+        <div class="formula" style="font-size:.88rem">
+          KB ← Initial State &nbsp;(represents the current world)<br/>
+          Plan ← nil &nbsp;(empty action list)<br/>
+          Goal Stack ← Goal State &nbsp;(push all goal conditions)
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid #e879f9;margin-top:1rem">
+        <h3 style="color:#e879f9">The Loop (repeat until GS is empty)</h3>
+        <table class="table">
+          <thead><tr><th>Step</th><th>What's on top of GS?</th><th>Action</th></tr></thead>
+          <tbody>
+            <tr>
+              <td><strong style="color:#e879f9">Step 1</strong></td>
+              <td>A <em>condition already satisfied</em> in KB</td>
+              <td>Remove it from GS → go to Step 4</td>
+            </tr>
+            <tr>
+              <td><strong style="color:#e879f9">Step 2</strong></td>
+              <td>A <em>condition NOT satisfied</em> in KB</td>
+              <td>Replace it with the action that would satisfy it; push that action's preconditions onto GS → go to Step 4</td>
+            </tr>
+            <tr>
+              <td><strong style="color:#e879f9">Step 3</strong></td>
+              <td>An <em>action whose preconditions are all satisfied</em></td>
+              <td>Remove from GS; add to Plan; apply Add-list to KB; remove Delete-list from KB → go to Step 4</td>
+            </tr>
+            <tr>
+              <td><strong style="color:#e879f9">Step 4</strong></td>
+              <td>—</td>
+              <td>If GS not empty → go to Step 1. If GS empty → <strong>Plan is complete</strong>.</td>
+            </tr>
+          </tbody>
+        </table>
+        <p style="font-size:.82rem;color:var(--muted);margin-top:.6rem">If more than one action can satisfy a condition, use a <strong>heuristic</strong> to pick the best one.</p>
+      </div>
+    </div>
+
+    <!-- EXAMPLE 1 -->
+    <div id="p9-ex1">
+      <div class="section-title"><div class="dot" style="background:#e879f9"></div>5 · Worked Example 1</div>
+      <div class="card" style="border-top:3px solid #e879f9">
+        <h3 style="color:#e879f9">Setup</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+          <div>
+            <p style="font-size:.8rem;color:var(--muted);margin-bottom:.4rem">INITIAL STATE</p>
+            <div class="formula" style="font-size:.83rem">
+              ON(B,A)<br/>
+              ONTABLE(A), ONTABLE(C), ONTABLE(D)<br/>
+              ARMEMPTY<br/>
+              CLEAR(B), CLEAR(C), CLEAR(D)<br/><br/>
+              <em style="color:var(--muted)">B &nbsp;&nbsp; C &nbsp;&nbsp; D</em><br/>
+              <em style="color:var(--muted)">A &nbsp;&nbsp; · &nbsp;&nbsp; ·</em>
+            </div>
+          </div>
+          <div>
+            <p style="font-size:.8rem;color:var(--muted);margin-bottom:.4rem">GOAL STATE</p>
+            <div class="formula" style="font-size:.83rem">
+              ON(C,A), ON(B,D)<br/>
+              ONTABLE(A), ONTABLE(D)<br/>
+              CLEAR(C), CLEAR(B)<br/><br/>
+              <em style="color:var(--muted)">C &nbsp;&nbsp; B</em><br/>
+              <em style="color:var(--muted)">A &nbsp;&nbsp; D</em>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid #e879f9;margin-top:1rem">
+        <h3 style="color:#e879f9">Trace</h3>
+        <table class="table" style="font-size:.83rem">
+          <thead><tr><th>GS Top</th><th>In KB?</th><th>Action Taken</th><th>KB Update</th></tr></thead>
+          <tbody>
+            <tr><td>ON(C,A)</td><td>✗</td><td>Push STACK(C,A); push preconditions CLEAR(A), HOLDING(C)</td><td>—</td></tr>
+            <tr><td>CLEAR(A)</td><td>✗ (B on A)</td><td>Push UNSTACK(B,A); push preconditions ON(B,A), CLEAR(B), ARMEMPTY</td><td>—</td></tr>
+            <tr><td>ON(B,A) ∧ CLEAR(B) ∧ ARMEMPTY</td><td>✓ all</td><td>Execute <strong>UNSTACK(B,A)</strong></td><td>+HOLDING(B), +CLEAR(A) &nbsp; −ON(B,A), −ARMEMPTY</td></tr>
+            <tr><td>CLEAR(A)</td><td>✓</td><td>Pop GS</td><td>—</td></tr>
+            <tr><td>HOLDING(C)</td><td>✗ (holding B)</td><td>Must resolve HOLDING(B) first → push STACK(B,D); preconditions CLEAR(D), HOLDING(B)</td><td>—</td></tr>
+            <tr><td>CLEAR(D) ∧ HOLDING(B)</td><td>✓ both</td><td>Execute <strong>STACK(B,D)</strong></td><td>+ARMEMPTY, +ON(B,D) &nbsp; −CLEAR(D), −HOLDING(B)</td></tr>
+            <tr><td>HOLDING(C)</td><td>✗</td><td>Push PICKUP(C); preconditions CLEAR(C), ONTABLE(C), ARMEMPTY</td><td>—</td></tr>
+            <tr><td>CLEAR(C) ∧ ONTABLE(C) ∧ ARMEMPTY</td><td>✓ all</td><td>Execute <strong>PICKUP(C)</strong></td><td>+HOLDING(C) &nbsp; −ONTABLE(C), −ARMEMPTY</td></tr>
+            <tr><td>STACK(C,A): CLEAR(A) ∧ HOLDING(C)</td><td>✓ both</td><td>Execute <strong>STACK(C,A)</strong></td><td>+ARMEMPTY, +ON(C,A) &nbsp; −CLEAR(A), −HOLDING(C)</td></tr>
+          </tbody>
+        </table>
+        <div class="formula" style="margin-top:.75rem;color:#e879f9;font-size:.9rem">
+          ✓ PLAN: UNSTACK(B,A) → STACK(B,D) → PICKUP(C) → STACK(C,A)
+        </div>
+      </div>
+    </div>
+
+    <!-- EXAMPLE 2 -->
+    <div id="p9-ex2">
+      <div class="section-title"><div class="dot" style="background:#e879f9"></div>6 · Worked Example 2</div>
+      <div class="card" style="border-top:3px solid #e879f9">
+        <h3 style="color:#e879f9">Setup</h3>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:1.5rem">
+          <div>
+            <p style="font-size:.8rem;color:var(--muted);margin-bottom:.4rem">INITIAL STATE</p>
+            <div class="formula" style="font-size:.83rem">
+              ON(C,A)<br/>
+              ONTABLE(A), ONTABLE(B)<br/>
+              ARMEMPTY<br/>
+              CLEAR(B), CLEAR(C)<br/><br/>
+              <em style="color:var(--muted)">C &nbsp;&nbsp; B</em><br/>
+              <em style="color:var(--muted)">A &nbsp;&nbsp; ·</em>
+            </div>
+          </div>
+          <div>
+            <p style="font-size:.8rem;color:var(--muted);margin-bottom:.4rem">GOAL STATE</p>
+            <div class="formula" style="font-size:.83rem">
+              ON(A,B), ON(B,C)<br/>
+              ONTABLE(C)<br/>
+              CLEAR(A)<br/><br/>
+              <em style="color:var(--muted)">A</em><br/>
+              <em style="color:var(--muted)">B</em><br/>
+              <em style="color:var(--muted)">C</em>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="card" style="border-top:3px solid #e879f9;margin-top:1rem">
+        <h3 style="color:#e879f9">Trace</h3>
+        <table class="table" style="font-size:.83rem">
+          <thead><tr><th>GS Top</th><th>In KB?</th><th>Action Taken</th><th>KB Update</th></tr></thead>
+          <tbody>
+            <tr><td>ONTABLE(C) needed — C is ON(A), must unstack</td><td>✗</td><td>Push UNSTACK(C,A); preconditions ON(C,A), CLEAR(C), ARMEMPTY</td><td>—</td></tr>
+            <tr><td>ON(C,A) ∧ CLEAR(C) ∧ ARMEMPTY</td><td>✓ all</td><td>Execute <strong>UNSTACK(C,A)</strong></td><td>+HOLDING(C), +CLEAR(A) &nbsp; −ON(C,A), −ARMEMPTY</td></tr>
+            <tr><td>ONTABLE(C)</td><td>✗ (holding C)</td><td>Execute <strong>PUTDOWN(C)</strong></td><td>+ONTABLE(C), +ARMEMPTY, +CLEAR(C) &nbsp; −HOLDING(C)</td></tr>
+            <tr><td>ON(B,C)</td><td>✗</td><td>Push STACK(B,C); preconditions CLEAR(C), HOLDING(B) → push PICKUP(B)</td><td>—</td></tr>
+            <tr><td>CLEAR(B) ∧ ONTABLE(B) ∧ ARMEMPTY</td><td>✓ all</td><td>Execute <strong>PICKUP(B)</strong></td><td>+HOLDING(B) &nbsp; −ONTABLE(B), −ARMEMPTY</td></tr>
+            <tr><td>STACK(B,C): CLEAR(C) ∧ HOLDING(B)</td><td>✓ both</td><td>Execute <strong>STACK(B,C)</strong></td><td>+ARMEMPTY, +ON(B,C) &nbsp; −CLEAR(C), −HOLDING(B)</td></tr>
+            <tr><td>ON(A,B)</td><td>✗</td><td>Push STACK(A,B); preconditions CLEAR(B), HOLDING(A) → push PICKUP(A)</td><td>—</td></tr>
+            <tr><td>CLEAR(A) ∧ ONTABLE(A) ∧ ARMEMPTY</td><td>✓ all</td><td>Execute <strong>PICKUP(A)</strong></td><td>+HOLDING(A) &nbsp; −ONTABLE(A), −ARMEMPTY</td></tr>
+            <tr><td>STACK(A,B): CLEAR(B) ∧ HOLDING(A)</td><td>✓ both</td><td>Execute <strong>STACK(A,B)</strong></td><td>+ARMEMPTY, +ON(A,B) &nbsp; −CLEAR(B), −HOLDING(A)</td></tr>
+          </tbody>
+        </table>
+        <div class="formula" style="margin-top:.75rem;color:#e879f9;font-size:.9rem">
+          ✓ PLAN: UNSTACK(C,A) → PUTDOWN(C) → PICKUP(B) → STACK(B,C) → PICKUP(A) → STACK(A,B)
+        </div>
+      </div>
+    </div>
+
+    <!-- FLASHCARDS -->
+    <div id="p9-flash">
+      <div class="section-title"><div class="dot" style="background:#e879f9"></div>Flashcards</div>
+      <div class="badge">Click any flashcard to reveal the answer</div>
+      <div class="flashcards">
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">What are the 3 lists every STRIPS operator has?</div>
+          <div class="back"><strong>P (Preconditions)</strong> — must be true before action runs. <strong>D (Delete)</strong> — removed from KB after. <strong>A (Add)</strong> — added to KB after.</div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">What are the preconditions for UNSTACK(A,B)?</div>
+          <div class="back">ON(A,B) ∧ CLEAR(A) ∧ ARMEMPTY — A must be on B, nothing on top of A, and arm must be free.</div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">What does PICKUP(A) require and what does it produce?</div>
+          <div class="back">Requires: CLEAR(A) ∧ ONTABLE(A) ∧ ARMEMPTY. Deletes: ONTABLE(A) ∧ ARMEMPTY. Adds: HOLDING(A).</div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">What happens in Step 2 of the planning loop?</div>
+          <div class="back">The top of GS is a condition <strong>not</strong> in KB. Replace it with the action that would satisfy it, then push that action's <strong>preconditions</strong> onto the stack.</div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">What happens in Step 3 of the planning loop?</div>
+          <div class="back">Top of GS is an action whose preconditions are all satisfied. Remove from GS, <strong>add to Plan</strong>, apply Add-list to KB, remove Delete-list from KB.</div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">What is the plan for Example 1 (B on A → C on A, B on D)?</div>
+          <div class="back">UNSTACK(B,A) → STACK(B,D) → PICKUP(C) → STACK(C,A)</div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">What is the plan for Example 2 (C on A → A on B on C)?</div>
+          <div class="back">UNSTACK(C,A) → PUTDOWN(C) → PICKUP(B) → STACK(B,C) → PICKUP(A) → STACK(A,B)</div>
+        </div>
+        <div class="flashcard" onclick="this.classList.toggle('flipped')">
+          <div class="front">What does CLEAR(x) mean logically?</div>
+          <div class="back">∀x: [¬∃y: ON(y,x)] → CLEAR(x) — if nothing is stacked on top of x, then x is clear.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- TL;DR -->
+    <div id="p9-tldr">
+      <div class="section-title"><div class="dot" style="background:#e879f9"></div>TL;DR — 7 Things You Must Know</div>
+      <div class="card">
+        <ul style="color:var(--text);font-size:.93rem;list-style:none;padding:0">
+          <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#e879f9">1.</strong> <strong>5 predicates</strong>: ON(A,B), ONTABLE(A), CLEAR(A), HOLDING(A), ARMEMPTY.</li>
+          <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#e879f9">2.</strong> <strong>4 operators</strong>: STACK, UNSTACK, PICKUP, PUTDOWN — each has a P list, D list, and A list.</li>
+          <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#e879f9">3.</strong> Initialization: KB ← initial state · Plan ← nil · Goal Stack ← goal state.</li>
+          <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#e879f9">4.</strong> <strong>Step 1</strong>: condition satisfied → pop it. <strong>Step 2</strong>: unsatisfied → push action + preconditions. <strong>Step 3</strong>: action ready → execute, update KB, add to plan.</li>
+          <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#e879f9">5.</strong> When an action executes: Add-list enters KB, Delete-list leaves KB.</li>
+          <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#e879f9">6.</strong> <strong>Example 1 plan</strong>: UNSTACK(B,A) → STACK(B,D) → PICKUP(C) → STACK(C,A).</li>
+          <li style="padding:.45rem 0"><strong style="color:#e879f9">7.</strong> <strong>Example 2 plan</strong>: UNSTACK(C,A) → PUTDOWN(C) → PICKUP(B) → STACK(B,C) → PICKUP(A) → STACK(A,B).</li>
+        </ul>
+      </div>
+      <div class="summary-banner">
+        <h3>Goal Stack Planning in one sentence</h3>
+        <p>Push the goal onto a stack, then repeatedly either <strong>tick off satisfied conditions</strong>, <strong>swap unsatisfied ones for the action that produces them</strong>, or <strong>execute ready actions</strong> — updating the world model as you go — until the stack is empty and you have your plan.</p>
+      </div>
+    </div>
+
+</div><!-- /container -->
+</div><!-- /cps9 -->
+
+<!-- ══════════════════ EXAM PREP ══════════════════ -->
+<div id="review" class="tab-content">
+<div class="container">
+  <div class="hero">
+    <h1>⭐ <span style="color:#fbbf24">Cumulative Exam Prep</span></h1>
+    <p>Mixed flashcards + practice questions across all CPS #2–9 · Each item tagged by topic · Spring 2026</p>
+    <div class="badge">Flashcards flip on click · Practice questions expand on click</div>
+  </div>
+
+  <nav class="nav">
+    <a href="#rev-flash">Flashcards</a>
+    <a href="#rev-pq">Practice Questions</a>
+  </nav>
+
+  <!-- ── CUMULATIVE FLASHCARDS ── -->
+  <div id="rev-flash">
+    <div class="section-title"><div class="dot" style="background:#fbbf24"></div>Cumulative Flashcards — All CPS</div>
+
+    <div class="fc-carousel">
+      <div class="carousel-filters">
+        <button class="cf-btn active" data-cps="all" onclick="_filterCards('all')">All</button>
+        <button class="cf-btn" data-cps="2" onclick="_filterCards('2')">CPS #2</button>
+        <button class="cf-btn" data-cps="3" onclick="_filterCards('3')">CPS #3</button>
+        <button class="cf-btn" data-cps="4" onclick="_filterCards('4')">CPS #4</button>
+        <button class="cf-btn" data-cps="5" onclick="_filterCards('5')">CPS #5</button>
+        <button class="cf-btn" data-cps="6" onclick="_filterCards('6')">CPS #6</button>
+        <button class="cf-btn" data-cps="7" onclick="_filterCards('7')">CPS #7</button>
+        <button class="cf-btn" data-cps="8" onclick="_filterCards('8')">CPS #8</button>
+        <button class="cf-btn" data-cps="9" onclick="_filterCards('9')">CPS #9</button>
+      </div>
+      <div class="carousel-stage" id="carousel-stage"></div>
+      <div class="carousel-nav">
+        <button id="prev-btn" onclick="_carouselPrev()">← Prev</button>
+        <span class="carousel-counter" id="carousel-counter">1 / 24</span>
+        <button id="next-btn" onclick="_carouselNext()">Next →</button>
+      </div>
+    </div>
+
+    <div class="view-all-header">All Flashcards</div>
+    <div class="flashcards" id="view-all-grid"></div>
+
+  </div>
+
+  <!-- ── PRACTICE QUESTIONS ── -->
+  <div id="rev-pq">
+    <div class="section-title"><div class="dot" style="background:#fbbf24"></div>Practice Questions — Click to Reveal Answer</div>
+
+    <!-- CPS #2 -->
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#4f8ef7;color:#fff">CPS #2</span>A hospital AI flags potential tumours in X-rays, then writes a summary report for the doctor. Which part is Traditional AI and which is GenAI?</summary>
+      <div class="pq-answer">
+        <strong>Tumour detection = Traditional AI.</strong> It's discriminative — a trained classifier that analyses patterns and outputs a decision (tumour / no tumour). Deterministic, interpretable.<br/><br/>
+        <strong>Report generation = Generative AI.</strong> It creates new text content (the written summary) that didn't exist before. Probabilistic output — the same scan could yield slightly different phrasing each time.
+      </div>
+    </details>
+
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#4f8ef7;color:#fff">CPS #2</span>Name three governance controls an organisation should put in place when deploying a GenAI system in production.</summary>
+      <div class="pq-answer">
+        Any three of: <strong>content provenance tracking</strong> (log where outputs came from), <strong>prompt logging</strong> (record all inputs for audit), <strong>human-in-the-loop review</strong> (human approves high-stakes outputs), <strong>output traceability</strong> (link generated content back to source data).
+      </div>
+    </details>
+
+    <!-- CPS #3 -->
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#a855f7;color:#fff">CPS #3</span>What is the role of the activation function in a neural network? Give one example and explain what happens if you remove it.</summary>
+      <div class="pq-answer">
+        The activation function introduces <strong>non-linearity</strong>. Without it, stacking any number of layers is mathematically equivalent to a single linear transformation — the network can only learn linear decision boundaries, no matter how deep it is.<br/><br/>
+        Example: <strong>ReLU</strong> — outputs 0 for negative input, x for positive. Simple, fast, prevents vanishing gradient better than Sigmoid.
+      </div>
+    </details>
+
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#a855f7;color:#fff">CPS #3</span>Describe the difference between a CNN and an RNN. Which would you use for each: image classification, stock price prediction?</summary>
+      <div class="pq-answer">
+        <strong>CNN (Convolutional Neural Network)</strong>: designed for <em>spatial</em> data. Uses filters that slide across input to detect local patterns (edges, textures). Ideal for images.<br/><br/>
+        <strong>RNN (Recurrent Neural Network)</strong>: designed for <em>sequential/temporal</em> data. Has a hidden state that carries memory across time steps.<br/><br/>
+        → Image classification: <strong>CNN</strong>. Stock price prediction: <strong>RNN</strong>.
+      </div>
+    </details>
+
+    <!-- CPS #4 -->
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#f59e0b;color:#0f1117">CPS #4</span>Four training examples: [BAL=high, RAT=good → +], [BAL=low, RAT=good → +], [BAL=high, RAT=bad → −], [BAL=low, RAT=bad → −]. Apply PSR — which single condition gives the best n⁺/n ratio?</summary>
+      <div class="pq-answer">
+        <strong>RAT=good</strong> covers examples 1 and 2 (both positive), covers 0 negatives. n⁺=2, n=2, ratio = <strong>2/2 = 1.0</strong> — perfect, covers only positives.<br/><br/>
+        BAL=high: covers +1, −1 → ratio 1/2 = 0.5.<br/>
+        BAL=low: covers +1, −1 → ratio 1/2 = 0.5.<br/><br/>
+        Best rule: <strong>RAT=good → Loan approved</strong>.
+      </div>
+    </details>
+
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#f59e0b;color:#0f1117">CPS #4</span>What is the difference between inductive and deductive learning? Which one is machine learning?</summary>
+      <div class="pq-answer">
+        <strong>Inductive</strong>: derives <em>general rules from specific examples</em> (data-driven). You observe many cases and generalise. This is machine learning.<br/><br/>
+        <strong>Deductive</strong>: applies <em>given general rules to reach specific conclusions</em> (logic-driven). You are given the rules and apply them to new situations. This is classical expert systems / rule-based reasoning.<br/><br/>
+        → Machine learning is <strong>inductive</strong>.
+      </div>
+    </details>
+
+    <!-- CPS #5 -->
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#ec4899;color:#fff">CPS #5</span>Rules: R10: IF A ∧ B → C. R20: IF C ∧ D → E (goal). Known facts: A, B, D. Trace forward chaining to derive E.</summary>
+      <div class="pq-answer">
+        <strong>Iteration 1</strong>: Check R10 — preconditions A and B are in KB ✓. Fire R10. Add <strong>C</strong> to KB.<br/>
+        <strong>Iteration 2</strong>: Check R20 — preconditions C and D are in KB ✓. Fire R20. Add <strong>E</strong> to KB.<br/>
+        <strong>Goal E is reached. Plan complete.</strong>
+      </div>
+    </details>
+
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#ec4899;color:#fff">CPS #5</span>Using the forward chaining formula, what Rule# corresponds to Clause #9? What Clause# corresponds to Rule #30?</summary>
+      <div class="pq-answer">
+        <strong>Clause #9 → Rule#:</strong> Rule# = (Quotient(9/4) + 1) × 10 = (2 + 1) × 10 = <strong>30</strong><br/><br/>
+        <strong>Rule #30 → Clause#:</strong> Clause# = 4 × (30/10 − 1) + 1 = 4 × (3 − 1) + 1 = 4 × 2 + 1 = <strong>9</strong>
+      </div>
+    </details>
+
+    <!-- CPS #6 -->
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#06b6d4;color:#0f1117">CPS #6</span>Explain why Alpha-Beta pruning does not change the result of Minimax but makes it faster.</summary>
+      <div class="pq-answer">
+        Alpha-Beta prunes branches that <strong>cannot possibly affect the final decision</strong>. If a MIN node's value is already ≤ the MAX parent's current best, no child of that MIN node can improve the MAX parent's choice — so they're skipped.<br/><br/>
+        The same optimal value is always returned. Best case: Alpha-Beta reduces the effective branching factor from b to √b, roughly <strong>doubling the search depth</strong> for the same computation.
+      </div>
+    </details>
+
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#06b6d4;color:#0f1117">CPS #6</span>In the magic square, squares are numbered 1–9. Which squares are on the diagonals and what must each line sum to?</summary>
+      <div class="pq-answer">
+        The magic square layout:<br/>
+        <strong>2 | 7 | 6<br/>9 | 5 | 1<br/>4 | 3 | 8</strong><br/><br/>
+        Every row, column, and diagonal sums to <strong>15</strong>. Diagonals: 2+5+8=15 and 6+5+4=15.<br/>
+        In Tic-Tac-Toe terms: a win = any three squares held by one player that sum to 15.
+      </div>
+    </details>
+
+    <!-- CPS #7 -->
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#84cc16;color:#0f1117">CPS #7</span>For the 8-puzzle state [2,8,3 / 1,6,4 / 7,_,5], goal [1,2,3 / 8,_,4 / 7,6,5] — calculate h₁ (tiles out of place) and h₂ (Manhattan distance).</summary>
+      <div class="pq-answer">
+        <strong>h₁ (tiles out of place):</strong> Compare each tile to its goal position. Misplaced: 2 (at (0,0), goal (0,1)), 8 (at (0,1), goal (1,0)), 6 (at (1,1), goal (2,1)). h₁ = <strong>3</strong>.<br/><br/>
+        <strong>h₂ (Manhattan distance):</strong><br/>
+        2: |0−0| + |0−1| = 1<br/>
+        8: |0−1| + |1−0| = 2<br/>
+        6: |1−2| + |1−1| = 1<br/>
+        h₂ = <strong>4</strong>. (h₂ ≥ h₁ — always a better lower bound.)
+      </div>
+    </details>
+
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#84cc16;color:#0f1117">CPS #7</span>Prove that h₁ (tiles out of place) is an admissible heuristic for the 8-puzzle.</summary>
+      <div class="pq-answer">
+        <strong>Admissibility requires h(n) ≤ h*(n)</strong> — the heuristic never overestimates.<br/><br/>
+        Each misplaced tile requires <em>at least one move</em> to reach its goal position (it cannot teleport). h₁ counts exactly the number of misplaced tiles.<br/><br/>
+        Therefore h₁ ≤ actual minimum moves needed = h*(n). ∴ <strong>h₁ is admissible</strong>. ∎
+      </div>
+    </details>
+
+    <!-- CPS #8 -->
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#f97316;color:#0f1117">CPS #8</span>Story: "Tom left his keys on the table. He went to the store." Q: Where are Tom's keys? Apply the 8-step QA pipeline.</summary>
+      <div class="pq-answer">
+        <strong>Step 1</strong>: Split → S1: "Tom left his keys on the table." S2: "He went to the store."<br/>
+        <strong>Step 2</strong>: "Where" question → answer is a location.<br/>
+        <strong>Step 3</strong>: Keywords: keys, where.<br/>
+        <strong>Step 4</strong>: S1 contains "keys" → best match.<br/>
+        <strong>Step 5</strong>: No ambiguous pronouns (Tom = clear referent).<br/>
+        <strong>Step 6</strong>: Extract span: <strong>"on the table"</strong>.<br/>
+        Answer: <strong>On the table.</strong> (Direct — no inference needed.)
+      </div>
+    </details>
+
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#f97316;color:#0f1117">CPS #8</span>Why can't Program 2 answer "Did Mary buy anything?" but Program 3 can? Be specific.</summary>
+      <div class="pq-answer">
+        <strong>Program 2</strong> only matches explicit semantic content. The text never says "Mary bought" anything — only that she found a coat she liked and took it home. No match for the buying concept exists in StructuredText.<br/><br/>
+        <strong>Program 3</strong> instantiates the <strong>Shopping Script</strong> onto the text. Step 10 of the script is "C buys M'" — this event is <em>added to IntegratedText</em> because the script was triggered, even though the text never states it. The query then matches "C buys M'" → Answer: <strong>"She bought a red coat."</strong>
+      </div>
+    </details>
+
+    <!-- CPS #9 -->
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#e879f9;color:#0f1117">CPS #9</span>Initial state: ON(A,B), ONTABLE(B), ARMEMPTY, CLEAR(A). Goal: ONTABLE(A), ONTABLE(B), CLEAR(A), CLEAR(B). Write the plan.</summary>
+      <div class="pq-answer">
+        Goal requires ONTABLE(A) — A is currently ON(B), so unstack it first.<br/><br/>
+        <strong>UNSTACK(A,B)</strong>: P: ON(A,B)∧CLEAR(A)∧ARMEMPTY ✓. D: ON(A,B), ARMEMPTY. A: HOLDING(A), CLEAR(B).<br/>
+        KB now: ONTABLE(B), HOLDING(A), CLEAR(A), CLEAR(B).<br/><br/>
+        <strong>PUTDOWN(A)</strong>: P: HOLDING(A) ✓. D: HOLDING(A). A: ONTABLE(A), ARMEMPTY, CLEAR(A).<br/>
+        KB now: ONTABLE(A), ONTABLE(B), ARMEMPTY, CLEAR(A), CLEAR(B) — <strong>matches goal ✓</strong>.<br/><br/>
+        Plan: <strong>UNSTACK(A,B) → PUTDOWN(A)</strong>
+      </div>
+    </details>
+
+    <details class="pq-card">
+      <summary><span class="cpsbadge" style="background:#e879f9;color:#0f1117">CPS #9</span>Why is the Delete list necessary in STRIPS? What would go wrong without it?</summary>
+      <div class="pq-answer">
+        The Delete list marks facts that become <strong>false after an action executes</strong>. Without it, stale facts persist in KB and the planner operates on an inconsistent world model.<br/><br/>
+        Example: after UNSTACK(B,A), if ON(B,A) is <em>not deleted</em>, the KB still claims B is on A. Any future step checking for ON(B,A) would find it true, potentially triggering actions that should be impossible — leading to <strong>infinite loops or invalid plans</strong>.
+      </div>
+    </details>
+
+  </div>
+
+  <div class="summary-banner" style="border-color:#fbbf24;margin-top:2rem">
+    <h3 style="color:#fbbf24">You've reviewed all 8 CPS components.</h3>
+    <p>AI vs GenAI · Neural Networks · Rule Learning · Expert Systems · Game Playing · Search · NLP/QA · Planning. That's the whole course. Go crush it.</p>
+  </div>
+
+</div><!-- /container -->
+</div><!-- /review -->
+
 <script>
+  // ── THEME TOGGLE ──
+  (function () {
+    if (localStorage.getItem('theme') === 'light') {
+      document.body.classList.add('light');
+      document.getElementById('theme-toggle').textContent = '☀️';
+    }
+  })();
+
+  function toggleTheme() {
+    const isLight = document.body.classList.toggle('light');
+    document.getElementById('theme-toggle').textContent = isLight ? '☀️' : '🌙';
+    localStorage.setItem('theme', isLight ? 'light' : 'dark');
+  }
+
   function switchTab(id, btn) {
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -2048,7 +3769,223 @@
     btn.classList.add('active');
     window.scrollTo(0, 0);
   }
+
+  const _gq = [
+    /* ── BELLAH ── */
+    "BELLLLLAHHHHH!",
+    "BEEEELLAAAHHHHH!! I know you are there. I can see your green dot.",
+    "BEEELLAAAHHHH!! Can you please unmute? ...Still muted. Okay.",
+    "BEEEELLAAAHHHHH!! I saw your mouse move just now. Come back.",
+    "BEEELLAAAAHHHHH!! Do not make me call on someone else. I will do it.",
+    "BEEEELLAAAHHHHH!!! I sent you an email. Did you read it? No? Okay.",
+    "BELLAAAAHHH! Sorry. I get excited about search algorithms.",
+    "BEEEELLAAAHHHHH!! Your camera has been off for 40 minutes. Are you okay? Are you ALIVE?",
+
+    /* ── DESPERATE FOR PARTICIPATION ── */
+    "Do you have any questions?",
+    "Anyone? Anyone at all? ...Okay. I will explain.",
+    "Hello? Is anyone there? The green dots say yes but my heart says no.",
+    "Can everyone just type something in the chat? Anything. Even just a period. Please.",
+    "I see 47 people connected and zero people responding. This is fine. Everything is fine.",
+    "Someone — ANYONE — just answer. I will take a wrong answer at this point. I am begging.",
+    "All I want is one raised hand. One. Just one person.",
+    "I am going to count to three and I need someone to answer. One... two... okay I will explain.",
+    "The chat says 'lol' — so you ARE alive. That is enough for me. Thank you.",
+    "I am teaching a wall right now. A beautiful, silent wall.",
+
+    /* ── CAMERAS / MUTE / ONLINE CLASS ── */
+    "Please turn your cameras on. It would help. Just a little. Please.",
+    "You are on mute. You have been on mute for 20 minutes. That was not an accident.",
+    "I know you are eating. I can hear it. Put the food down. We are in class.",
+    "I can see your last active time was 8 minutes ago. Where did you go.",
+    "I see some of you have your cameras off. I understand. I too would rather not be here.",
+    "Is anyone taking notes? The sound of typing would really help my confidence right now.",
+
+    /* ── CONTENT IMPORTANCE ── */
+    "This is VERY important — write it down.",
+    "Wake up! Are you sleeping back there?!",
+    "This WILL be on the exam. I promise you.",
+    "If you memorize nothing else, memorize THIS.",
+    "This is the most important slide in the entire semester. Yes, I say that every week.",
+    "Pay attention! This is the key concept of the entire course!",
+    "The exam is in a few days. You should probably start caring approximately now.",
+
+    /* ── CLASSIC GOONIS ── */
+    "Very simple, no? ...No? Okay. From the beginning.",
+    "The answer is obvious — if you just THINK about it.",
+    "I have been teaching this for years and students STILL get it wrong.",
+    "I have explained this concept 4 times. This is the 5th. We are making history.",
+    "Let me show you one more time... from the very start.",
+    "You must understand this completely. Or you will fail. Just kidding... maybe.",
+    "This is not rocket science! Well... it kind of is. But still.",
+    "In my experience, this always comes up in the final.",
+    "Excellent question! Now let me answer a slightly different question.",
+    "I don't know why this is so difficult for people.",
+    "Write this down. No seriously. Put your phone down and write it down.",
+    "Come on people, we've been over this three times already.",
+    "There is no trick here. It is just logic. Pure, beautiful logic.",
+    "I was a student once too. I also did not want to be there. But here we are.",
+    "If you fall asleep during THIS part I will be genuinely hurt. Not angry. Hurt.",
+    "Okay I will just answer my own question. This is fine. I enjoy the sound of my voice.",
+    "You know what, I will just move on. Nobody answer. That is fine. It is completely fine.",
+    "If you close this tab right now, I will know. I always know.",
+  ];
+
+  function goonisClick(el) {
+    const bubble = el.querySelector('.goonis-bubble');
+    clearTimeout(bubble._timer);
+    bubble._timer = null;
+    if (bubble.classList.contains('visible')) {
+      bubble.classList.remove('visible');
+      return;
+    }
+    bubble.textContent = _gq[Math.floor(Math.random() * _gq.length)];
+    bubble.classList.add('visible');
+    bubble._timer = setTimeout(() => {
+      bubble.classList.remove('visible');
+      bubble._timer = null;
+    }, 4000);
+  }
+
+  // ── GOONIS PEEK ON SCROLL ──
+  let _peekEnabled = true;
+
+  function toggleGoonis() {
+    _peekEnabled = !_peekEnabled;
+    const btn = document.getElementById('goonis-toggle');
+    if (btn) btn.textContent = _peekEnabled ? '✋ Goonis pls leave me alone' : '💔 I miss you Goonis, come back';
+    updatePeek();
+  }
+
+  function updatePeek() {
+    const el  = document.getElementById('goonis-peek');
+    const btn = document.getElementById('goonis-toggle');
+    if (!el) return;
+    const scrollY    = window.scrollY;
+    const maxScroll  = document.documentElement.scrollHeight - window.innerHeight;
+    if (maxScroll <= 0) return;
+    const start = maxScroll * 0.72;
+    const t     = scrollY <= start ? 0 : Math.min((scrollY - start) / (maxScroll - start), 1);
+
+    // Show/hide the dismiss button whenever Goonis should be in frame
+    if (btn) btn.classList.toggle('show', t > 0);
+
+    // If user banished Goonis, keep him off-screen regardless of scroll
+    el.style.transform = (!_peekEnabled || t === 0)
+      ? 'translateX(-100%)'
+      : `translateX(${-100 + t * 82}%)`;
+  }
+
+  window.addEventListener('scroll', updatePeek, { passive: true });
+  document.querySelectorAll('.tab-btn').forEach(btn =>
+    btn.addEventListener('click', () => setTimeout(updatePeek, 50))
+  );
+
+  // ── FLASHCARD CAROUSEL ──
+  const _cBg  = {2:'#4f8ef7',3:'#a855f7',4:'#f59e0b',5:'#ec4899',6:'#06b6d4',7:'#84cc16',8:'#f97316',9:'#e879f9'};
+  const _cTxt = {2:'#fff',3:'#fff',4:'#0f1117',5:'#fff',6:'#0f1117',7:'#0f1117',8:'#0f1117',9:'#0f1117'};
+  const _cards = [
+    {cps:2,q:'What is the fundamental difference between Traditional AI and Generative AI?',a:'Traditional AI <strong>analyzes &amp; decides</strong> (deterministic, rule/model-based). Generative AI <strong>creates new content</strong> (probabilistic, latent-space neural networks). GenAI is a <em>subset</em> of AI.'},
+    {cps:2,q:'Name 3 risks specific to Generative AI.',a:'<strong>Hallucinations</strong> (fabricated facts), <strong>IP / copyright leakage</strong>, <strong>low explainability</strong> (black-box outputs). Also: prompt injection, deepfakes, bias amplification.'},
+    {cps:2,q:'What does "stochastic" mean in the context of GenAI?',a:'Probabilistic / random — the <strong>same input can produce different outputs</strong> each run. Contrast with Traditional AI which is deterministic (same input → same output).'},
+    {cps:3,q:'What is backpropagation and what problem does it solve?',a:'An algorithm that computes <strong>gradients of the loss function</strong> with respect to each weight by applying the chain rule backwards through the network. It solves how to assign blame to each weight for the output error.'},
+    {cps:3,q:'What are the two components of a GAN and what is their relationship?',a:'<strong>Generator</strong> creates fake data. <strong>Discriminator</strong> judges real vs fake. They compete adversarially — Generator improves at fooling Discriminator until fakes are indistinguishable from real data.'},
+    {cps:3,q:'Why can a VAE generate new content but a regular Autoencoder cannot?',a:'A regular AE encodes to a <strong>fixed point</strong> — decoding only reconstructs input. A VAE encodes to a <strong>probability distribution</strong> (mean + variance). Sampling from that distribution lets you generate new, varied outputs.'},
+    {cps:4,q:'What is n⁺ and n⁻ in the PSR algorithm, and what ratio do you maximise?',a:'n⁺ = positive examples covered by the candidate rule. n⁻ = negatives covered. Maximise <strong>n⁺ / n</strong> where n = n⁺ + n⁻. A ratio of 1.0 = rule covers only positives (perfect).'},
+    {cps:4,q:'What is "Separate and Conquer" in rule learning?',a:'Learn the <strong>best rule</strong> for some positives, <strong>remove</strong> the examples it covers from the dataset, then repeat on the remaining examples. Continue until all positives are covered by at least one rule.'},
+    {cps:4,q:'What were the two final rules from the bank loan example?',a:'<strong>R1:</strong> BAL ∧ RAT → Loan approved<br><strong>R2:</strong> APP ∧ RAT ∧ INC → Loan approved'},
+    {cps:5,q:'What is the difference between forward and backward chaining?',a:'<strong>Forward chaining</strong>: fact-driven — start with known facts, fire rules until goal is reached. <strong>Backward chaining</strong>: goal-driven — start with the goal, work backwards finding supporting facts.'},
+    {cps:5,q:'In forward chaining, what formula converts a Clause# to a Rule#?',a:'Rule# = (Quotient(Clause# / 4) + 1) × 10<br><em>Inverse:</em> Clause# = 4 × (Rule# / 10 − 1) + 1'},
+    {cps:5,q:'In a decision tree, what do circles and rectangles represent?',a:'<strong>Circles</strong> = questions / decision nodes. <strong>Rectangles</strong> = conclusions / terminal nodes (leaf nodes with a final answer).'},
+    {cps:6,q:'When do you prune in Alpha-Beta pruning?',a:'Prune when <strong>Pass-Thresh ≥ Use-Thresh</strong>. The current node can never return a value that improves on what the parent already has, so its remaining children can be ignored.'},
+    {cps:6,q:'What does the Minimax algorithm guarantee?',a:'The <strong>best possible outcome for the current player assuming the opponent also plays optimally</strong>. MAX maximises, MIN minimises — both play perfectly.'},
+    {cps:6,q:'In the magic square, if your opponent holds 2 and 6, what must you play?',a:'Play <strong>7</strong>. The opponent needs a triple summing to 15. 2 + 6 = 8, so they need 7 to win. Block it.'},
+    {cps:7,q:'What condition must h(n) satisfy for A* to be optimal?',a:'<strong>Admissibility: h(n) ≤ h*(n)</strong> — the heuristic must <em>never overestimate</em> the true cost to the goal. This guarantees A* finds the optimal path.'},
+    {cps:7,q:'Compare Greedy, Uniform Cost, and A* search.',a:'<strong>Greedy</strong> (f=h): fast, not optimal. <strong>Uniform Cost</strong> (f=g): optimal but exhaustive. <strong>A*</strong> (f=g+h, admissible h): optimal <em>and</em> efficient — best of both.'},
+    {cps:7,q:'What is the Manhattan distance heuristic and which relaxation produces it?',a:'<strong>h₂</strong> = sum of |row_diff| + |col_diff| for each tile. Derived from <strong>Relax-1</strong>: tiles can move to any adjacent cell regardless of what\'s there (ignoring "must be blank" constraint).'},
+    {cps:8,q:'What is IntegratedText and why does Program 3 need it?',a:'StructuredText <strong>merged with inferences from the WorldModel and Scripts</strong>. It contains events <em>implied but never stated</em> (e.g. "Mary buys a coat" from the Shopping Script), enabling answers to questions like "Did Mary buy anything?"'},
+    {cps:8,q:'What is In-Context Learning?',a:'LLMs learn from <strong>examples inside the prompt</strong> without any retraining. Show a few Q+A pairs as a pattern — the model infers the format and answers the new question correctly.'},
+    {cps:8,q:'Extractive vs Generative QA — what\'s the difference?',a:'<strong>Extractive</strong>: selects an exact span from the story (BERT). <strong>Generative</strong>: writes a new answer token-by-token, rephrasing and combining information (GPT, T5). Generative can answer questions with no direct quote in the text.'},
+    {cps:9,q:'What are the 3 STRIPS lists and what does each do?',a:'<strong>P (Preconditions)</strong>: must all be true before the action can run. <strong>D (Delete)</strong>: removed from KB after action. <strong>A (Add)</strong>: added to KB after action.'},
+    {cps:9,q:'What happens in Step 2 of the Goal Stack planning loop?',a:'Top of GS is a condition <strong>not satisfied in KB</strong>. Replace it with the action that would produce it, then push that action\'s <strong>preconditions</strong> onto the Goal Stack.'},
+    {cps:9,q:'What are the preconditions for UNSTACK(A,B)?',a:'ON(A,B) ∧ CLEAR(A) ∧ ARMEMPTY — A must be sitting on B, nothing on top of A, and the arm must be free.'},
+  ];
+
+  let _cFilter = 'all', _cIdx = 0, _shuffled = null;
+
+  function _fyShuffle(arr, avoidFirst) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    if (avoidFirst && arr.length > 1 && arr[0] === avoidFirst) {
+      const j = Math.floor(Math.random() * (arr.length - 1)) + 1;
+      [arr[0], arr[j]] = [arr[j], arr[0]];
+    }
+    return arr;
+  }
+
+  function _getFiltered() {
+    if (_cFilter === 'all') {
+      if (!_shuffled) _shuffled = _fyShuffle([..._cards]);
+      return _shuffled;
+    }
+    return _cards.filter(c => c.cps === parseInt(_cFilter));
+  }
+  function _badge(c) {
+    return `<span class="cpsbadge" style="background:${_cBg[c.cps]};color:${_cTxt[c.cps]}">CPS #${c.cps}</span>`;
+  }
+  function _renderCarousel() {
+    const fl = _getFiltered(), c = fl[_cIdx];
+    const stage = document.getElementById('carousel-stage');
+    if (!stage || !c) return;
+    stage.innerHTML = `<div class="carousel-fc" onclick="this.classList.toggle('revealed')">
+      <div style="margin-bottom:.55rem">${_badge(c)}</div>
+      <div class="cq">${c.q}</div>
+      <div class="carousel-hint">click to reveal answer ▾</div>
+      <div class="ca">${c.a}</div>
+    </div>`;
+    const ct = document.getElementById('carousel-counter');
+    if (ct) ct.textContent = `${_cIdx + 1} / ${fl.length}`;
+    const pb = document.getElementById('prev-btn'), nb = document.getElementById('next-btn');
+    if (pb) pb.disabled = _cIdx === 0;
+    const atEnd = _cIdx >= fl.length - 1;
+    if (nb) {
+      nb.disabled = atEnd && _cFilter !== 'all';
+      nb.textContent = (atEnd && _cFilter === 'all') ? 'Reshuffle ↺' : 'Next →';
+    }
+  }
+  function _carouselNext() {
+    const fl = _getFiltered();
+    if (_cIdx < fl.length - 1) { _cIdx++; _renderCarousel(); }
+    else if (_cFilter === 'all') { _shuffled = _fyShuffle([..._cards], fl[_cIdx]); _cIdx = 0; _renderCarousel(); }
+  }
+  function _carouselPrev() { if (_cIdx > 0) { _cIdx--; _renderCarousel(); } }
+  function _filterCards(f) {
+    _cFilter = f; _cIdx = 0;
+    if (f === 'all') _shuffled = _fyShuffle([..._cards]);
+    document.querySelectorAll('.cf-btn').forEach(b => b.classList.toggle('active', b.dataset.cps === f));
+    _renderCarousel();
+    _renderViewAll();
+  }
+  function _renderViewAll() {
+    const grid = document.getElementById('view-all-grid');
+    if (!grid) return;
+    grid.innerHTML = _getFiltered().map(c =>
+      `<div class="fc" onclick="this.classList.toggle('open')">
+        <div class="q">${_badge(c)} ${c.q}</div>
+        <div class="toggle">tap to reveal ▾</div>
+        <div class="a">${c.a}</div>
+      </div>`
+    ).join('');
+  }
+  document.addEventListener('DOMContentLoaded', () => { _shuffled = _fyShuffle([..._cards]); _renderCarousel(); _renderViewAll(); });
 </script>
+
+<div id="goonis-peek">
+  <img src="goonis%20peaking%20around%20the%20corner.png" alt="Professor Goonis peeking" />
+</div>
+<button id="goonis-toggle" onclick="toggleGoonis()">✋ Goonis pls leave me alone</button>
 
 </body>
 </html>
