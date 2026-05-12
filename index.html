@@ -3160,37 +3160,37 @@
       <div class="section-title"><div class="dot" style="background:#f97316"></div>Flashcards</div>
       <div class="badge">Click any flashcard to reveal the answer</div>
       <div class="flashcards">
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">What is the key difference between Program 2 and Program 3?</div>
-          <div class="back">Program 2 uses structured semantics (EnglishKnow) only. Program 3 adds a <strong>WorldModel + Scripts</strong>, allowing it to infer facts not explicitly stated (e.g. Mary bought the coat).</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">What is the key difference between Program 2 and Program 3?</div>
+          <div class="a">Program 2 uses structured semantics (EnglishKnow) only. Program 3 adds a <strong>WorldModel + Scripts</strong>, allowing it to infer facts not explicitly stated (e.g. Mary bought the coat).</div>
         </div>
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">What is a Script in AI?</div>
-          <div class="back">Stored knowledge about a <strong>stereotypical sequence of events</strong> (e.g. Shopping Script: enter → look → find → buy → take home). Used by Program 3 to fill in implied actions.</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">What is a Script in AI?</div>
+          <div class="a">Stored knowledge about a <strong>stereotypical sequence of events</strong> (e.g. Shopping Script: enter → look → find → buy → take home). Used by Program 3 to fill in implied actions.</div>
         </div>
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">What is a slot-and-filler representation?</div>
-          <div class="back">A structured way to represent sentence meaning using named slots (instance, tense, agent, object) and their fillers. The answer marker <strong>X</strong> is placed in the slot whose value is the answer to the question.</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">What is a slot-and-filler representation?</div>
+          <div class="a">A structured way to represent sentence meaning using named slots (instance, tense, agent, object) and their fillers. The answer marker <strong>X</strong> is placed in the slot whose value is the answer to the question.</div>
         </div>
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">What are the 3 LLM architecture types and their best uses?</div>
-          <div class="back"><strong>Encoder-only (BERT)</strong> → extractive QA (pick span). <strong>Decoder-only (GPT)</strong> → free-form generative QA. <strong>Encoder–Decoder (T5/BART)</strong> → best for QA tasks overall.</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">What are the 3 LLM architecture types and their best uses?</div>
+          <div class="a"><strong>Encoder-only (BERT)</strong> → extractive QA (pick span). <strong>Decoder-only (GPT)</strong> → free-form generative QA. <strong>Encoder–Decoder (T5/BART)</strong> → best for QA tasks overall.</div>
         </div>
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">What is the difference between syntactic and semantic errors?</div>
-          <div class="back"><strong>Syntactic:</strong> wrong grammar/word order — "John on carried his monkey." <strong>Semantic:</strong> grammatically fine but meaningless — "The big orange carrot killed the snake."</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">What is the difference between syntactic and semantic errors?</div>
+          <div class="a"><strong>Syntactic:</strong> wrong grammar/word order — "John on carried his monkey." <strong>Semantic:</strong> grammatically fine but meaningless — "The big orange carrot killed the snake."</div>
         </div>
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">What is In-Context Learning?</div>
-          <div class="back">LLMs learn from a few examples <strong>in the prompt</strong> without any retraining. Show Q+A pairs as examples and the model infers the pattern to answer the new question.</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">What is In-Context Learning?</div>
+          <div class="a">LLMs learn from a few examples <strong>in the prompt</strong> without any retraining. Show Q+A pairs as examples and the model infers the pattern to answer the new question.</div>
         </div>
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">What is IntegratedText (Program 3)?</div>
-          <div class="back">StructuredText (Program 2's representation) <strong>merged with background knowledge from WorldModel/Scripts</strong>. Contains implied events — e.g. "Mary buys a red coat" is added from the Shopping Script even though the text never says it.</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">What is IntegratedText (Program 3)?</div>
+          <div class="a">StructuredText (Program 2's representation) <strong>merged with background knowledge from WorldModel/Scripts</strong>. Contains implied events — e.g. "Mary buys a red coat" is added from the Shopping Script even though the text never says it.</div>
         </div>
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">Name the 3 AI techniques that all QA programs rely on.</div>
-          <div class="back"><strong>Search</strong> — framework for finding answers when no direct method exists. <strong>Use of Knowledge</strong> — exploit domain/language structures. <strong>Abstraction</strong> — separate important features from noise.</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">Name the 3 AI techniques that all QA programs rely on.</div>
+          <div class="a"><strong>Search</strong> — framework for finding answers when no direct method exists. <strong>Use of Knowledge</strong> — exploit domain/language structures. <strong>Abstraction</strong> — separate important features from noise.</div>
         </div>
       </div>
     </div>
@@ -3489,37 +3489,37 @@
       <div class="section-title"><div class="dot" style="background:#e879f9"></div>Flashcards</div>
       <div class="badge">Click any flashcard to reveal the answer</div>
       <div class="flashcards">
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">What are the 3 lists every STRIPS operator has?</div>
-          <div class="back"><strong>P (Preconditions)</strong> — must be true before action runs. <strong>D (Delete)</strong> — removed from KB after. <strong>A (Add)</strong> — added to KB after.</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">What are the 3 lists every STRIPS operator has?</div>
+          <div class="a"><strong>P (Preconditions)</strong> — must be true before action runs. <strong>D (Delete)</strong> — removed from KB after. <strong>A (Add)</strong> — added to KB after.</div>
         </div>
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">What are the preconditions for UNSTACK(A,B)?</div>
-          <div class="back">ON(A,B) ∧ CLEAR(A) ∧ ARMEMPTY — A must be on B, nothing on top of A, and arm must be free.</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">What are the preconditions for UNSTACK(A,B)?</div>
+          <div class="a">ON(A,B) ∧ CLEAR(A) ∧ ARMEMPTY — A must be on B, nothing on top of A, and arm must be free.</div>
         </div>
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">What does PICKUP(A) require and what does it produce?</div>
-          <div class="back">Requires: CLEAR(A) ∧ ONTABLE(A) ∧ ARMEMPTY. Deletes: ONTABLE(A) ∧ ARMEMPTY. Adds: HOLDING(A).</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">What does PICKUP(A) require and what does it produce?</div>
+          <div class="a">Requires: CLEAR(A) ∧ ONTABLE(A) ∧ ARMEMPTY. Deletes: ONTABLE(A) ∧ ARMEMPTY. Adds: HOLDING(A).</div>
         </div>
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">What happens in Step 2 of the planning loop?</div>
-          <div class="back">The top of GS is a condition <strong>not</strong> in KB. Replace it with the action that would satisfy it, then push that action's <strong>preconditions</strong> onto the stack.</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">What happens in Step 2 of the planning loop?</div>
+          <div class="a">The top of GS is a condition <strong>not</strong> in KB. Replace it with the action that would satisfy it, then push that action's <strong>preconditions</strong> onto the stack.</div>
         </div>
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">What happens in Step 3 of the planning loop?</div>
-          <div class="back">Top of GS is an action whose preconditions are all satisfied. Remove from GS, <strong>add to Plan</strong>, apply Add-list to KB, remove Delete-list from KB.</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">What happens in Step 3 of the planning loop?</div>
+          <div class="a">Top of GS is an action whose preconditions are all satisfied. Remove from GS, <strong>add to Plan</strong>, apply Add-list to KB, remove Delete-list from KB.</div>
         </div>
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">What is the plan for Example 1 (B on A → C on A, B on D)?</div>
-          <div class="back">UNSTACK(B,A) → STACK(B,D) → PICKUP(C) → STACK(C,A)</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">What is the plan for Example 1 (B on A → C on A, B on D)?</div>
+          <div class="a">UNSTACK(B,A) → STACK(B,D) → PICKUP(C) → STACK(C,A)</div>
         </div>
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">What is the plan for Example 2 (C on A → A on B on C)?</div>
-          <div class="back">UNSTACK(C,A) → PUTDOWN(C) → PICKUP(B) → STACK(B,C) → PICKUP(A) → STACK(A,B)</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">What is the plan for Example 2 (C on A → A on B on C)?</div>
+          <div class="a">UNSTACK(C,A) → PUTDOWN(C) → PICKUP(B) → STACK(B,C) → PICKUP(A) → STACK(A,B)</div>
         </div>
-        <div class="flashcard" onclick="this.classList.toggle('flipped')">
-          <div class="front">What does CLEAR(x) mean logically?</div>
-          <div class="back">∀x: [¬∃y: ON(y,x)] → CLEAR(x) — if nothing is stacked on top of x, then x is clear.</div>
+        <div class="fc" onclick="this.classList.toggle('open')">
+          <div class="q">What does CLEAR(x) mean logically?</div>
+          <div class="a">∀x: [¬∃y: ON(y,x)] → CLEAR(x) — if nothing is stacked on top of x, then x is clear.</div>
         </div>
       </div>
     </div>
