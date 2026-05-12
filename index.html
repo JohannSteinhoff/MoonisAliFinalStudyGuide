@@ -61,6 +61,9 @@
     }
     .tab-btn:hover { color: var(--text); }
     .tab-btn.active { color: var(--text); border-bottom-color: var(--accent-both); }
+    .tab-btn.final { color: #f59e0b; }
+    .tab-btn.final:hover { color: #fbbf24; }
+    .tab-btn.final.active { color: #fbbf24; border-bottom-color: #f59e0b; }
 
     /* ── TABS ── */
     .tab-content { display: none; }
@@ -639,10 +642,10 @@
   <button class="tab-btn" onclick="switchTab('cps3', this)">CPS #3 — GenAI Fundamentals</button>
   <button class="tab-btn" onclick="switchTab('cps4', this)">CPS #4 — Machine Learning</button>
   <button class="tab-btn" onclick="switchTab('cps5', this)">CPS #5 — Expert Systems</button>
-  <button class="tab-btn" onclick="switchTab('cps6', this)">CPS #6 — Game Playing</button>
-  <button class="tab-btn" onclick="switchTab('cps7', this)">CPS #7 — Intelligent Search</button>
-  <button class="tab-btn" onclick="switchTab('cps8', this)">CPS #8 — NLP &amp; Q&amp;A Systems</button>
-  <button class="tab-btn" onclick="switchTab('cps9', this)">CPS #9 — Goal Stack Planning</button>
+  <button class="tab-btn final" onclick="switchTab('cps6', this)">CPS #6 — Game Playing</button>
+  <button class="tab-btn final" onclick="switchTab('cps7', this)">CPS #7 — Intelligent Search</button>
+  <button class="tab-btn final" onclick="switchTab('cps8', this)">CPS #8 — NLP &amp; Q&amp;A Systems</button>
+  <button class="tab-btn final" onclick="switchTab('cps9', this)">CPS #9 — Goal Stack Planning</button>
   <button class="tab-btn" onclick="switchTab('review', this)">⭐ Exam Prep</button>
   <button id="theme-toggle" onclick="toggleTheme()" title="Toggle light/dark mode">🌙</button>
 </div>
