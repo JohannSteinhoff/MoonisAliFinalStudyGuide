@@ -1,0 +1,2054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Final Exam Study Guide</title>
+  <style>
+    :root {
+      --bg: #0f1117;
+      --surface: #1a1d27;
+      --surface2: #22263a;
+      --border: #2e3350;
+      --accent-ai: #4f8ef7;
+      --accent-gen: #a855f7;
+      --accent-both: #22d3a5;
+      --text: #e2e8f0;
+      --muted: #8892a4;
+      --warn: #f59e0b;
+      --danger: #ef4444;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.7;
+    }
+
+    /* ── TAB BAR ── */
+    .tab-bar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: #0c0e16;
+      border-bottom: 1px solid var(--border);
+      display: flex;
+      gap: 0;
+      padding: 0 1rem;
+    }
+    .tab-btn {
+      padding: 0.85rem 1.4rem;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      border: none;
+      background: none;
+      color: var(--muted);
+      border-bottom: 3px solid transparent;
+      transition: all 0.15s;
+    }
+    .tab-btn:hover { color: var(--text); }
+    .tab-btn.active { color: var(--text); border-bottom-color: var(--accent-both); }
+
+    /* ── TABS ── */
+    .tab-content { display: none; }
+    .tab-content.active { display: block; }
+
+    /* ── SHARED LAYOUT ── */
+    .container { max-width: 900px; margin: 0 auto; padding: 0 1rem 4rem; }
+
+    .hero {
+      text-align: center;
+      padding: 2.5rem 1rem 1.75rem;
+      border-bottom: 1px solid var(--border);
+      margin-bottom: 2rem;
+    }
+    .hero h1 { font-size: 1.9rem; font-weight: 800; letter-spacing: -0.5px; }
+    .hero h1 .c1 { color: var(--accent-ai); }
+    .hero h1 .c2 { color: var(--accent-gen); }
+    .hero p { color: var(--muted); margin-top: 0.4rem; font-size: 0.92rem; }
+    .badge {
+      display: inline-block;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.2rem 0.8rem;
+      font-size: 0.77rem;
+      color: var(--muted);
+      margin-top: 0.6rem;
+    }
+
+    .nav {
+      display: flex; flex-wrap: wrap; gap: 0.5rem;
+      margin-bottom: 2rem; justify-content: center;
+    }
+    .nav a {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 999px; padding: 0.28rem 0.85rem;
+      font-size: 0.8rem; color: var(--muted); text-decoration: none;
+      transition: all 0.15s;
+    }
+    .nav a:hover { color: var(--text); border-color: var(--accent-both); }
+
+    .section-title {
+      display: flex; align-items: center; gap: 0.6rem;
+      font-size: 1.15rem; font-weight: 700;
+      margin: 2.5rem 0 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+    .section-title .dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+    .card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 12px; padding: 1.2rem 1.4rem; margin-bottom: 1rem;
+    }
+    .card h3 { font-size: 0.97rem; font-weight: 700; margin-bottom: 0.55rem; }
+    .card ul { padding-left: 1.2rem; color: var(--muted); font-size: 0.91rem; }
+    .card ul li { margin-bottom: 0.28rem; }
+    .card ul li strong { color: var(--text); }
+
+    .split { display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem; }
+    @media (max-width: 600px) { .split { grid-template-columns: 1fr; } }
+    .split .card.ai { border-top: 3px solid var(--accent-ai); }
+    .split .card.gen { border-top: 3px solid var(--accent-gen); }
+    .split .card.ai h3 { color: var(--accent-ai); }
+    .split .card.gen h3 { color: var(--accent-gen); }
+
+    .def {
+      background: var(--surface2); border-left: 4px solid var(--accent-both);
+      border-radius: 0 8px 8px 0; padding: 0.85rem 1.1rem;
+      margin-bottom: 0.9rem; font-size: 0.93rem;
+    }
+    .def strong { color: var(--accent-both); }
+
+    .table-wrap { overflow-x: auto; margin-bottom: 1rem; }
+    table { width: 100%; border-collapse: collapse; font-size: 0.86rem; }
+    thead th {
+      background: var(--surface2); padding: 0.6rem 0.85rem;
+      text-align: left; font-weight: 700; border-bottom: 2px solid var(--border);
+    }
+    thead th:nth-child(2) { color: var(--accent-ai); }
+    thead th:nth-child(3) { color: var(--accent-gen); }
+    tbody tr { border-bottom: 1px solid var(--border); }
+    tbody tr:hover { background: var(--surface2); }
+    tbody td { padding: 0.55rem 0.85rem; color: var(--muted); vertical-align: top; }
+    tbody td:first-child { color: var(--text); font-weight: 600; }
+
+    .formula {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 8px; padding: 0.8rem 1.1rem;
+      font-family: 'Courier New', monospace; font-size: 0.88rem;
+      color: var(--accent-both); margin-bottom: 0.75rem;
+    }
+    .formula .label {
+      display: block; font-family: 'Segoe UI', sans-serif;
+      font-size: 0.77rem; color: var(--muted); margin-bottom: 0.28rem;
+    }
+
+    .callout {
+      display: flex; gap: 0.75rem; background: var(--surface);
+      border: 1px solid var(--border); border-radius: 10px;
+      padding: 0.9rem 1.1rem; margin-bottom: 0.9rem; font-size: 0.9rem;
+    }
+    .callout .icon { font-size: 1.25rem; flex-shrink: 0; }
+    .callout.warn { border-left: 4px solid var(--warn); }
+    .callout.info { border-left: 4px solid var(--accent-ai); }
+    .callout.tip  { border-left: 4px solid var(--accent-gen); }
+
+    .risk-high { color: var(--danger); font-weight: 700; }
+    .risk-med  { color: var(--warn);   font-weight: 700; }
+    .risk-low  { color: var(--accent-both); font-weight: 700; }
+
+    .industry-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(255px, 1fr));
+      gap: 1rem; margin-bottom: 1rem;
+    }
+    .ind-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 0.95rem 1.1rem;
+    }
+    .ind-card h4 { font-size: 0.93rem; font-weight: 700; margin-bottom: 0.45rem; }
+    .ind-card .sub { font-size: 0.78rem; font-weight: 600; margin: 0.45rem 0 0.2rem; }
+    .ind-card .sub.ai { color: var(--accent-ai); }
+    .ind-card .sub.gen { color: var(--accent-gen); }
+    .ind-card ul { padding-left: 1rem; font-size: 0.81rem; color: var(--muted); }
+    .ind-card ul li { margin-bottom: 0.12rem; }
+
+    .flashcards { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; margin-bottom: 1rem; }
+    @media (max-width: 600px) { .flashcards { grid-template-columns: 1fr; } }
+    .fc {
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 10px; padding: 0.85rem 1rem;
+      cursor: pointer; transition: border-color 0.2s;
+    }
+    .fc:hover { border-color: var(--accent-both); }
+    .fc .q { font-size: 0.84rem; font-weight: 700; color: var(--text); margin-bottom: 0.3rem; }
+    .fc .a {
+      font-size: 0.81rem; color: var(--muted); display: none;
+      margin-top: 0.35rem; border-top: 1px solid var(--border); padding-top: 0.35rem;
+    }
+    .fc.open .a { display: block; }
+    .fc .toggle { font-size: 0.71rem; color: var(--accent-both); }
+
+    .summary-banner {
+      background: linear-gradient(135deg, #1a1d27 0%, #22263a 100%);
+      border: 1px solid var(--border); border-radius: 14px;
+      padding: 1.4rem; margin-top: 1.5rem; text-align: center;
+    }
+    .summary-banner h3 { font-size: 1.05rem; margin-bottom: 0.65rem; }
+    .summary-banner p { color: var(--muted); font-size: 0.9rem; }
+    .summary-banner strong { color: var(--accent-both); }
+
+    /* ── LANDING PAGE ── */
+    .landing {
+      min-height: calc(100vh - 53px);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
+      text-align: center;
+    }
+    .landing-title {
+      font-size: 2.4rem;
+      font-weight: 800;
+      letter-spacing: -1px;
+      line-height: 1.2;
+      margin-bottom: 0.6rem;
+    }
+    .landing-title .hi { color: var(--accent-both); }
+    .landing-sub {
+      color: var(--muted);
+      font-size: 1rem;
+      max-width: 420px;
+      margin: 0 auto 0.5rem;
+    }
+    .landing-tag {
+      display: inline-block;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 999px;
+      padding: 0.22rem 0.85rem;
+      font-size: 0.76rem;
+      color: var(--muted);
+      margin-bottom: 3rem;
+    }
+    .cps-cards {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1.25rem;
+      width: 100%;
+      max-width: 700px;
+    }
+    @media (max-width: 560px) { .cps-cards { grid-template-columns: 1fr; } }
+    .cps-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 16px;
+      padding: 2rem 1.5rem;
+      cursor: pointer;
+      text-align: left;
+      transition: border-color 0.2s, transform 0.15s, box-shadow 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+    .cps-card::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 0; right: 0;
+      height: 3px;
+      border-radius: 16px 16px 0 0;
+    }
+    .cps-card.c2::before { background: var(--accent-ai); }
+    .cps-card.c3::before { background: var(--accent-gen); }
+    .cps-card.c4::before { background: var(--warn); }
+    .cps-card.c5::before { background: #ec4899; }
+    .cps-card.c6::before { background: #06b6d4; }
+    .cps-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+    }
+    .cps-card.c2:hover { border-color: var(--accent-ai); }
+    .cps-card.c3:hover { border-color: var(--accent-gen); }
+    .cps-card.c4:hover { border-color: var(--warn); }
+    .cps-card.c5:hover { border-color: #ec4899; }
+    .cps-card.c6:hover { border-color: #06b6d4; }
+    .cps-card .num {
+      font-size: 0.72rem;
+      font-weight: 700;
+      letter-spacing: 1.5px;
+      text-transform: uppercase;
+      margin-bottom: 0.6rem;
+    }
+    .cps-card.c2 .num { color: var(--accent-ai); }
+    .cps-card.c3 .num { color: var(--accent-gen); }
+    .cps-card.c4 .num { color: var(--warn); }
+    .cps-card.c5 .num { color: #ec4899; }
+    .cps-card.c6 .num { color: #06b6d4; }
+    .cps-card h2 {
+      font-size: 1.15rem;
+      font-weight: 800;
+      margin-bottom: 0.5rem;
+      line-height: 1.3;
+    }
+    .cps-card p {
+      font-size: 0.84rem;
+      color: var(--muted);
+      margin-bottom: 1.2rem;
+      line-height: 1.5;
+    }
+    .cps-card .topics {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+      margin-bottom: 1.4rem;
+    }
+    .cps-card .topic-chip {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 0.15rem 0.55rem;
+      font-size: 0.73rem;
+      color: var(--muted);
+    }
+    .cps-card .go-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      font-size: 0.83rem;
+      font-weight: 700;
+      padding: 0.45rem 1rem;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      transition: opacity 0.15s;
+    }
+    .cps-card.c2 .go-btn { background: var(--accent-ai); color: #0f1117; }
+    .cps-card.c3 .go-btn { background: var(--accent-gen); color: #fff; }
+    .cps-card.c4 .go-btn { background: var(--warn); color: #0f1117; }
+    .cps-card.c5 .go-btn { background: #ec4899; color: #fff; }
+    .cps-card.c6 .go-btn { background: #06b6d4; color: #0f1117; }
+    .cps-card .go-btn:hover { opacity: 0.85; }
+    .landing-footer {
+      margin-top: 3rem;
+      font-size: 0.78rem;
+      color: var(--muted);
+    }
+
+    /* ── CPS3 extras ── */
+    .nn-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(240px,1fr));
+      gap: 1rem; margin-bottom: 1rem;
+    }
+    .nn-card {
+      background: var(--surface); border: 1px solid var(--border);
+      border-radius: 10px; padding: 1rem 1.1rem;
+    }
+    .nn-card h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 0.4rem; color: var(--accent-gen); }
+    .nn-card p  { font-size: 0.82rem; color: var(--muted); margin-bottom: 0.4rem; }
+    .nn-card ul { padding-left: 1rem; font-size: 0.81rem; color: var(--muted); }
+    .nn-card ul li { margin-bottom: 0.15rem; }
+    .nn-card .tag {
+      display: inline-block; background: var(--surface2);
+      border: 1px solid var(--border); border-radius: 6px;
+      padding: 0.1rem 0.5rem; font-size: 0.73rem; color: var(--accent-ai);
+      margin-bottom: 0.45rem;
+    }
+
+    .step-list { counter-reset: step; padding: 0; list-style: none; margin-bottom: 1rem; }
+    .step-list li {
+      counter-increment: step; display: flex; gap: 0.75rem;
+      padding: 0.65rem 0; border-bottom: 1px solid var(--border);
+      font-size: 0.9rem; color: var(--muted);
+    }
+    .step-list li::before {
+      content: counter(step);
+      background: var(--surface2); border: 1px solid var(--border);
+      border-radius: 50%; min-width: 1.6rem; height: 1.6rem;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 0.75rem; font-weight: 700; color: var(--accent-both);
+      flex-shrink: 0;
+    }
+    .step-list li strong { color: var(--text); }
+  </style>
+</head>
+<body>
+
+<!-- TAB BAR -->
+<div class="tab-bar">
+  <button class="tab-btn active" onclick="switchTab('home', this)">Home</button>
+  <button class="tab-btn" onclick="switchTab('cps2', this)">CPS #2 — AI vs Gen AI</button>
+  <button class="tab-btn" onclick="switchTab('cps3', this)">CPS #3 — GenAI Fundamentals</button>
+  <button class="tab-btn" onclick="switchTab('cps4', this)">CPS #4 — Machine Learning</button>
+  <button class="tab-btn" onclick="switchTab('cps5', this)">CPS #5 — Expert Systems</button>
+  <button class="tab-btn" onclick="switchTab('cps6', this)">CPS #6 — Game Playing</button>
+</div>
+
+<!-- ══════════════════ LANDING ══════════════════ -->
+<div id="home" class="tab-content active">
+  <div class="landing">
+    <div class="landing-title">
+      <span class="hi">Final</span> Exam<br/>Study Guide
+    </div>
+    <p class="landing-sub">Everything you need to pass. Broken down, cleaned up, made human.</p>
+    <div class="landing-tag">Spring 2026 · Bachelor's Degree Final</div>
+
+    <div class="cps-cards">
+      <div class="cps-card c2" onclick="switchTab('cps2', document.querySelectorAll('.tab-btn')[1])">
+        <div class="num">CPS #2</div>
+        <h2>AI vs Generative AI</h2>
+        <p>What sets traditional AI apart from Generative AI — definitions, architecture, strengths, risks, and real-world use cases.</p>
+        <div class="topics">
+          <span class="topic-chip">Definitions</span>
+          <span class="topic-chip">Architecture</span>
+          <span class="topic-chip">Comparison Table</span>
+          <span class="topic-chip">Risk &amp; Regulation</span>
+          <span class="topic-chip">Industries</span>
+          <span class="topic-chip">Flashcards</span>
+        </div>
+        <button class="go-btn">Open Notes →</button>
+      </div>
+
+      <div class="cps-card c3" onclick="switchTab('cps3', document.querySelectorAll('.tab-btn')[2])">
+        <div class="num">CPS #3</div>
+        <h2>Generative AI Fundamentals</h2>
+        <p>How neural networks actually work — from a single neuron all the way up to Transformers, GANs, Diffusion Models, and VAEs.</p>
+        <div class="topics">
+          <span class="topic-chip">Neurons &amp; Bias</span>
+          <span class="topic-chip">Backpropagation</span>
+          <span class="topic-chip">CNN / RNN</span>
+          <span class="topic-chip">Transformers</span>
+          <span class="topic-chip">GANs</span>
+          <span class="topic-chip">Diffusion</span>
+          <span class="topic-chip">AE &amp; VAE</span>
+          <span class="topic-chip">Flashcards</span>
+        </div>
+        <button class="go-btn">Open Notes →</button>
+      </div>
+    </div>
+
+      <div class="cps-card c5" onclick="switchTab('cps5', document.querySelectorAll('.tab-btn')[4])">
+        <div class="num">CPS #5</div>
+        <h2>Intelligent Expert Systems</h2>
+        <p>Decision trees, IF-THEN rules, and the two inference engines — forward chaining (fact-driven) and backward chaining (goal-driven).</p>
+        <div class="topics">
+          <span class="topic-chip">Decision Trees</span>
+          <span class="topic-chip">IF-THEN Rules</span>
+          <span class="topic-chip">Forward Chaining</span>
+          <span class="topic-chip">Backward Chaining</span>
+          <span class="topic-chip">Worked Examples</span>
+          <span class="topic-chip">Flashcards</span>
+        </div>
+        <button class="go-btn">Open Notes →</button>
+      </div>
+
+      <div class="cps-card c6" onclick="switchTab('cps6', document.querySelectorAll('.tab-btn')[5])">
+        <div class="num">CPS #6</div>
+        <h2>Two-Player Game Playing</h2>
+        <p>Adversarial search, the Minimax algorithm, Alpha-Beta pruning, evaluation functions, and tic-tac-toe worked examples.</p>
+        <div class="topics">
+          <span class="topic-chip">Game Trees</span>
+          <span class="topic-chip">MAX vs MIN</span>
+          <span class="topic-chip">Minimax Algorithm</span>
+          <span class="topic-chip">Alpha-Beta Pruning</span>
+          <span class="topic-chip">Evaluation Functions</span>
+          <span class="topic-chip">Magic Squares</span>
+          <span class="topic-chip">Flashcards</span>
+        </div>
+        <button class="go-btn">Open Notes →</button>
+      </div>
+
+      <div class="cps-card c4" onclick="switchTab('cps4', document.querySelectorAll('.tab-btn')[3])">
+        <div class="num">CPS #4</div>
+        <h2>Machine Learning &amp; Rule Learning</h2>
+        <p>How AI learns rules automatically from data — inductive vs deductive learning, the PSR algorithm, and the bank loan worked example.</p>
+        <div class="topics">
+          <span class="topic-chip">Inductive vs Deductive</span>
+          <span class="topic-chip">PSR Algorithm</span>
+          <span class="topic-chip">Separate &amp; Conquer</span>
+          <span class="topic-chip">Worked Example</span>
+          <span class="topic-chip">Final Rules</span>
+          <span class="topic-chip">Flashcards</span>
+        </div>
+        <button class="go-btn">Open Notes →</button>
+      </div>
+
+    <div class="landing-footer">You're almost done. One more final. Let's get it.</div>
+  </div>
+</div>
+
+<!-- ══════════════════ CPS #2 ══════════════════ -->
+<div id="cps2" class="tab-content">
+<div class="container">
+  <div class="hero">
+    <h1>CPS #2 — <span class="c1">AI</span> vs <span class="c2">Generative AI</span></h1>
+    <p>Final Exam Study Guide · Spring 2026</p>
+    <div class="badge">Click any flashcard to reveal the answer</div>
+  </div>
+
+  <nav class="nav">
+    <a href="#defs">Definitions</a>
+    <a href="#caps">Capabilities</a>
+    <a href="#arch">Architecture</a>
+    <a href="#compare">Comparison</a>
+    <a href="#risk">Risk &amp; Reg</a>
+    <a href="#industry">Industries</a>
+    <a href="#flash2">Flashcards</a>
+    <a href="#tldr2">TL;DR</a>
+  </nav>
+
+  <!-- 1. DEFINITIONS -->
+  <div id="defs">
+    <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>1 · Core Definitions</div>
+    <div class="def">
+      <strong>AI (Traditional / Predictive)</strong><br/>
+      The broad discipline of making systems that perform human-like tasks — reasoning, perception, learning, decision-making, problem-solving. Uses an <em>algorithmic approach</em> and produces <em>accurate, consistent output</em>. Analyzes data and makes predictions within a defined problem space. <strong>Key shortcoming: cannot create new, novel content.</strong>
+    </div>
+    <div class="def" style="border-color:var(--accent-gen)">
+      <strong style="color:var(--accent-gen)">Generative AI</strong><br/>
+      A <em>subset</em> of AI focused on <em>creating new content</em> — text, images, audio, video, code, or synthetic data. Models underlying data distributions and samples from them. <strong>NOT algorithmic; can be inaccurate/inconsistent. Resolves AI's inability to create novel content.</strong>
+    </div>
+    <div class="callout info">
+      <div class="icon">💡</div>
+      <div>Generative AI <strong>doesn't replace</strong> traditional AI — it <strong>extends</strong> it into content creation. Real enterprise systems use both together.</div>
+    </div>
+  </div>
+
+  <!-- 2. CAPABILITIES -->
+  <div id="caps">
+    <div class="section-title"><div class="dot" style="background:var(--accent-ai)"></div>2 · Objectives &amp; Capabilities</div>
+    <div class="split">
+      <div class="card ai">
+        <h3>Traditional AI Goals</h3>
+        <ul><li>Automate cognitive tasks</li><li>Improve decision quality &amp; efficiency</li><li>Replicate human intelligence in <em>narrow domains</em></li></ul>
+        <h3 style="margin-top:.8rem">Capabilities</h3>
+        <ul><li>Classification (spam detection)</li><li>Prediction (demand forecasting)</li><li>Optimization (route planning)</li><li>Pattern recognition (face ID)</li><li>Rule-based reasoning</li></ul>
+        <h3 style="margin-top:.8rem">Output Types</h3>
+        <ul><li>Labels / classes</li><li>Scores or probabilities</li><li>Decisions / recommendations</li></ul>
+      </div>
+      <div class="card gen">
+        <h3>Generative AI Goals</h3>
+        <ul><li>Generate coherent, realistic content</li><li>Mimic creativity &amp; expressive output</li><li>Enable human–AI co-creation</li></ul>
+        <h3 style="margin-top:.8rem">Capabilities</h3>
+        <ul><li>Text generation (articles, summaries)</li><li>Image generation (art, photorealism)</li><li>Code generation</li><li>Music &amp; audio synthesis</li><li>Video generation</li><li>Synthetic data creation</li></ul>
+        <h3 style="margin-top:.8rem">Output Types</h3>
+        <ul><li>Entirely new artifacts</li><li>Natural language responses</li><li>Multiple plausible answers to same prompt</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. ARCHITECTURE -->
+  <div id="arch">
+    <div class="section-title"><div class="dot" style="background:var(--accent-gen)"></div>3 · Architecture</div>
+    <div class="formula">
+      <span class="label">Traditional AI Pipeline</span>
+      Input → Feature Extraction → Model → Prediction
+      <br/><span style="color:var(--muted);font-family:'Segoe UI',sans-serif;font-size:0.78rem">Objective: minimize error on known labels (cross-entropy, MSE)</span>
+    </div>
+    <div class="formula" style="color:var(--accent-gen)">
+      <span class="label">Generative AI Pipeline</span>
+      Input (prompt) → Latent Representation → Sampling → Generated Output
+      <br/><span style="color:var(--muted);font-family:'Segoe UI',sans-serif;font-size:0.78rem">Objective: maximize likelihood of realistic content (VAEs, GANs, diffusion, autoregressive LMs)</span>
+    </div>
+    <div class="split">
+      <div class="card ai">
+        <h3>Predictive AI Models</h3>
+        <ul><li>Gradient boosting</li><li>Classical ML models</li><li>Narrow deep learning</li></ul>
+      </div>
+      <div class="card gen">
+        <h3>Generative AI Models</h3>
+        <ul><li><strong>LLMs</strong> — GPT, Claude, LLaMA</li><li><strong>GANs</strong></li><li><strong>Diffusion Models</strong></li><li><strong>VAEs</strong> — Variational Autoencoders</li><li><strong>Multimodal</strong> — text + image + audio</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. COMPARISON -->
+  <div id="compare">
+    <div class="section-title"><div class="dot" style="background:var(--warn)"></div>4 · The Big Comparison</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Dimension</th><th>Traditional AI</th><th>Generative AI</th></tr></thead>
+        <tbody>
+          <tr><td>Scope</td><td>Broad field — ALL intelligent systems</td><td>Specialized subset of AI</td></tr>
+          <tr><td>Primary Function</td><td>Analyze, predict, decide</td><td>Create new content</td></tr>
+          <tr><td>Typical Output</td><td>Labels, scores, decisions</td><td>Text, images, audio, code</td></tr>
+          <tr><td>Creativity</td><td>Minimal or none</td><td>Core capability</td></tr>
+          <tr><td>Data Usage</td><td>Learns decision boundaries</td><td>Learns data distributions &amp; patterns</td></tr>
+          <tr><td>Determinism</td><td>Often deterministic / consistent</td><td>Probabilistic, stochastic</td></tr>
+          <tr><td>Human Interaction</td><td>Backend / system-level</td><td>Highly interactive</td></tr>
+          <tr><td>Approach</td><td>Algorithmic</td><td>NOT purely algorithmic</td></tr>
+          <tr><td>Accuracy</td><td>High &amp; consistent</td><td>Can hallucinate / be inconsistent</td></tr>
+          <tr><td>Compute Cost</td><td>Lower</td><td>High</td></tr>
+          <tr><td>Explainability</td><td>Moderate to high (SHAP, LIME)</td><td>Low (latent representations)</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="split" style="margin-top:1rem">
+      <div class="card ai">
+        <h3>AI Strengths</h3>
+        <ul><li>High accuracy in narrow tasks</li><li>Predictable &amp; explainable</li><li>Lower computational cost</li><li>Well-suited for regulated environments</li></ul>
+        <h3 style="margin-top:.8rem;color:var(--danger)">AI Limitations</h3>
+        <ul><li>Cannot generate novel content</li><li>Rigid task boundaries</li><li>Limited adaptability</li></ul>
+      </div>
+      <div class="card gen">
+        <h3>Gen AI Strengths</h3>
+        <ul><li>High versatility across tasks</li><li>Natural language interfaces</li><li>Creativity &amp; abstraction</li><li>Rapid productivity gains</li></ul>
+        <h3 style="margin-top:.8rem;color:var(--danger)">Gen AI Limitations</h3>
+        <ul><li><strong>Hallucinations</strong> — confident but wrong</li><li>High computational cost</li><li>Limited explainability</li><li>Data leakage &amp; IP risks</li><li>Requires human oversight</li></ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. RISK & REGULATION -->
+  <div id="risk">
+    <div class="section-title"><div class="dot" style="background:var(--danger)"></div>5 · Risk &amp; Regulation</div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Risk Dimension</th><th>Traditional AI</th><th>Generative AI</th></tr></thead>
+        <tbody>
+          <tr><td>Predictability</td><td class="risk-low">High</td><td class="risk-med">Lower</td></tr>
+          <tr><td>Explainability</td><td class="risk-low">Moderate–High</td><td class="risk-high">Low</td></tr>
+          <tr><td>IP Risk</td><td class="risk-low">Minimal</td><td class="risk-high">Significant</td></tr>
+          <tr><td>Data Leakage</td><td class="risk-low">Low</td><td class="risk-high">Elevated</td></tr>
+          <tr><td>Bias Amplification</td><td class="risk-med">Known / detectable</td><td class="risk-high">Harder to detect</td></tr>
+          <tr><td>Hallucinations</td><td class="risk-low">No</td><td class="risk-high">Yes</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="split" style="margin-top:.75rem">
+      <div class="card ai">
+        <h3>Traditional AI Reg Focus</h3>
+        <ul><li>Model explainability (SHAP, LIME)</li><li>Fairness metrics</li><li>Audit trails</li><li>Decision accountability</li></ul>
+      </div>
+      <div class="card gen">
+        <h3>Generative AI Reg Focus</h3>
+        <ul><li>Content provenance</li><li>Copyright compliance</li><li>Prompt logging</li><li>Output traceability</li><li>Human-in-the-loop controls</li></ul>
+      </div>
+    </div>
+    <div class="callout warn">
+      <div class="icon">⚠️</div>
+      <div>GenAI governance requires: <strong>Governance frameworks · Human-in-the-loop review · Model monitoring · Data controls</strong></div>
+    </div>
+  </div>
+
+  <!-- 6. INDUSTRY -->
+  <div id="industry">
+    <div class="section-title"><div class="dot" style="background:var(--accent-gen)"></div>6 · Industry Examples</div>
+    <div class="callout tip">
+      <div class="icon">🔑</div>
+      <div>Combined pattern in most industries: <strong>GenAI drafts → Predictive AI validates → Human approves</strong></div>
+    </div>
+    <div class="industry-grid">
+      <div class="ind-card"><h4>🏦 Finance</h4><div class="sub ai">Traditional AI</div><ul><li>Credit risk scoring</li><li>Fraud detection</li><li>Market forecasting</li></ul><div class="sub gen">Generative AI</div><ul><li>Financial reporting automation</li><li>Client communication drafting</li><li>Regulatory doc summarization</li></ul></div>
+      <div class="ind-card"><h4>🏥 Healthcare</h4><div class="sub ai">Traditional AI</div><ul><li>Diagnostic classification</li><li>Risk stratification</li><li>Imaging anomaly detection</li></ul><div class="sub gen">Generative AI</div><ul><li>Clinical note generation</li><li>Patient education material</li><li>Medical literature synthesis</li></ul><div style="font-size:.77rem;color:var(--warn);margin-top:.4rem">⚠️ Advisory only — decisions stay human-controlled</div></div>
+      <div class="ind-card"><h4>🏭 Manufacturing</h4><div class="sub ai">Traditional AI</div><ul><li>Predictive maintenance</li><li>Quality defect detection</li><li>Supply chain optimization</li></ul><div class="sub gen">Generative AI</div><ul><li>Process doc generation</li><li>Design ideation</li><li>Root-cause analysis narratives</li></ul></div>
+      <div class="ind-card"><h4>⚖️ Legal</h4><div class="sub ai">Traditional AI</div><ul><li>Contract classification</li><li>Clause risk detection</li></ul><div class="sub gen">Generative AI</div><ul><li>Contract drafting</li><li>Case law summarization</li><li>Discovery doc synthesis</li></ul></div>
+      <div class="ind-card"><h4>📣 Marketing</h4><div class="sub ai">Traditional AI</div><ul><li>Customer segmentation</li><li>Campaign performance prediction</li></ul><div class="sub gen">Generative AI</div><ul><li>Copywriting</li><li>Image &amp; video generation</li><li>Personalization at scale</li></ul></div>
+    </div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <div id="flash2">
+    <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>7 · Flashcards</div>
+    <div class="flashcards">
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">Main goal of Traditional AI?</div><div class="toggle">tap to reveal ▾</div><div class="a">Analyze data, recognize patterns, make predictions/decisions within a defined problem space. Core: classify, predict, optimize, decide.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">Main goal of Generative AI?</div><div class="toggle">tap to reveal ▾</div><div class="a">Create new content (text, images, audio, video, code) that resembles human output. Models underlying data distributions and samples new outputs from them.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is a hallucination?</div><div class="toggle">tap to reveal ▾</div><div class="a">When a generative model produces confident but factually incorrect or fabricated output. Major GenAI limitation.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">Is GenAI a replacement for Traditional AI?</div><div class="toggle">tap to reveal ▾</div><div class="a">No. GenAI is a subset that extends AI into content creation. Real systems use BOTH: GenAI for drafting/interface, traditional AI for validation and decisions.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">Name 4 Generative AI model types</div><div class="toggle">tap to reveal ▾</div><div class="a">1. LLMs (GPT, Claude, LLaMA) · 2. GANs · 3. Diffusion Models · 4. VAEs (Variational Autoencoders)</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What does SHAP/LIME help with?</div><div class="toggle">tap to reveal ▾</div><div class="a">Explainability tools for Traditional AI — show which features drove a model's decision. Important for regulatory compliance and audits.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">Traditional AI optimizes ___ vs GenAI augments ___?</div><div class="toggle">tap to reveal ▾</div><div class="a">Traditional AI optimizes processes (efficiency, decisions). Generative AI augments knowledge work (drafting, explaining, ideating).</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">4 things orgs must invest in for GenAI governance?</div><div class="toggle">tap to reveal ▾</div><div class="a">1. Governance frameworks · 2. Human-in-the-loop review · 3. Model monitoring · 4. Data controls</div></div>
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div id="tldr2">
+    <div class="section-title"><div class="dot" style="background:var(--warn)"></div>TL;DR — 6 Things You Must Know</div>
+    <div class="card">
+      <ul style="color:var(--text);font-size:.93rem;list-style:none;padding:0">
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent-ai)">1.</strong> Traditional AI = <strong>analyzes &amp; decides</strong>. Generative AI = <strong>creates new content</strong>.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent-ai)">2.</strong> Generative AI is a <strong>subset</strong> of AI, not a replacement.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent-ai)">3.</strong> Traditional AI is <strong>algorithmic &amp; deterministic</strong>. GenAI is <strong>probabilistic &amp; stochastic</strong>.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent-ai)">4.</strong> Big GenAI risk: <strong>hallucinations</strong> + IP leakage + low explainability.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent-ai)">5.</strong> Real systems: <strong>GenAI drafts → Predictive AI validates → Human approves</strong>.</li>
+        <li style="padding:.45rem 0"><strong style="color:var(--accent-ai)">6.</strong> GenAI needs new governance: content provenance, prompt logging, human-in-the-loop, output traceability.</li>
+      </ul>
+    </div>
+    <div class="summary-banner">
+      <h3>You've got this</h3>
+      <p><strong>AI</strong> focuses on <strong>understanding and deciding</strong>.<br/><strong>Generative AI</strong> focuses on <strong>creating</strong>.<br/>The most effective systems <strong>combine both</strong>.</p>
+    </div>
+  </div>
+</div><!-- /container -->
+</div><!-- /cps2 -->
+
+
+<!-- ══════════════════ CPS #3 ══════════════════ -->
+<div id="cps3" class="tab-content">
+<div class="container">
+  <div class="hero">
+    <h1>CPS #3 — <span class="c2">Generative AI</span> Fundamentals</h1>
+    <p>Neural Networks, Architectures &amp; Model Families · Spring 2026</p>
+    <div class="badge">Click any flashcard to reveal the answer</div>
+  </div>
+
+  <nav class="nav">
+    <a href="#neuron">Neuron Basics</a>
+    <a href="#nnarch">NN Architecture</a>
+    <a href="#prop">Feed-Fwd vs Backprop</a>
+    <a href="#types">NN Types</a>
+    <a href="#gans">GANs</a>
+    <a href="#diff">Diffusion</a>
+    <a href="#ae">AE &amp; VAE</a>
+    <a href="#flash3">Flashcards</a>
+    <a href="#tldr3">TL;DR</a>
+  </nav>
+
+  <!-- 1. NEURON BASICS -->
+  <div id="neuron">
+    <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>1 · The Basic Unit: Neuron / Perceptron</div>
+    <div class="callout info">
+      <div class="icon">🧠</div>
+      <div>A neural network is made of many <strong>neurons (perceptrons)</strong> stacked in layers. Each neuron takes inputs, does a calculation, and passes an output forward.</div>
+    </div>
+    <div class="split">
+      <div class="card">
+        <h3 style="color:var(--accent-ai)">Bias — "The Starting Point"</h3>
+        <ul><li>A built-in offset that lets a neuron shift its output up or down</li><li>Allows the neuron to respond even when inputs are small</li><li>Gives the neuron a natural "starting tendency" independent of inputs</li><li><strong>Without bias: rigid behavior. With bias: flexibility.</strong></li></ul>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--accent-gen)">Activation Function — "The Decision Rule"</h3>
+        <ul><li>Decides how strongly the neuron responds after examining its inputs</li><li>Without it, the network acts like a simple calculator — no complexity</li><li>Introduces decisions, thresholds, on/off or gradual responses</li><li>Analogy: a light dimmer — small input = off, large input = bright</li><li>Common types: ReLU, sigmoid, tanh</li></ul>
+      </div>
+    </div>
+    <div class="split">
+      <div class="card">
+        <h3 style="color:var(--warn)">Loss Function — "How Wrong Are We?"</h3>
+        <ul><li>Measures how bad a prediction is</li><li>Converts prediction quality into a single feedback signal</li><li>Analogy: a golf score — tells you how far off you were</li><li>Classification → "Was the label correct?"</li><li>Regression → "How far was the estimate from reality?"</li></ul>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--accent-both)">Gradient — "How to Fix the Mistake"</h3>
+        <ul><li>Tells the model which direction to change its settings to reduce error</li><li>Answers: "Should this weight increase or decrease?"</li><li>Analogy: walking downhill in fog — you can't see the whole landscape but you feel which way slopes down</li><li>Takes small steps toward the lowest point (lowest error)</li></ul>
+      </div>
+    </div>
+    <div class="def">
+      <strong>One-sentence summary:</strong> A neuron uses <em>bias</em> to set its default, <em>activation</em> to decide how strongly to respond, <em>loss</em> to measure how wrong it was, and <em>gradients</em> to learn how to do better — repeated millions of times.
+    </div>
+  </div>
+
+  <!-- 2. NN ARCHITECTURE -->
+  <div id="nnarch">
+    <div class="section-title"><div class="dot" style="background:var(--accent-ai)"></div>2 · Neural Network Architecture</div>
+    <div class="split">
+      <div class="card ai">
+        <h3>Input Layer</h3>
+        <ul><li>One neuron per input feature</li><li>No learned transformations — just passes data forward</li><li>Holds raw features (numbers, pixels, signals)</li></ul>
+      </div>
+      <div class="card gen">
+        <h3>Hidden Layers</h3>
+        <ul><li>Fully connected to the previous layer (dense)</li><li>Each layer learns increasingly abstract representations</li><li>Number of neurons is a design choice (64, 128, 512…)</li><li>Nonlinear transformations happen here</li></ul>
+      </div>
+    </div>
+    <div class="split">
+      <div class="card">
+        <h3 style="color:var(--accent-both)">Output Layer</h3>
+        <ul><li>Produces the final prediction</li><li>Number of neurons depends on the task</li><li>Activation function chosen based on task type</li></ul>
+      </div>
+      <div class="card">
+        <h3 style="color:var(--warn)">Weights &amp; Biases</h3>
+        <ul><li>Learned parameters during training</li><li>Weights = strength between connected neurons</li><li>Biases = activation threshold adjustments</li></ul>
+      </div>
+    </div>
+    <div class="formula">
+      <span class="label">Training Workflow</span>
+      Data → Input Layer → Hidden Layers → Output Layer → Prediction → Compare with target → Backpropagate → Update parameters
+    </div>
+    <div class="callout info">
+      <div class="icon">📐</div>
+      <div>Network power comes from two things: <strong>depth</strong> (number of layers) and <strong>width</strong> (neurons per layer). Each layer does two things: <em>linear transformation</em> (mix &amp; weight info) then <em>nonlinear activation</em> (bend the rules). Stack these enough times and you can approximate any complex function.</div>
+    </div>
+  </div>
+
+  <!-- 3. FEED-FORWARD vs BACKPROP -->
+  <div id="prop">
+    <div class="section-title"><div class="dot" style="background:var(--accent-gen)"></div>3 · Feed-Forward vs Backpropagation</div>
+    <div class="split">
+      <div class="card ai">
+        <h3>Feed-Forward — "Making a Prediction"</h3>
+        <ul>
+          <li>Data enters at the input layer</li>
+          <li>Each layer transforms the data (weights + bias + activation)</li>
+          <li>Signal moves strictly <em>forward</em> — no loops</li>
+          <li>Final layer produces the output/prediction</li>
+          <li><strong>No learning occurs here</strong> — only evaluation</li>
+        </ul>
+      </div>
+      <div class="card gen">
+        <h3>Backpropagation — "Learning from Mistakes"</h3>
+        <ul>
+          <li>Compares output to the correct answer</li>
+          <li>Measures the error (loss)</li>
+          <li>Error is propagated <em>backward</em> through the network</li>
+          <li>Each neuron adjusts weights &amp; biases to reduce future error</li>
+          <li><strong>This is where learning happens</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Aspect</th><th>Feed-Forward</th><th>Backpropagation</th></tr></thead>
+        <tbody>
+          <tr><td>Direction</td><td>Input → Output</td><td>Output error → Input</td></tr>
+          <tr><td>Role</td><td>Make a prediction</td><td>Improve the prediction mechanism</td></tr>
+          <tr><td>Learning?</td><td>No</td><td>Yes</td></tr>
+          <tr><td>What flows?</td><td>Data signals</td><td>Error signals</td></tr>
+          <tr><td>When used?</td><td>Every time the network predicts</td><td>Every time the network trains</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="def">
+      <strong>Analogy:</strong> A student solves a problem (feed-forward). The teacher marks it and shows what's wrong (backpropagation). The student updates their understanding to avoid repeating the mistake.
+    </div>
+  </div>
+
+  <!-- 4. NN TYPES -->
+  <div id="types">
+    <div class="section-title"><div class="dot" style="background:var(--warn)"></div>4 · Neural Network Types</div>
+    <div class="nn-grid">
+      <div class="nn-card">
+        <div class="tag">CNN</div>
+        <h4>Convolutional Neural Network</h4>
+        <p>Designed for <strong>spatial/grid-structured data</strong> (images). Think: very smart eyes.</p>
+        <ul>
+          <li>Slides small filters over images looking for patterns</li>
+          <li>Early layers: edges/lines → Later: whole objects</li>
+          <li>Uses pooling to reduce size while keeping key info</li>
+          <li><strong>Use cases:</strong> image recognition, face detection, medical imaging, autonomous vehicles</li>
+        </ul>
+      </div>
+      <div class="nn-card">
+        <div class="tag">RNN</div>
+        <h4>Recurrent Neural Network</h4>
+        <p>Designed for <strong>sequential / time-dependent data</strong>. Think: a brain reading word by word and remembering.</p>
+        <ul>
+          <li>Maintains a hidden state — memory of previous inputs</li>
+          <li>Variants: <strong>LSTM</strong> (long-term memory via gates), <strong>GRU</strong> (simpler, faster)</li>
+          <li><strong>Use cases:</strong> text, speech, time-series, sensor anomalies</li>
+          <li><strong>Limitation:</strong> forgets long-term info; slow for long sequences → replaced by Transformers</li>
+        </ul>
+      </div>
+      <div class="nn-card" style="border-top:3px solid var(--accent-gen)">
+        <div class="tag" style="color:var(--accent-gen)">Transformer</div>
+        <h4>Transformer</h4>
+        <p>The <strong>dominant modern architecture</strong>. Think: a powerful reader that looks at ALL words at once.</p>
+        <ul>
+          <li><strong>Self-attention:</strong> every word evaluates its relationship to every other word</li>
+          <li><strong>Multi-head attention:</strong> runs multiple attention processes in parallel</li>
+          <li><strong>Positional encoding:</strong> preserves word order (since no recurrence)</li>
+          <li><strong>Encoder:</strong> builds global understanding of the full input</li>
+          <li><strong>Decoder:</strong> generates output one token at a time, referencing encoder output</li>
+          <li>Scales massively; captures long-range dependencies</li>
+          <li><strong>Powers:</strong> ChatGPT, Claude, translation, image generation, multimodal AI</li>
+        </ul>
+      </div>
+      <div class="nn-card" style="border-top:3px solid var(--accent-ai)">
+        <div class="tag" style="color:var(--accent-ai)">LLM</div>
+        <h4>Large Language Models</h4>
+        <p>Transformer-based models trained on massive text corpora to predict the next token.</p>
+        <ul>
+          <li>Work by predicting next token given context</li>
+          <li>Pretrained via <strong>self-supervised learning</strong></li>
+          <li>Billions to trillions of parameters</li>
+          <li>Adapted via prompting or fine-tuning (RLHF, instruction tuning)</li>
+          <li>LLMs are a <strong>subset</strong> of Generative AI (text-focused)</li>
+          <li><strong>Use cases:</strong> text gen, QA, translation, code gen, summarization</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:0.5rem">
+      <h3 style="color:var(--accent-gen)">Why Transformers Dominate</h3>
+      <ul>
+        <li>Enable autoregressive generation via masked attention</li>
+        <li>Self-attention models long-range dependencies crucial for language</li>
+        <li>Scale extremely well — trillion-parameter models are possible</li>
+        <li>Learn rich probability distributions enabling fluent generation</li>
+        <li>Decoder-only Transformers optimized for next-token prediction (core of GenAI)</li>
+        <li>Unify multimodal generation (text, images, audio, video)</li>
+        <li>Allow emergent behaviors: reasoning, creativity</li>
+      </ul>
+    </div>
+
+    <div class="card" style="margin-top:0.5rem">
+      <h3>Transformer Encoder–Decoder in Plain English</h3>
+      <ul>
+        <li>The <strong>encoder</strong> reads the entire input and builds a structured mental map of its meaning (each word gets a context-aware representation)</li>
+        <li>The <strong>decoder</strong> writes the output one word at a time, repeatedly looking back at the encoder's map</li>
+        <li>The decoder uses <strong>masked self-attention</strong> so it can't "cheat" by seeing future tokens</li>
+        <li>The encoder output never changes during decoding — it acts like a reference document</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 5. GANs -->
+  <div id="gans">
+    <div class="section-title"><div class="dot" style="background:var(--accent-gen)"></div>5 · GANs — Generative Adversarial Networks</div>
+    <div class="def" style="border-color:var(--accent-gen)">
+      <strong style="color:var(--accent-gen)">What is a GAN?</strong><br/>
+      Two neural networks trained simultaneously in <em>opposition</em>. They learn by competition — generation improves through adversarial feedback.
+    </div>
+    <div class="split">
+      <div class="card ai">
+        <h3>Generator (G)</h3>
+        <ul>
+          <li>Takes <strong>random noise</strong> as input</li>
+          <li>Produces synthetic samples (e.g., images)</li>
+          <li>Goal: fool the discriminator by producing realistic-looking data</li>
+          <li>Improves by learning what the discriminator rejects</li>
+        </ul>
+      </div>
+      <div class="card gen">
+        <h3>Discriminator (D)</h3>
+        <ul>
+          <li>Receives real data AND generated data</li>
+          <li>Learns to distinguish real from fake</li>
+          <li>Goal: correctly classify inputs as real or generated</li>
+          <li>Acts as a learned critic driving generator improvement</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout info">
+      <div class="icon">⚙️</div>
+      <div><strong>Adversarial feedback:</strong> the gradient of the discriminator's loss is fed back to the generator. Instead of explicit labels, the generator learns what's wrong by observing how the discriminator rejects its fakes. Training ends when the discriminator can no longer reliably tell real from fake.</div>
+    </div>
+    <div class="card">
+      <h3>GAN Applications</h3>
+      <div class="split" style="margin:0.5rem 0 0">
+        <ul style="color:var(--muted);font-size:.88rem;padding-left:1.2rem">
+          <li>Photorealistic face generation (StyleGAN)</li>
+          <li>Artistic rendering &amp; scene generation</li>
+          <li>Super-resolution (SRGAN)</li>
+          <li>Image colorization &amp; style transfer</li>
+        </ul>
+        <ul style="color:var(--muted);font-size:.88rem;padding-left:1.2rem">
+          <li>Synthetic training data augmentation</li>
+          <li>Video frame prediction</li>
+          <li>Medical imaging (MRI/CT reconstruction)</li>
+          <li>Text-to-image (before diffusion models)</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout warn">
+      <div class="icon">⚠️</div>
+      <div>GAN limitation: <strong>mode collapse</strong> — the generator can get stuck producing only a narrow range of outputs. Training can also be unstable.</div>
+    </div>
+  </div>
+
+  <!-- 6. DIFFUSION MODELS -->
+  <div id="diff">
+    <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>6 · Diffusion Models</div>
+    <div class="def">
+      <strong>What is a Diffusion Model?</strong><br/>
+      A probabilistic generative model that learns to generate data by iteratively <em>denoising</em> samples starting from pure noise. It defines a <strong>forward process</strong> (add noise) and a <strong>reverse process</strong> (learn to remove that noise).
+    </div>
+    <div class="split">
+      <div class="card ai">
+        <h3>Forward Process (NN1) — Add Noise</h3>
+        <ul>
+          <li>Gradually adds small amounts of noise to real data over many steps</li>
+          <li>Eventually turns structured data into pure noise</li>
+          <li><strong>Fixed — not learned</strong></li>
+          <li>Like repeatedly photocopying a photo with blur until it's just static</li>
+        </ul>
+      </div>
+      <div class="card gen">
+        <h3>Reverse Process (NN2) — Remove Noise</h3>
+        <ul>
+          <li>A neural network trained to remove noise step by step</li>
+          <li>Learns how clean data should look at each stage</li>
+          <li>Usually a U-Net-style architecture</li>
+          <li><strong>This is what's learned during training</strong></li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout tip">
+      <div class="icon">🎨</div>
+      <div>Intuition: start from random noise → clean it a little → clean again → after many steps you have a realistic image. Like sculpting marble — one chip at a time, not drawn in a single stroke.</div>
+    </div>
+    <div class="card">
+      <h3>Key Characteristics</h3>
+      <div class="split" style="margin:.5rem 0 0">
+        <ul style="color:var(--muted);font-size:.88rem;padding-left:1.2rem">
+          <li><strong>Training stability</strong> — no adversarial competition (unlike GANs)</li>
+          <li><strong>High sample quality</strong> — sharp, diverse, realistic outputs</li>
+          <li><strong>Iterative generation</strong> — slower but more controllable</li>
+        </ul>
+        <ul style="color:var(--muted);font-size:.88rem;padding-left:1.2rem">
+          <li><strong>Likelihood-based</strong> — explicit probability structure</li>
+          <li><strong>Flexible conditioning</strong> — guided by text, labels, or reference images</li>
+          <li><strong>Noise schedule</strong> — controls how fast noise is added</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Diffusion Applications</h3>
+      <ul style="color:var(--muted);font-size:.88rem;padding-left:1.2rem">
+        <li>Text-to-image generation, inpainting, super-resolution</li>
+        <li>Music synthesis, speech generation</li>
+        <li>Video generation &amp; frame interpolation</li>
+        <li>Drug &amp; molecule design, medical image reconstruction</li>
+        <li>Denoising and filling missing data</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 7. AE & VAE -->
+  <div id="ae">
+    <div class="section-title"><div class="dot" style="background:var(--accent-ai)"></div>7 · Autoencoders &amp; VAEs</div>
+    <div class="split">
+      <div class="card ai">
+        <h3>Autoencoder (AE)</h3>
+        <p style="color:var(--muted);font-size:.88rem;margin-bottom:.6rem">Unsupervised neural network that compresses data and reconstructs it — forcing the model to capture the most important features.</p>
+        <ul>
+          <li><strong>Encoder</strong> — compresses input to a latent representation</li>
+          <li><strong>Latent Space (Bottleneck)</strong> — compact feature representation</li>
+          <li><strong>Decoder</strong> — reconstructs input from latent representation</li>
+          <li><strong>Deterministic</strong> — same input → same encoding</li>
+          <li>Focused on <em>reconstruction</em>, not generation</li>
+        </ul>
+        <h3 style="margin-top:.8rem">AE Applications</h3>
+        <ul><li>Feature extraction &amp; dimensionality reduction</li><li>Noise removal</li><li>Anomaly detection</li><li>Data compression</li></ul>
+      </div>
+      <div class="card gen">
+        <h3>Variational Autoencoder (VAE)</h3>
+        <p style="color:var(--muted);font-size:.88rem;margin-bottom:.6rem">A <em>generative</em> model that learns a <strong>probabilistic</strong> latent space — can generate new, realistic data samples.</p>
+        <ul>
+          <li><strong>Encoder</strong> — learns a <em>probability distribution</em> for the latent space</li>
+          <li><strong>Latent Space</strong> — organized, continuous, smooth sampling</li>
+          <li><strong>Decoder</strong> — generates data from sampled latent representations</li>
+          <li><strong>Stochastic</strong> — same input can produce different outputs</li>
+          <li>Smooth, structured latent space enables meaningful generation</li>
+        </ul>
+        <h3 style="margin-top:.8rem">VAE Applications</h3>
+        <ul><li>Data generation &amp; augmentation</li><li>Anomaly detection with uncertainty</li><li>Image, audio, and text synthesis</li><li>Representation learning</li></ul>
+      </div>
+    </div>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Aspect</th><th>Autoencoder</th><th>Variational Autoencoder</th></tr></thead>
+        <tbody>
+          <tr><td>Latent space</td><td>Fixed, deterministic</td><td>Probabilistic, structured</td></tr>
+          <tr><td>Generative ability</td><td>No</td><td>Yes</td></tr>
+          <tr><td>Sampling new data</td><td>Not meaningful</td><td>Meaningful</td></tr>
+          <tr><td>Output variability</td><td>Fixed</td><td>Variable</td></tr>
+          <tr><td>Reconstruction quality</td><td>Sharper</td><td>Slightly blurrier</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- FLASHCARDS CPS3 -->
+  <div id="flash3">
+    <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>8 · Flashcards</div>
+    <div class="flashcards">
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What does bias do in a neuron?</div><div class="toggle">tap to reveal ▾</div><div class="a">Provides a built-in offset that lets the neuron shift its output up or down, giving it flexibility and a default tendency independent of inputs.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What does an activation function do?</div><div class="toggle">tap to reveal ▾</div><div class="a">Introduces nonlinearity — decides how strongly the neuron responds. Without it, a neural network is just a simple calculator and cannot model complex behavior.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is the loss function?</div><div class="toggle">tap to reveal ▾</div><div class="a">Measures how bad a prediction is — converts prediction quality into a single feedback signal. Like a golf score: tells you how far off you were from the target.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">Feed-forward vs Backpropagation?</div><div class="toggle">tap to reveal ▾</div><div class="a">Feed-forward: data flows input→output, produces a prediction, NO learning. Backpropagation: error flows output→input, adjusts weights, LEARNING happens here.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is a CNN best for?</div><div class="toggle">tap to reveal ▾</div><div class="a">Spatial/grid-structured data like images. Slides filters across the image detecting patterns: edges → shapes → objects across layers. Used in face recognition, medical imaging, autonomous vehicles.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is an RNN and its key limitation?</div><div class="toggle">tap to reveal ▾</div><div class="a">Processes sequential data step-by-step, maintaining memory via a hidden state. Limitation: forgets long-term information and is slow for long sequences — this is why Transformers replaced it.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is self-attention in a Transformer?</div><div class="toggle">tap to reveal ▾</div><div class="a">Every element in a sequence evaluates its importance relative to every other element simultaneously. Allows the model to understand context without processing word by word.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">Encoder vs Decoder in a Transformer?</div><div class="toggle">tap to reveal ▾</div><div class="a">Encoder: reads the full input and builds context-aware representations (bidirectional). Decoder: generates output one token at a time, using masked self-attention (can't see future) + cross-attention to encoder output.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">How do GANs work?</div><div class="toggle">tap to reveal ▾</div><div class="a">Two networks compete: Generator creates fake samples from noise, Discriminator tells real from fake. Generator improves until Discriminator can't reliably detect fakes. Learning by adversarial competition.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is mode collapse in GANs?</div><div class="toggle">tap to reveal ▾</div><div class="a">When the generator gets stuck producing only a narrow range of outputs instead of diverse samples. A key GAN training instability problem.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">How do diffusion models generate images?</div><div class="toggle">tap to reveal ▾</div><div class="a">Start from pure noise, then repeatedly apply a learned denoising step. The forward process (add noise) is fixed; the reverse process (remove noise) is learned. Many small denoising steps produce a realistic image.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">AE vs VAE — key difference?</div><div class="toggle">tap to reveal ▾</div><div class="a">Autoencoder: deterministic latent space, reconstructs only, cannot generate new data. VAE: probabilistic latent space, can sample and generate new realistic data.</div></div>
+    </div>
+  </div>
+
+  <!-- TL;DR CPS3 -->
+  <div id="tldr3">
+    <div class="section-title"><div class="dot" style="background:var(--warn)"></div>TL;DR — 7 Things You Must Know</div>
+    <div class="card">
+      <ul style="color:var(--text);font-size:.93rem;list-style:none;padding:0">
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent-gen)">1.</strong> A neuron uses <strong>bias + activation + loss + gradient</strong> in a loop to learn. This repeats millions of times.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent-gen)">2.</strong> <strong>Feed-forward</strong> = make a prediction (no learning). <strong>Backpropagation</strong> = learn from the error (weights update).</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent-gen)">3.</strong> <strong>CNN</strong> = images (spatial). <strong>RNN</strong> = sequences (temporal, but limited). <strong>Transformer</strong> = everything (dominates modern AI).</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent-gen)">4.</strong> <strong>Transformers</strong> use self-attention to relate all tokens simultaneously. Encoder builds understanding; Decoder generates output token by token.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent-gen)">5.</strong> <strong>GANs</strong> = Generator vs Discriminator competing. Generator improves until fakes are indistinguishable from real. Risk: mode collapse.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--accent-gen)">6.</strong> <strong>Diffusion models</strong> = start from noise, learn to denoise step-by-step. Stable training, high quality, slower generation than GANs.</li>
+        <li style="padding:.45rem 0"><strong style="color:var(--accent-gen)">7.</strong> <strong>AE</strong> = compress &amp; reconstruct (no generation). <strong>VAE</strong> = probabilistic latent space, can generate new data.</li>
+      </ul>
+    </div>
+    <div class="summary-banner">
+      <h3>Neural networks are the engine</h3>
+      <p>
+        <strong>Transformers</strong> power modern language &amp; multimodal AI.<br/>
+        <strong>GANs</strong> learn by competition. <strong>Diffusion</strong> learns by denoising.<br/>
+        <strong>VAEs</strong> learn by probabilistic compression.<br/>
+        Without neural networks, <strong>none of this is possible</strong>.
+      </p>
+    </div>
+  </div>
+
+</div><!-- /container -->
+</div><!-- /cps3 -->
+
+<!-- ══════════════════ CPS #5 ══════════════════ -->
+<div id="cps5" class="tab-content">
+<div class="container">
+  <div class="hero">
+    <h1>CPS #5 — <span style="color:#ec4899">Intelligent Expert Systems</span></h1>
+    <p>Decision Trees · IF-THEN Rules · Inference Engines · Spring 2026</p>
+    <div class="badge">Click any flashcard to reveal the answer</div>
+  </div>
+
+  <nav class="nav">
+    <a href="#es-what">What are Expert Systems</a>
+    <a href="#es-components">Components</a>
+    <a href="#decision-tree">Decision Tree</a>
+    <a href="#ifthen">IF-THEN Rules</a>
+    <a href="#forward">Forward Chaining</a>
+    <a href="#backward">Backward Chaining</a>
+    <a href="#flash5">Flashcards</a>
+    <a href="#tldr5">TL;DR</a>
+  </nav>
+
+  <!-- 1. WHAT ARE EXPERT SYSTEMS -->
+  <div id="es-what">
+    <div class="section-title"><div class="dot" style="background:#ec4899"></div>1 · What Are Intelligent Expert Systems?</div>
+    <div class="def" style="border-color:#ec4899">
+      <strong style="color:#ec4899">Intelligent Expert Systems</strong><br/>
+      Computer systems that solve problems <em>like a human expert</em> — but faster and more accurately. They capture expert knowledge in a structured form (rules) and use inference engines to apply that knowledge to new situations.
+    </div>
+    <div class="callout info">
+      <div class="icon">🧠</div>
+      <div>The human brain has three key parts for problem-solving: <strong>Memory</strong> (knowledge), a <strong>Reasoning process</strong> (inference), and <strong>Interfaces</strong> (eyes, ears, skin). Expert systems mirror this exactly.</div>
+    </div>
+    <div class="card">
+      <h3>Examples of Expert System Applications</h3>
+      <ul>
+        <li>Medical diagnosis and treatment recommendations</li>
+        <li>Industrial equipment fault diagnosis and repair</li>
+        <li>Financial advising</li>
+        <li>Academic advising</li>
+        <li>Psychological/psychiatric assessment</li>
+        <li>Oncology support</li>
+        <li>Recruitment systems (the main example in this module)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2. COMPONENTS -->
+  <div id="es-components">
+    <div class="section-title"><div class="dot" style="background:var(--accent-ai)"></div>2 · Components of an Expert System</div>
+    <div class="split">
+      <div class="card ai">
+        <h3>Knowledge Base</h3>
+        <ul>
+          <li>Has two sub-components:</li>
+          <li><strong>Rule Base</strong> — created by the developer; contains all the IF-THEN rules (filled at build time)</li>
+          <li><strong>Fact Base</strong> — created by the developer but <em>filled at runtime</em> by the user answering questions</li>
+          <li>Equivalent to the brain's memory</li>
+        </ul>
+      </div>
+      <div class="card gen">
+        <h3>Inference Engine</h3>
+        <ul>
+          <li>The reasoning process — applies the rules to the facts</li>
+          <li>Two types: <strong>Forward Chaining</strong> (fact-driven) and <strong>Backward Chaining</strong> (goal-driven)</li>
+          <li>Equivalent to the brain's problem-solving process</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Interface</h3>
+      <ul>
+        <li>How the system interacts with the user — asking questions, receiving answers</li>
+        <li>Equivalent to eyes, ears, skin in the human analogy</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3. DECISION TREE -->
+  <div id="decision-tree">
+    <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>3 · Decision Trees</div>
+    <div class="def" style="border-color:var(--accent-both)">
+      <strong>Decision Tree</strong><br/>
+      A diagram that visualizes all the factors in a decision and how one consideration leads to others. Used to map out the problem before converting it to IF-THEN rules. Named because it branches like a tree — at the end of each branch is a conclusion.
+    </div>
+    <div class="split">
+      <div class="card ai">
+        <h3>Decision Node (Circle)</h3>
+        <ul>
+          <li>Contains a <strong>question / variable</strong></li>
+          <li>Has multiple branches (paths) leaving it</li>
+          <li>Path taken depends on the answer to the question</li>
+          <li>Example: "Does applicant have a degree?" → Yes / No</li>
+        </ul>
+      </div>
+      <div class="card gen">
+        <h3>Conclusion Node (Rectangle)</h3>
+        <ul>
+          <li>Contains the <strong>goal / outcome</strong></li>
+          <li>Signifies a final or sub-conclusion</li>
+          <li>No branches leave it — it's the end of a path</li>
+          <li>Example: "Offer applicant a position in Research"</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Job Applicant Decision Tree — Nodes &amp; Variables</h3>
+      <div class="table-wrap" style="margin-top:.5rem">
+        <table>
+          <thead><tr><th>Variable Name</th><th>Full Meaning</th><th>Node(s)</th></tr></thead>
+          <tbody>
+            <tr><td>DEGREE</td><td>Does applicant have a degree?</td><td>1</td></tr>
+            <tr><td>DISCOVERY</td><td>Did applicant make an important discovery?</td><td>4</td></tr>
+            <tr><td>EXPERIENCE</td><td>How many years experience?</td><td>7</td></tr>
+            <tr><td>GRADE</td><td>What is applicant's overall school average?</td><td>5</td></tr>
+            <tr><td>QUALIFY</td><td>Applicant possibly qualifies for a position</td><td>3</td></tr>
+            <tr><td>POSITION</td><td>What position should be offered?</td><td>2,6,8,9,10</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 4. IF-THEN RULES -->
+  <div id="ifthen">
+    <div class="section-title"><div class="dot" style="background:var(--warn)"></div>4 · IF-THEN Rules</div>
+    <div class="callout info">
+      <div class="icon">📐</div>
+      <div>Each path through the decision tree from a conclusion node back to the root becomes one IF-THEN rule. The IF part = all decision nodes on that path (connected with AND). The THEN part = the conclusion node.</div>
+    </div>
+    <div class="card">
+      <h3>Rule Generating Technique (Backward from conclusion)</h3>
+      <ol class="step-list">
+        <li>Choose a <strong>conclusion (rectangular) node</strong> — this becomes your THEN part</li>
+        <li>Trace backward (left) to find all <strong>decision nodes</strong> on the path to that conclusion</li>
+        <li>Continue until no more nodes or another conclusion node is reached</li>
+        <li>Each decision node becomes one clause in the IF part; connect with AND</li>
+        <li>The conclusion node becomes the THEN part</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>All 6 Job Applicant Rules</h3>
+      <div class="table-wrap" style="margin-top:.5rem">
+        <table>
+          <thead><tr><th>Rule</th><th>IF (conditions)</th><th>THEN (conclusion)</th></tr></thead>
+          <tbody>
+            <tr><td>10</td><td>DEGREE = NO</td><td>POSITION = NO</td></tr>
+            <tr><td>20</td><td>DEGREE = YES</td><td>QUALIFY = YES</td></tr>
+            <tr><td>30</td><td>DEGREE = YES AND DISCOVERY = YES</td><td>POSITION = RESEARCH</td></tr>
+            <tr><td>40</td><td>QUALIFY = YES AND GRADE &lt; 3.5 AND EXPERIENCE ≥ 2</td><td>POSITION = SERVICE ENGINEER</td></tr>
+            <tr><td>50</td><td>QUALIFY = YES AND GRADE &lt; 3.5 AND EXPERIENCE &lt; 2</td><td>POSITION = NO</td></tr>
+            <tr><td>60</td><td>QUALIFY = YES AND GRADE ≥ 3.5</td><td>POSITION = PRODUCT ENGINEER</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. FORWARD CHAINING -->
+  <div id="forward">
+    <div class="section-title"><div class="dot" style="background:var(--accent-ai)"></div>5 · Forward Chaining — Fact-Driven</div>
+    <div class="def" style="border-color:var(--accent-ai)">
+      <strong style="color:var(--accent-ai)">Forward Chaining</strong><br/>
+      Starts with <em>known facts/conditions</em> and works <strong>forward</strong> through the rules to reach conclusions. Fact-driven: "Given what I know, what can I conclude?"
+    </div>
+    <div class="card">
+      <h3>How Forward Chaining Works (4 Steps)</h3>
+      <ol class="step-list">
+        <li>The system is presented with one or more <strong>conditions (facts)</strong></li>
+        <li>Search the rule base for rules whose <strong>IF clause matches</strong> a known condition</li>
+        <li>Each matched rule fires — its <strong>THEN part generates new conditions</strong>, added to the existing set</li>
+        <li>Repeat from step 2 with all new conditions until no new conditions can be generated. Session ends.</li>
+      </ol>
+    </div>
+    <div class="callout info">
+      <div class="icon">📈</div>
+      <div><strong>Stock Market Forward Chaining Example:</strong> Known fact: DOLLAR EXCHANGE RATE = FALL<br/>
+      → Rule 30 fires: INTEREST RATES = RISE<br/>
+      → Rule 20 fires: STOCK MARKET = FALL<br/>
+      → No more rules contain STOCK MARKET → session ends<br/>
+      <strong>Conclusion: When dollar falls, interest rises, stock market falls.</strong></div>
+    </div>
+    <div class="card">
+      <h3>Forward Chaining Formula (Clause # → Rule #)</h3>
+      <div class="formula" style="margin-top:.5rem">
+        <span class="label">Convert clause number to rule number</span>
+        Rule# = [( Quotient(Clause# / 4) + 1 ) × 10]
+        <br/><span style="color:var(--muted);font-family:'Segoe UI',sans-serif;font-size:.78rem">Example: Clause #1 → Rule# = [(0 + 1) × 10] = 10 &nbsp;|&nbsp; Clause #5 → Rule# = [(1 + 1) × 10] = 20</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Key Data Structures in Forward Chaining</h3>
+      <ul>
+        <li><strong>Rule Base</strong> — all IF-THEN rules</li>
+        <li><strong>Variable List</strong> — tracks each variable's value: I (instantiated) or NI (not instantiated)</li>
+        <li><strong>Clause Variable List</strong> — maps clause slot numbers to variable names</li>
+        <li><strong>Conclusion Variable Queue</strong> — variables whose values are now known and need to be chained forward</li>
+        <li><strong>Clause Variable Pointer</strong> — tracks which rule and clause we're currently processing</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 6. BACKWARD CHAINING -->
+  <div id="backward">
+    <div class="section-title"><div class="dot" style="background:var(--accent-gen)"></div>6 · Backward Chaining — Goal-Driven</div>
+    <div class="def" style="border-color:var(--accent-gen)">
+      <strong style="color:var(--accent-gen)">Backward Chaining</strong><br/>
+      Starts with a <em>goal/conclusion</em> and works <strong>backward</strong> through the rules to find what facts are needed to prove it. Goal-driven: "What do I need to know to prove this goal?"
+    </div>
+    <div class="card">
+      <h3>How Backward Chaining Works</h3>
+      <ol class="step-list">
+        <li>User states a <strong>goal</strong> (e.g., "What position should this applicant get?")</li>
+        <li>Find the first rule whose <strong>THEN clause matches the goal</strong>; push it onto the <strong>Conclusion Stack</strong></li>
+        <li>Try to instantiate the <strong>IF clause variables</strong> one by one (left to right)</li>
+        <li>If a variable is <strong>already known</strong> → use it. If it's <strong>a conclusion variable</strong> → push that rule onto the stack. If neither → <strong>ask the user</strong></li>
+        <li>When all clauses of the top rule are instantiated → <strong>execute the rule</strong>. If true, the goal is proven. If false, <strong>pop the stack</strong> and try the next matching rule</li>
+        <li>Continue until the goal is proven or all rules are exhausted</li>
+      </ol>
+    </div>
+    <div class="card">
+      <h3>Backward Chaining Formula (Rule # → Clause #)</h3>
+      <div class="formula" style="margin-top:.5rem">
+        <span class="label">Find first clause number for a given rule</span>
+        Clause# = 4 × (Rule# / 10 − 1) + 1
+        <br/><span style="color:var(--muted);font-family:'Segoe UI',sans-serif;font-size:.78rem">Rule 10 → Clause# = 4×(1−1)+1 = 1 &nbsp;|&nbsp; Rule 30 → Clause# = 4×(3−1)+1 = 9 &nbsp;|&nbsp; Rule 40 → Clause# = 4×(4−1)+1 = 13</span>
+      </div>
+    </div>
+    <div class="card">
+      <h3>Key Data Structures in Backward Chaining</h3>
+      <ul>
+        <li><strong>Knowledge Base</strong> — all rules</li>
+        <li><strong>Conclusion Stack</strong> — tracks Rule# + Clause# we're currently trying to prove (LIFO)</li>
+        <li><strong>Variable List</strong> — tracks each variable: I (instantiated) = known, NI = unknown</li>
+        <li><strong>Clause Variable List</strong> — maps clause slot numbers to variable names</li>
+        <li><strong>Conclusion List</strong> — which variables appear as THEN (conclusion) variables</li>
+      </ul>
+    </div>
+    <div class="card" style="border-top:3px solid #ec4899">
+      <h3 style="color:#ec4899">Backward Chaining Worked Example Summary</h3>
+      <p style="color:var(--muted);font-size:.86rem;margin-bottom:.7rem">Goal: POSITION = ? &nbsp;|&nbsp; Inputs discovered: DEGREE=YES, DISCOVERY=NO, GRADE=3.0, EXPERIENCE=4.5</p>
+      <ol class="step-list">
+        <li>Push Rule 10. DEGREE = NI → ask user: "Degree?" → <strong>YES</strong>. Rule 10 needs DEGREE=NO → <strong>false, pop</strong></li>
+        <li>Push Rule 30. DEGREE=YES ✓. DISCOVERY=NI → ask user: "Discovery?" → <strong>NO</strong>. Rule 30 needs DISCOVERY=YES → <strong>false, pop</strong></li>
+        <li>Push Rule 40. QUALIFY=NI but it's a conclusion variable → push Rule 20</li>
+        <li>Rule 20: DEGREE=YES (known) → fires → <strong>QUALIFY=YES</strong>. Pop Rule 20</li>
+        <li>Back to Rule 40: GRADE=NI → ask user: "GPA?" → <strong>3.0</strong>. EXPERIENCE=NI → ask: "Years?" → <strong>4.5</strong></li>
+        <li>Rule 40: QUALIFY=YES ✓, GRADE=3.0&lt;3.5 ✓, EXPERIENCE=4.5≥2 ✓ → <strong>POSITION = SERVICE ENGINEER</strong> ✓</li>
+      </ol>
+    </div>
+    <div class="split" style="margin-top:1rem">
+      <div class="card ai">
+        <h3>Forward Chaining — When to Use</h3>
+        <ul>
+          <li>You have known conditions/facts</li>
+          <li>You want to find <em>all possible consequences</em></li>
+          <li>The goal is not pre-determined</li>
+          <li>Example: "Given the dollar is falling, what happens?"</li>
+        </ul>
+      </div>
+      <div class="card gen">
+        <h3>Backward Chaining — When to Use</h3>
+        <ul>
+          <li>You have a specific goal to prove</li>
+          <li>You want to find <em>what facts support it</em></li>
+          <li>The goal IS pre-determined (select from alternatives)</li>
+          <li>Example: "Is this applicant qualified? For which role?"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <div id="flash5">
+    <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>7 · Flashcards</div>
+    <div class="flashcards">
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What are the 3 components of an Expert System?</div><div class="toggle">tap to reveal ▾</div><div class="a">1. Knowledge Base (Rule Base + Fact Base) · 2. Inference Engine (Forward or Backward Chaining) · 3. Interface (how the user interacts with the system)</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is a Decision Node vs a Conclusion Node?</div><div class="toggle">tap to reveal ▾</div><div class="a">Decision Node (circle) = contains a question/variable, has multiple branches. Conclusion Node (rectangle) = contains the final answer/goal, no branches leave it.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">How do you convert a decision tree path to an IF-THEN rule?</div><div class="toggle">tap to reveal ▾</div><div class="a">Start at the conclusion node (THEN part). Trace backward through all decision nodes on the path — each becomes one IF clause connected with AND. The conclusion node becomes the THEN part.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">Forward chaining vs Backward chaining — one line each?</div><div class="toggle">tap to reveal ▾</div><div class="a">Forward = FACT-driven: given facts → find conclusions. Backward = GOAL-driven: given a goal → find what facts prove it.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is the Forward Chaining clause-to-rule formula?</div><div class="toggle">tap to reveal ▾</div><div class="a">Rule# = [(Quotient(Clause# / 4) + 1) × 10]. Example: Clause 1 → Rule 10. Clause 5 → Rule 20. Clause 9 → Rule 30.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is the Backward Chaining rule-to-clause formula?</div><div class="toggle">tap to reveal ▾</div><div class="a">Clause# = 4 × (Rule# / 10 − 1) + 1. Example: Rule 10 → Clause 1. Rule 20 → Clause 5. Rule 40 → Clause 13.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What does the Conclusion Stack do in backward chaining?</div><div class="toggle">tap to reveal ▾</div><div class="a">Tracks which rule and clause number we're currently trying to prove. Works LIFO (last in, first out) — new sub-goals are pushed on top and resolved before returning to the previous goal.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What does I vs NI mean in the Variable List?</div><div class="toggle">tap to reveal ▾</div><div class="a">I = Instantiated (value is known). NI = Not Instantiated (value is unknown, must be determined by asking the user or firing a rule).</div></div>
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div id="tldr5">
+    <div class="section-title"><div class="dot" style="background:#ec4899"></div>TL;DR — 6 Things You Must Know</div>
+    <div class="card">
+      <ul style="color:var(--text);font-size:.93rem;list-style:none;padding:0">
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#ec4899">1.</strong> Expert Systems = <strong>Knowledge Base</strong> (rules + facts) + <strong>Inference Engine</strong> + <strong>Interface</strong>.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#ec4899">2.</strong> Decision trees: <strong>circles = questions</strong>, <strong>rectangles = conclusions</strong>. Each path = one IF-THEN rule.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#ec4899">3.</strong> Rule generation: start at conclusion, trace backward through decision nodes — each node = one IF clause.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#ec4899">4.</strong> <strong>Forward chaining = fact-driven</strong>. Start with known facts, fire matching rules, chain new facts until done.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#ec4899">5.</strong> <strong>Backward chaining = goal-driven</strong>. Start with goal, push rules to stack, instantiate variables (ask user or fire sub-rules), pop when done.</li>
+        <li style="padding:.45rem 0"><strong style="color:#ec4899">6.</strong> Key formulas — Forward: <strong>Rule# = [(Quotient(Clause#/4)+1)×10]</strong>. Backward: <strong>Clause# = 4×(Rule#/10−1)+1</strong>.</li>
+      </ul>
+    </div>
+    <div class="summary-banner">
+      <h3>Expert Systems in one sentence</h3>
+      <p>Encode an expert's knowledge as IF-THEN rules, then use an inference engine — <strong>forward</strong> (fact → conclusion) or <strong>backward</strong> (goal → required facts) — to automatically solve new problems.</p>
+    </div>
+  </div>
+
+</div>
+</div><!-- /cps5 -->
+
+<!-- ══════════════════ CPS #4 ══════════════════ -->
+<div id="cps4" class="tab-content">
+<div class="container">
+  <div class="hero">
+    <h1>CPS #4 — <span style="color:var(--warn)">Machine Learning</span> &amp; Rule Learning</h1>
+    <p>How AI automatically learns rules from data · Spring 2026</p>
+    <div class="badge">Click any flashcard to reveal the answer</div>
+  </div>
+
+  <nav class="nav">
+    <a href="#ml-what">What is ML</a>
+    <a href="#ml-types">Inductive vs Deductive</a>
+    <a href="#ml-example">Bank Loan Example</a>
+    <a href="#psr">PSR Algorithm</a>
+    <a href="#walkthrough">Full Walkthrough</a>
+    <a href="#finalrules">Final Rules</a>
+    <a href="#flash4">Flashcards</a>
+    <a href="#tldr4">TL;DR</a>
+  </nav>
+
+  <!-- 1. WHAT IS ML -->
+  <div id="ml-what">
+    <div class="section-title"><div class="dot" style="background:var(--warn)"></div>1 · What is Machine Learning (Rule Learning)?</div>
+    <div class="def" style="border-color:var(--warn)">
+      <strong style="color:var(--warn)">Machine Learning / Rule Learning / Knowledge Learning</strong><br/>
+      Instead of having a human expert write rules manually (like in a classic expert system), ML <em>automatically learns</em> those rules from data. Given a dataset of examples and outcomes, the system induces the rules that explain the pattern.
+    </div>
+    <div class="callout info">
+      <div class="icon">💡</div>
+      <div>Expert systems require huge human effort to extract rules from domain experts. ML solves this by learning the rules <strong>automatically from training data</strong> — examples of inputs and correct outputs.</div>
+    </div>
+    <div class="card">
+      <h3>Why Rule Learning Matters</h3>
+      <ul>
+        <li>Experts are hard to find, expensive, and sometimes unavailable</li>
+        <li>Rules can be extracted from historical decision records</li>
+        <li>The learned rules are human-readable and explainable (unlike black-box models)</li>
+        <li>Works well for structured, tabular decision problems (loans, medical diagnosis, etc.)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 2. TYPES OF LEARNING -->
+  <div id="ml-types">
+    <div class="section-title"><div class="dot" style="background:var(--accent-ai)"></div>2 · Two Types of Learning</div>
+    <div class="split">
+      <div class="card ai">
+        <h3>Inductive Rule Learning</h3>
+        <ul>
+          <li>Creates <strong>brand new rules</strong> about a domain</li>
+          <li>Rules are <em>not derivable</em> from any previous rules</li>
+          <li>Learns from examples — generalizes patterns from data</li>
+          <li><strong>This is what the CPS #4 algorithm does</strong></li>
+          <li>Example: looking at loan records and figuring out what pattern the officer used</li>
+        </ul>
+      </div>
+      <div class="card gen">
+        <h3>Deductive Rule Learning</h3>
+        <ul>
+          <li>Derives <strong>additional rules</strong> from already-known domain rules and facts</li>
+          <li>Conclusions could have been reached without the new rules — but <em>faster</em></li>
+          <li>Enhances <strong>efficiency</strong> of a system's performance, not its knowledge</li>
+          <li>Like logical inference — deducing implications from existing knowledge</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout tip">
+      <div class="icon">🔑</div>
+      <div>Key distinction: <strong>Inductive</strong> = genuinely new knowledge from data. <strong>Deductive</strong> = faster paths to conclusions already reachable from existing rules.</div>
+    </div>
+    <div class="card">
+      <h3>Important Terminology</h3>
+      <ul>
+        <li><strong>Training set</strong> — the dataset of examples used to learn the rules</li>
+        <li><strong>Positive instance</strong> — an example where the outcome = 1 (loan approved)</li>
+        <li><strong>Negative instance</strong> — an example where the outcome = 0 (loan rejected)</li>
+        <li><strong>Covers</strong> — a rule "covers" an instance if its antecedent (IF part) is True for that instance</li>
+        <li><strong>Specific rule</strong> — covers fewer instances (more conditions in antecedent)</li>
+        <li><strong>General rule</strong> — covers more instances (fewer conditions)</li>
+        <li><strong>Hypothesis</strong> — a learned rule; correct for most inputs but may have errors</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 3. THE EXAMPLE -->
+  <div id="ml-example">
+    <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>3 · The Bank Loan Example</div>
+    <div class="callout warn">
+      <div class="icon">🏦</div>
+      <div><strong>The scenario:</strong> A bank's loan officer left suddenly without documenting how he made decisions. The bank has historical records of his approvals and rejections. Your job: build an AI system that learns his decision rules from that data.</div>
+    </div>
+
+    <div class="card">
+      <h3>The 4 Parameters (Features)</h3>
+      <div class="table-wrap" style="margin-top:.5rem">
+        <table>
+          <thead><tr><th>Symbol</th><th>Full Name</th><th>Meaning when = 1</th></tr></thead>
+          <tbody>
+            <tr><td>APP (α₁)</td><td>Appraisal</td><td>Property put as collateral is appraised (covers instance)</td></tr>
+            <tr><td>RAT (α₂)</td><td>Credit Rating</td><td>Applicant has good credit rating</td></tr>
+            <tr><td>INC (α₃)</td><td>Income</td><td>Applicant has sufficient income</td></tr>
+            <tr><td>BAL (α₄)</td><td>Bank Balance</td><td>Applicant has adequate bank balance</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Training Data — Table T0</h3>
+      <p style="color:var(--muted);font-size:.85rem;margin-bottom:.6rem">Y = 1 means loan approved (positive instance). Y = 0 means rejected (negative instance).</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Label</th><th>APP</th><th>RAT</th><th>INC</th><th>BAL</th><th>Y (Decision)</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td style="color:var(--danger)">0 ✗</td></tr>
+            <tr><td>2</td><td>0</td><td>0</td><td>1</td><td>0</td><td style="color:var(--danger)">0 ✗</td></tr>
+            <tr><td>3</td><td>1</td><td>1</td><td>0</td><td>1</td><td style="color:var(--accent-both)">1 ✓</td></tr>
+            <tr><td>4</td><td>0</td><td>1</td><td>1</td><td>1</td><td style="color:var(--accent-both)">1 ✓</td></tr>
+            <tr><td>5</td><td>0</td><td>1</td><td>1</td><td>0</td><td style="color:var(--danger)">0 ✗</td></tr>
+            <tr><td>6</td><td>1</td><td>1</td><td>1</td><td>0</td><td style="color:var(--accent-both)">1 ✓</td></tr>
+            <tr><td>7</td><td>1</td><td>1</td><td>1</td><td>1</td><td style="color:var(--accent-both)">1 ✓</td></tr>
+            <tr><td>8</td><td>1</td><td>0</td><td>1</td><td>0</td><td style="color:var(--danger)">0 ✗</td></tr>
+            <tr><td>9</td><td>1</td><td>1</td><td>0</td><td>0</td><td style="color:var(--danger)">0 ✗</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="color:var(--muted);font-size:.82rem;margin-top:.5rem">Positive instances (Y=1): 3, 4, 6, 7 &nbsp;|&nbsp; Negative instances (Y=0): 1, 2, 5, 8, 9</p>
+    </div>
+
+    <div class="card">
+      <h3>Goal: Rule Format</h3>
+      <div class="formula" style="margin-top:.5rem">
+        <span class="label">General rule format</span>
+        α₁ ∧ α₂ ∧ … ∧ αₙ  =>  Y = 1
+      </div>
+      <p style="color:var(--muted);font-size:.88rem">We want a set of rules that covers <strong>all and only the positive instances</strong> in the training set — no false positives, no missed approvals.</p>
+    </div>
+  </div>
+
+  <!-- 4. PSR ALGORITHM -->
+  <div id="psr">
+    <div class="section-title"><div class="dot" style="background:var(--accent-gen)"></div>4 · The PSR Algorithm</div>
+    <div class="def" style="border-color:var(--accent-gen)">
+      <strong style="color:var(--accent-gen)">Parameter Selecting Ratio (PSR)</strong><br/>
+      A metric used to pick which parameter to add to a rule next. It answers: "Which parameter, when added, gives me the highest proportion of positive instances among the instances it covers?"
+    </div>
+
+    <div class="formula" style="color:var(--accent-gen)">
+      <span class="label">PSR Formula</span>
+      PSR(α) = n⁺_α  /  n_α
+      <br/><span style="color:var(--muted);font-family:'Segoe UI',sans-serif;font-size:.8rem">
+        n⁺_α = number of POSITIVE instances covered by parameter α (where α = 1)<br/>
+        n_α = TOTAL instances covered by parameter α (positive + negative)
+      </span>
+    </div>
+
+    <div class="callout info">
+      <div class="icon">📐</div>
+      <div>The higher the PSR, the more "pure" the parameter is — it mostly picks out positive instances. We always pick the parameter with the <strong>highest PSR</strong>. Ties are broken by choosing the one with the larger sample (more instances).</div>
+    </div>
+
+    <div class="card">
+      <h3>Method: Separate and Conquer</h3>
+      <ol class="step-list">
+        <li><strong>Start broad:</strong> begin with a rule that covers ALL instances (T ⊃ Y)</li>
+        <li><strong>Compute PSR</strong> for every parameter on the current table</li>
+        <li><strong>Pick the winner</strong> — parameter with highest PSR becomes the first condition</li>
+        <li><strong>Specialize:</strong> filter table to only rows where that parameter = 1</li>
+        <li><strong>Check:</strong> any negative instances left? If yes, repeat from step 2 on the filtered table</li>
+        <li><strong>Rule complete</strong> when the current table has no negative instances</li>
+        <li><strong>Coverage check:</strong> does this rule cover ALL positive instances? If not, create a new reduced table (remove positives already covered) and repeat to generate Rule 2, Rule 3, etc.</li>
+        <li><strong>Done</strong> when all positive instances are covered</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- 5. FULL WALKTHROUGH -->
+  <div id="walkthrough">
+    <div class="section-title"><div class="dot" style="background:var(--warn)"></div>5 · Full Step-by-Step Walkthrough</div>
+
+    <div class="card" style="border-top:3px solid var(--warn)">
+      <h3 style="color:var(--warn)">Step 1 — Compute PSR on full Table T0</h3>
+      <p style="color:var(--muted);font-size:.88rem;margin-bottom:.7rem">Count how many total instances and how many positive instances each parameter covers (rows where that parameter = 1).</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Parameter</th><th>Total covered (n)</th><th>Positives covered (n⁺)</th><th>PSR = n⁺/n</th></tr></thead>
+          <tbody>
+            <tr><td>APP</td><td>6 (rows 1,3,6,7,8,9)</td><td>3 (rows 3,6,7)</td><td>3/6 = <strong>0.500</strong></td></tr>
+            <tr><td>RAT</td><td>6 (rows 3,4,5,6,7,9)</td><td>4 (rows 3,4,6,7)</td><td>4/6 = <strong>0.667</strong></td></tr>
+            <tr><td>INC</td><td>6 (rows 2,4,5,6,7,8)</td><td>3 (rows 4,6,7)</td><td>3/6 = <strong>0.500</strong></td></tr>
+            <tr><td>BAL</td><td>4 (rows 1,3,4,7)</td><td>3 (rows 3,4,7)</td><td>3/4 = <strong>0.750 ✓ WINNER</strong></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="formula" style="margin-top:.75rem"><span class="label">First rule starts as:</span>BAL = 1  =>  Y = 1</div>
+    </div>
+
+    <div class="card" style="border-top:3px solid var(--accent-ai)">
+      <h3 style="color:var(--accent-ai)">Step 2 — Filter to Table T1 (rows where BAL = 1)</h3>
+      <p style="color:var(--muted);font-size:.88rem;margin-bottom:.6rem">Keep only rows where BAL = 1. Check: any negatives? Yes — row 1 is negative. Must specialize further.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Label</th><th>APP</th><th>RAT</th><th>INC</th><th>BAL</th><th>Y</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td style="color:var(--danger)">0 ✗</td></tr>
+            <tr><td>3</td><td>1</td><td>1</td><td>0</td><td>1</td><td style="color:var(--accent-both)">1 ✓</td></tr>
+            <tr><td>4</td><td>0</td><td>1</td><td>1</td><td>1</td><td style="color:var(--accent-both)">1 ✓</td></tr>
+            <tr><td>7</td><td>1</td><td>1</td><td>1</td><td>1</td><td style="color:var(--accent-both)">1 ✓</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="color:var(--muted);font-size:.85rem;margin-top:.5rem">Recompute PSR on T1: RAT = 3/3 = 1.0 ✓ winner (largest pure sample). INC = 2/2 = 1.0 (tie, but RAT has larger sample of 3).</p>
+      <div class="formula" style="margin-top:.6rem"><span class="label">Rule R1 becomes:</span>BAL = 1  ∧  RAT = 1  =>  Y = 1</div>
+      <p style="color:var(--accent-both);font-size:.85rem;margin-top:.5rem">✓ No negatives remain — Rule R1 is complete. Covers positive instances: <strong>3, 4, 7</strong>. But instance <strong>6</strong> is not covered yet → need Rule R2.</p>
+    </div>
+
+    <div class="card" style="border-top:3px solid var(--accent-gen)">
+      <h3 style="color:var(--accent-gen)">Step 3 — Build Table T11 (remove covered positives, keep all negatives)</h3>
+      <p style="color:var(--muted);font-size:.88rem;margin-bottom:.6rem">Remove positive instances 3, 4, 7 (already covered by R1). Keep instance 6 (uncovered positive) + all negatives.</p>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Label</th><th>APP</th><th>RAT</th><th>INC</th><th>BAL</th><th>Y</th></tr></thead>
+          <tbody>
+            <tr><td>1</td><td>1</td><td>0</td><td>0</td><td>1</td><td style="color:var(--danger)">0 ✗</td></tr>
+            <tr><td>2</td><td>0</td><td>0</td><td>1</td><td>0</td><td style="color:var(--danger)">0 ✗</td></tr>
+            <tr><td>5</td><td>0</td><td>1</td><td>1</td><td>0</td><td style="color:var(--danger)">0 ✗</td></tr>
+            <tr><td>6</td><td>1</td><td>1</td><td>1</td><td>0</td><td style="color:var(--accent-both)">1 ✓</td></tr>
+            <tr><td>8</td><td>1</td><td>0</td><td>1</td><td>0</td><td style="color:var(--danger)">0 ✗</td></tr>
+            <tr><td>9</td><td>1</td><td>1</td><td>0</td><td>0</td><td style="color:var(--danger)">0 ✗</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <p style="color:var(--muted);font-size:.85rem;margin-top:.5rem">Recompute PSR on T11: APP=1/4=0.25, RAT=1/3=0.333, INC=1/4=0.25, BAL=0/1=0.0 → <strong>RAT wins (0.333)</strong>.</p>
+      <div class="formula" style="margin-top:.6rem"><span class="label">Rule R2 starts as:</span>RAT = 1  =>  Y = 1</div>
+    </div>
+
+    <div class="card" style="border-top:3px solid var(--accent-ai)">
+      <h3 style="color:var(--accent-ai)">Step 4 — Filter to Table T12 (rows where RAT = 1 from T11)</h3>
+      <p style="color:var(--muted);font-size:.88rem;margin-bottom:.6rem">Keep rows 5, 6, 9. Still has negatives (5 and 9) → must add another parameter.</p>
+      <p style="color:var(--muted);font-size:.85rem;margin-top:.3rem">Recompute: APP = 1/2 = 0.5, INC = 1/2 = 0.5, BAL = 0/0. Tie between APP and INC. Select APP (arbitrary for ties).</p>
+      <div class="formula" style="margin-top:.6rem"><span class="label">Rule R2 becomes:</span>APP = 1  ∧  RAT = 1  =>  Y = 1</div>
+    </div>
+
+    <div class="card" style="border-top:3px solid var(--accent-gen)">
+      <h3 style="color:var(--accent-gen)">Step 5 — Filter to Table T13 (rows where APP=1 AND RAT=1 from T12)</h3>
+      <p style="color:var(--muted);font-size:.88rem;margin-bottom:.6rem">Keeps rows 6 and 9. Row 9 is negative — still need to specialize.</p>
+      <p style="color:var(--muted);font-size:.85rem;margin-top:.3rem">Recompute: INC = 1/1 = 1.0 ✓ winner. BAL = 0/0 = irrelevant.</p>
+      <div class="formula" style="margin-top:.6rem"><span class="label">Rule R2 becomes:</span>APP = 1  ∧  RAT = 1  ∧  INC = 1  =>  Y = 1</div>
+      <p style="color:var(--accent-both);font-size:.85rem;margin-top:.5rem">✓ No negatives remain. Rule R2 covers instance <strong>6</strong>. All 4 positive instances (3, 4, 6, 7) are now covered.</p>
+    </div>
+  </div>
+
+  <!-- 6. FINAL RULES -->
+  <div id="finalrules">
+    <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>6 · Final Learned Rules</div>
+    <div class="formula" style="font-size:1rem; padding:1.2rem 1.5rem">
+      <span class="label">Rule R1 — covers instances 3, 4, 7</span>
+      IF (BAL = 1  ∧  RAT = 1)  THEN  Approve Loan = YES
+    </div>
+    <div class="formula" style="font-size:1rem; padding:1.2rem 1.5rem; color:var(--accent-gen)">
+      <span class="label">Rule R2 — covers instance 6</span>
+      IF (APP = 1  ∧  RAT = 1  ∧  INC = 1)  THEN  Approve Loan = YES
+    </div>
+    <div class="callout tip">
+      <div class="icon">✅</div>
+      <div>Together, R1 and R2 cover <strong>all 4 positive instances (3, 4, 6, 7)</strong> and <strong>none of the 5 negative instances</strong>. The algorithm is done. These are the rules the loan officer was implicitly using.</div>
+    </div>
+    <div class="card">
+      <h3>In Plain English</h3>
+      <ul>
+        <li><strong>R1:</strong> If the applicant has a good bank balance AND good credit rating → approve</li>
+        <li><strong>R2:</strong> If the property appraisal is good AND credit rating is good AND income is sufficient → approve</li>
+        <li>Any application that doesn't match either rule → reject</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- FLASHCARDS CPS4 -->
+  <div id="flash4">
+    <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>7 · Flashcards</div>
+    <div class="flashcards">
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is inductive rule learning?</div><div class="toggle">tap to reveal ▾</div><div class="a">Creates brand new rules about a domain that are NOT derivable from any previous rules. Learns by generalizing patterns from training examples.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is deductive rule learning?</div><div class="toggle">tap to reveal ▾</div><div class="a">Derives additional rules from already-known rules and facts. Doesn't produce new knowledge — just more efficient paths to conclusions already reachable. Improves speed, not knowledge.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What does PSR stand for and what does it measure?</div><div class="toggle">tap to reveal ▾</div><div class="a">Parameter Selecting Ratio. Measures how "pure" a parameter is: PSR(α) = n⁺_α / n_α. Higher PSR = the parameter mostly picks out positive instances. We always add the highest-PSR parameter next.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is the Separate and Conquer method?</div><div class="toggle">tap to reveal ▾</div><div class="a">Start with a general rule covering everything. Gradually specialize it by adding parameters (chosen by PSR) until it covers ONLY positives. Then "separate" those covered positives and "conquer" the remaining ones with a new rule.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What does it mean for a rule to "cover" an instance?</div><div class="toggle">tap to reveal ▾</div><div class="a">If the antecedent (IF part) of the rule evaluates to True for a given training instance, the rule covers that instance.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">When is Rule R1 done? When is the whole algorithm done?</div><div class="toggle">tap to reveal ▾</div><div class="a">R1 is done when its filtered table has NO negative instances. The algorithm is done when all positive instances across the full training set are covered by at least one rule.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What are the two final rules from the bank loan example?</div><div class="toggle">tap to reveal ▾</div><div class="a">R1: IF BAL=1 ∧ RAT=1 THEN approve. R2: IF APP=1 ∧ RAT=1 ∧ INC=1 THEN approve. Together they cover all 4 positive instances (3,4,6,7) with no false positives.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">How do you handle a PSR tie?</div><div class="toggle">tap to reveal ▾</div><div class="a">Prefer the parameter with the larger sample size (more instances covered), as it's statistically more reliable. If still tied, select arbitrarily.</div></div>
+    </div>
+  </div>
+
+  <!-- TL;DR CPS4 -->
+  <div id="tldr4">
+    <div class="section-title"><div class="dot" style="background:var(--warn)"></div>TL;DR — 6 Things You Must Know</div>
+    <div class="card">
+      <ul style="color:var(--text);font-size:.93rem;list-style:none;padding:0">
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--warn)">1.</strong> ML rule learning <strong>automatically learns rules from training data</strong> — no human expert needed to write them.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--warn)">2.</strong> <strong>Inductive</strong> = new rules from data. <strong>Deductive</strong> = faster conclusions from existing rules.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--warn)">3.</strong> <strong>PSR = n⁺ / n</strong>. Pick the parameter with the highest ratio at each step.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--warn)">4.</strong> <strong>Separate and Conquer:</strong> start general, specialize via PSR until no negatives remain, then repeat for uncovered positives.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:var(--warn)">5.</strong> Final rules from the bank example: <strong>R1: BAL ∧ RAT</strong> and <strong>R2: APP ∧ RAT ∧ INC</strong>.</li>
+        <li style="padding:.45rem 0"><strong style="color:var(--warn)">6.</strong> The goal is always: rules that cover <strong>all positives and zero negatives</strong>.</li>
+      </ul>
+    </div>
+    <div class="summary-banner">
+      <h3>Machine Learning in one sentence</h3>
+      <p>Given examples of decisions, <strong>find the rules</strong> that explain them — by repeatedly selecting the most informative parameter until only correct decisions remain.</p>
+    </div>
+  </div>
+
+</div><!-- /container -->
+</div><!-- /cps4 -->
+
+<!-- ══════════════════ CPS #6 ══════════════════ -->
+<div id="cps6" class="tab-content">
+<div class="container">
+  <div class="hero">
+    <h1>CPS #6 — <span style="color:#06b6d4">Two-Player Game Playing</span></h1>
+    <p>Adversarial Search · Minimax · Alpha-Beta Pruning · Spring 2026</p>
+    <div class="badge">Click any flashcard to reveal the answer</div>
+  </div>
+
+  <nav class="nav">
+    <a href="#g-what">Game Tree Basics</a>
+    <a href="#g-ttt">Tic-Tac-Toe Programs</a>
+    <a href="#g-magic">Magic Squares</a>
+    <a href="#g-minimax">Minimax Algorithm</a>
+    <a href="#g-eval">Evaluation Functions</a>
+    <a href="#g-ab">Alpha-Beta Pruning</a>
+    <a href="#flash6">Flashcards</a>
+    <a href="#tldr6">TL;DR</a>
+  </nav>
+
+  <!-- 1. GAME TREE BASICS -->
+  <div id="g-what">
+    <div class="section-title"><div class="dot" style="background:#06b6d4"></div>1 · Game Tree Basics</div>
+    <div class="def" style="border-color:#06b6d4">
+      <strong style="color:#06b6d4">Adversarial Search (Game Playing)</strong><br/>
+      Competitive environments where agents' goals are in conflict. One player tries to maximize their score, the other tries to minimize it. The AI must plan moves while anticipating the opponent's best responses.
+    </div>
+    <div class="card">
+      <h3>Formal Game Definition — 6 Components</h3>
+      <div class="table-wrap" style="margin-top:.5rem">
+        <table>
+          <thead><tr><th>Component</th><th>What it means</th></tr></thead>
+          <tbody>
+            <tr><td>S₀ — Initial State</td><td>How the game is set up at the start</td></tr>
+            <tr><td>PLAYER(s)</td><td>Defines which player has the move in state s</td></tr>
+            <tr><td>ACTIONS(s)</td><td>Returns the set of legal moves in state s</td></tr>
+            <tr><td>RESULT(s, a)</td><td>The transition model — result of taking action a in state s</td></tr>
+            <tr><td>TERMINAL-TEST(s)</td><td>True when the game is over, false otherwise</td></tr>
+            <tr><td>UTILITY(s, p)</td><td>Numerical value of the outcome for player p at terminal state s (e.g., +1, 0, −1)</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+    <div class="split">
+      <div class="card ai">
+        <h3>MAX Player</h3>
+        <ul>
+          <li>Wants to <strong>maximize</strong> the utility value</li>
+          <li>Moves first</li>
+          <li>High values = good for MAX</li>
+          <li>Represents our AI agent</li>
+        </ul>
+      </div>
+      <div class="card gen">
+        <h3>MIN Player</h3>
+        <ul>
+          <li>Wants to <strong>minimize</strong> the utility value</li>
+          <li>Moves second (alternating)</li>
+          <li>Low values = good for MIN</li>
+          <li>Represents the opponent</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout info">
+      <div class="icon">📐</div>
+      <div>A <strong>ply</strong> = one half-move (one player's turn). A "1 move deep" tree has 2 plies. Tic-tac-toe has fewer than 9! = 362,880 terminal nodes. Chess has over 10⁴⁰ — too large to search fully.</div>
+    </div>
+  </div>
+
+  <!-- 2. TIC-TAC-TOE PROGRAMS -->
+  <div id="g-ttt">
+    <div class="section-title"><div class="dot" style="background:var(--accent-ai)"></div>2 · Tic-Tac-Toe Programs — 3 Versions</div>
+    <div class="nn-grid">
+      <div class="nn-card">
+        <div class="tag" style="color:var(--accent-ai)">Program #2</div>
+        <h4>Strategy-Based</h4>
+        <p>Uses 4 sub-functions with intelligent strategy. Board values: 2=blank, 3=X, 5=O.</p>
+        <ul>
+          <li><strong>Make1</strong> — returns a corner square (1,3,7,9)</li>
+          <li><strong>Make2</strong> — returns center (5) if blank, else a non-corner square (2,4,6,8)</li>
+          <li><strong>Posswin(p)</strong> — returns 0 if player p can't win next move; otherwise returns the winning square number</li>
+          <li><strong>Go(n)</strong> — makes a move in square n</li>
+          <li>Posswin works by multiplying row values: product 18 (3×3×2) = X can win; product 50 (5×5×2) = O can win</li>
+        </ul>
+      </div>
+      <div class="nn-card">
+        <div class="tag" style="color:var(--accent-gen)">Program #3</div>
+        <h4>Magic Square Method</h4>
+        <p>Replaces row/column scanning with arithmetic. Uses a magic square layout where all rows, columns, diagonals sum to 15.</p>
+        <ul>
+          <li>Board positions assigned so any 3-in-a-row sums to 15</li>
+          <li>To check for a win: look at each pair of your squares, compute <strong>15 − (sq1 + sq2)</strong></li>
+          <li>If the result is 1–9 and that square is blank → <strong>winning move</strong></li>
+          <li>If out of range (≤0 or &gt;9) or occupied → skip</li>
+          <li>Much more efficient than checking all rows/columns</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Magic Square Layout</h3>
+      <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:4px;max-width:200px;margin:.6rem auto 1rem;text-align:center;font-family:monospace;font-size:1.2rem">
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.5rem">2</div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.5rem">9</div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.5rem">4</div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.5rem">7</div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.5rem;color:var(--accent-both)">5</div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.5rem">3</div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.5rem">6</div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.5rem">1</div>
+        <div style="background:var(--surface2);border:1px solid var(--border);border-radius:6px;padding:.5rem">8</div>
+      </div>
+      <p style="color:var(--muted);font-size:.84rem;text-align:center">Every row, column, and diagonal sums to <strong style="color:var(--accent-both)">15</strong>. Any 3-in-a-row = sum of 15.</p>
+    </div>
+  </div>
+
+  <!-- 3. MAGIC SQUARE EXAMPLE -->
+  <div id="g-magic">
+    <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>3 · Magic Square — Posswin Formula</div>
+    <div class="formula" style="color:#06b6d4">
+      <span class="label">To check if a player can win:</span>
+      For each PAIR of squares you own: winning_square = 15 − (sq1 + sq2)
+      <br/><span style="color:var(--muted);font-family:'Segoe UI',sans-serif;font-size:.78rem">
+        If result is between 1–9 AND that square is blank → move there to win (or block).<br/>
+        If result ≤ 0, &gt; 9, or square already occupied → this pair can't complete a win, skip.
+      </span>
+    </div>
+    <div class="card">
+      <h3>Example from the slides (Move 4, X's turn)</h3>
+      <p style="color:var(--muted);font-size:.86rem;margin-bottom:.6rem">X owns: 8, 7, 1 &nbsp;|&nbsp; O owns: 5, 3, 9</p>
+      <ul style="color:var(--muted);font-size:.86rem;padding-left:1.2rem">
+        <li>X checks pair (5,3): 15−(5+3)=7 → 7 is X's, already occupied</li>
+        <li>X checks pair (5,9): 15−(5+9)=1 → 1 is X's, already occupied</li>
+        <li>X checks pair (5,6): 15−(5+6)=4 → square 4 is blank → <strong style="color:var(--accent-both)">X moves to 4 to block O's win!</strong></li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 4. MINIMAX -->
+  <div id="g-minimax">
+    <div class="section-title"><div class="dot" style="background:var(--warn)"></div>4 · Minimax Algorithm</div>
+    <div class="def" style="border-color:var(--warn)">
+      <strong style="color:var(--warn)">Minimax</strong><br/>
+      Computes the optimal move by recursively exploring the full game tree. At MAX nodes: choose the move with the <em>highest</em> backed-up value. At MIN nodes: choose the move with the <em>lowest</em> backed-up value. Values propagate back up from terminal nodes.
+    </div>
+    <div class="card">
+      <h3>Minimax Algorithm Steps</h3>
+      <ol class="step-list">
+        <li>If <strong>DEEP-ENOUGH</strong> (terminal or depth limit reached) → return <strong>EVALUATION-FUNCTION(position, player)</strong></li>
+        <li>Generate successors using <strong>MOVE-GEN(position, player)</strong></li>
+        <li>If no successors → treat same as step 1</li>
+        <li>For each successor: recursively call MINIMAX with <strong>OPPOSITE(player)</strong> and depth+1</li>
+        <li>Negate the returned value (negamax style: <strong>NEW-VALUE = −VALUE(result)</strong>)</li>
+        <li>Track best score and best path; return when all successors examined</li>
+      </ol>
+    </div>
+    <div class="callout info">
+      <div class="icon">💡</div>
+      <div><strong>Why negate?</strong> The algorithm uses negamax — from any player's perspective, the opponent's gain is your loss. Negating lets one function handle both MAX and MIN.</div>
+    </div>
+    <div class="split">
+      <div class="card ai">
+        <h3>DEEP-ENOUGH Checks</h3>
+        <ul>
+          <li>Has one side won?</li>
+          <li>How many plies already explored?</li>
+          <li>How promising is this path?</li>
+          <li>How much time is left?</li>
+          <li>How stable is the configuration?</li>
+        </ul>
+      </div>
+      <div class="card gen">
+        <h3>MOVEGEN Output</h3>
+        <ul>
+          <li>Returns list of child nodes (successors)</li>
+          <li>Represents all legal moves from current position</li>
+          <li>If empty → no moves, treat as terminal</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="border-top:3px solid var(--warn)">
+      <h3 style="color:var(--warn)">Minimax Worked Example (from slides)</h3>
+      <p style="color:var(--muted);font-size:.86rem;margin-bottom:.6rem">Tree: Root A (MAX) → B, C, D (MIN) → leaf values</p>
+      <ul style="color:var(--muted);font-size:.86rem;padding-left:1.2rem">
+        <li>B (MIN) → children with values: MIN picks lowest → backs up <strong>3</strong></li>
+        <li>C (MIN) → children → backs up <strong>2</strong></li>
+        <li>D (MIN) → children → backs up <strong>2</strong></li>
+        <li>A (MAX) → MAX(3, 2, 2) = <strong>3</strong> → Best path: <strong>A → C → I</strong> (Best Score: −2 from MIN's perspective)</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 5. EVALUATION FUNCTIONS -->
+  <div id="g-eval">
+    <div class="section-title"><div class="dot" style="background:var(--accent-gen)"></div>5 · Evaluation Functions (Imperfect Real-Time Decisions)</div>
+    <div class="callout warn">
+      <div class="icon">⚠️</div>
+      <div>When the tree is too deep to reach terminal nodes in time, <strong>cut off the search at depth d</strong> and apply an <strong>evaluation function</strong> to the cutoff nodes — treating them as if they were terminal leaves.</div>
+    </div>
+    <div class="card">
+      <h3>3 Requirements for a Good Evaluation Function</h3>
+      <ol class="step-list">
+        <li><strong>Correct ordering:</strong> must order terminal states the same way as the true utility function — wins better than draws, draws better than losses</li>
+        <li><strong>Fast computation:</strong> the whole point is to search faster — evaluation can't be slow</li>
+        <li><strong>Strong correlation:</strong> for non-terminal states, must be strongly correlated with actual winning chances</li>
+      </ol>
+    </div>
+    <div class="formula">
+      <span class="label">Weighted Linear Evaluation Function</span>
+      EVAL(s) = w₁·f₁ + w₂·f₂ + … + wₙ·fₙ
+      <br/><span style="color:var(--muted);font-family:'Segoe UI',sans-serif;font-size:.78rem">wᵢ = weight of feature i (e.g., piece value) · fᵢ = value of feature i in the state (e.g., number of queens)</span>
+    </div>
+    <div class="callout info">
+      <div class="icon">♟️</div>
+      <div><strong>Chess example:</strong> Pawn=1, Knight/Bishop=3, Rook=5, Queen=9. Add up all your piece values minus opponent's = material value. Other features like "king safety" add fractions of a pawn.</div>
+    </div>
+    <div class="card">
+      <h3>Tic-Tac-Toe Heuristic (from slides)</h3>
+      <ul>
+        <li>Count all winning lines open to MAX → subtract all winning lines open to MIN</li>
+        <li>Forced win for MAX = <strong>+∞</strong></li>
+        <li>Forced win for MIN = <strong>−∞</strong></li>
+        <li>Maximize this difference at each search step</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- 6. ALPHA-BETA -->
+  <div id="g-ab">
+    <div class="section-title"><div class="dot" style="background:#06b6d4"></div>6 · Alpha-Beta Pruning</div>
+    <div class="def" style="border-color:#06b6d4">
+      <strong style="color:#06b6d4">Alpha-Beta Pruning</strong><br/>
+      An optimization of Minimax that <em>prunes</em> (ignores) branches that cannot possibly affect the final decision. Explores depth-first. Uses two thresholds: <strong>Pass-Thresh</strong> (best found so far for current player) and <strong>Use-Thresh</strong> (best the opponent can guarantee). Prune when Pass-Thresh ≥ Use-Thresh.
+    </div>
+    <div class="split">
+      <div class="card ai">
+        <h3>Pass-Thresh (α equivalent)</h3>
+        <ul>
+          <li>The <strong>best value the current player</strong> has found so far</li>
+          <li>Can only <strong>increase</strong> (we keep finding better moves)</li>
+          <li>Initially set to the minimum possible evaluation value</li>
+          <li>Updated whenever a better successor is found</li>
+        </ul>
+      </div>
+      <div class="card gen">
+        <h3>Use-Thresh (β equivalent)</h3>
+        <ul>
+          <li>The <strong>best value the opponent</strong> is guaranteed from a higher level</li>
+          <li>Can only <strong>decrease</strong> (passed in from parent)</li>
+          <li>Represents "the opponent won't let you do better than this"</li>
+          <li>When you pass it to the recursive call, you negate both thresholds</li>
+        </ul>
+      </div>
+    </div>
+    <div class="callout tip">
+      <div class="icon">✂️</div>
+      <div><strong>Pruning condition:</strong> If Pass-Thresh ≥ Use-Thresh → stop exploring this branch. The opponent at the level above would never allow this path because we've already found something better.</div>
+    </div>
+    <div class="card">
+      <h3>Alpha-Beta Algorithm Key Steps</h3>
+      <ol class="step-list">
+        <li>Call: MINIMAX-A-B(position, depth, player, Use-Thresh, Pass-Thresh)</li>
+        <li>For each successor, recurse with <strong>swapped &amp; negated thresholds:</strong> (−Pass-Thresh, −Use-Thresh)</li>
+        <li>Negate returned value: NEW-VALUE = −VALUE(result)</li>
+        <li>If NEW-VALUE &gt; Pass-Thresh → update Pass-Thresh and best path</li>
+        <li>If Pass-Thresh ≥ Use-Thresh → <strong>PRUNE</strong> (return immediately)</li>
+        <li>After all successors: return Pass-Thresh and best path</li>
+      </ol>
+    </div>
+    <div class="card" style="border-top:3px solid #06b6d4">
+      <h3 style="color:#06b6d4">Alpha-Beta Worked Example (from slides)</h3>
+      <p style="color:var(--muted);font-size:.86rem;margin-bottom:.6rem">Same tree as Minimax example. Terms: CPT=Change Pass Threshold, NCPT=No Change, NPr=No Pruning, Pr=Prune</p>
+      <ul style="color:var(--muted);font-size:.86rem;padding-left:1.2rem">
+        <li>Alpha-Beta explores fewer nodes than Minimax by pruning branches</li>
+        <li>Best path: <strong>A → C → H</strong></li>
+        <li>Best score at root: <strong>4</strong></li>
+        <li>Result may differ from plain Minimax because pruning can affect which path is selected</li>
+      </ul>
+    </div>
+    <div class="callout info">
+      <div class="icon">💡</div>
+      <div><strong>Terminal node in MIN's turn:</strong> If a terminal node is encountered when it's MIN's turn, you must <strong>reverse (negate) the f-value</strong> before using it in the algorithm.</div>
+    </div>
+  </div>
+
+  <!-- FLASHCARDS -->
+  <div id="flash6">
+    <div class="section-title"><div class="dot" style="background:var(--accent-both)"></div>7 · Flashcards</div>
+    <div class="flashcards">
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What are the 6 components of a formal game definition?</div><div class="toggle">tap to reveal ▾</div><div class="a">S₀ (initial state), PLAYER(s), ACTIONS(s), RESULT(s,a), TERMINAL-TEST(s), UTILITY(s,p). Terminal states have utility values like +1, 0, −1.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What does Posswin(p) do in tic-tac-toe?</div><div class="toggle">tap to reveal ▾</div><div class="a">Returns 0 if player p cannot win on the next move. Returns the square number of the winning move if p CAN win. Works by multiplying row/column values: 18=X can win (3×3×2), 50=O can win (5×5×2).</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">How does the magic square Posswin work?</div><div class="toggle">tap to reveal ▾</div><div class="a">For each pair of your squares, compute 15 − (sq1+sq2). If the result is 1–9 and that square is blank → it's a winning (or blocking) move. If ≤0, >9, or occupied → skip that pair.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is the Minimax algorithm's core idea?</div><div class="toggle">tap to reveal ▾</div><div class="a">Recursively evaluate the full game tree. At MAX nodes: pick the highest value. At MIN nodes: pick the lowest. Back up values from terminal/cutoff nodes to the root. Return the optimal move.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What are the 3 requirements of an evaluation function?</div><div class="toggle">tap to reveal ▾</div><div class="a">1. Correct ordering (wins > draws > losses, same as real utility). 2. Fast computation. 3. Strong correlation with actual winning chances for non-terminal states.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is the weighted linear evaluation function?</div><div class="toggle">tap to reveal ▾</div><div class="a">EVAL = Σ(wᵢ × fᵢ) — sum of each feature's value multiplied by its weight. Chess example: pawns=1, knight/bishop=3, rook=5, queen=9. Add yours, subtract opponent's.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">When do you prune in Alpha-Beta?</div><div class="toggle">tap to reveal ▾</div><div class="a">When Pass-Thresh ≥ Use-Thresh. The current player has found a move at least as good as what the opponent would allow, so no further exploration of this branch can improve the result.</div></div>
+      <div class="fc" onclick="this.classList.toggle('open')"><div class="q">What is a "ply" in a game tree?</div><div class="toggle">tap to reveal ▾</div><div class="a">One half-move — one player's single turn. A tree that is "1 move deep" has 2 plies (one for each player). Depth d = number of plies explored before cutting off.</div></div>
+    </div>
+  </div>
+
+  <!-- TL;DR -->
+  <div id="tldr6">
+    <div class="section-title"><div class="dot" style="background:#06b6d4"></div>TL;DR — 6 Things You Must Know</div>
+    <div class="card">
+      <ul style="color:var(--text);font-size:.93rem;list-style:none;padding:0">
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">1.</strong> A game = S₀ + PLAYER + ACTIONS + RESULT + TERMINAL-TEST + UTILITY. <strong>MAX maximizes, MIN minimizes.</strong></li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">2.</strong> Posswin: product 18 (3×3×2) = X wins; 50 (5×5×2) = O wins. Magic squares: <strong>15 − (sq1+sq2)</strong> = needed square.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">3.</strong> <strong>Minimax:</strong> recursively explore the tree, back up values — MAX takes highest, MIN takes lowest. Negate values when switching players.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">4.</strong> When the tree is too deep: <strong>cut off at depth d</strong> and use an <strong>evaluation function</strong> instead of utility.</li>
+        <li style="padding:.45rem 0;border-bottom:1px solid var(--border)"><strong style="color:#06b6d4">5.</strong> Evaluation function = <strong>Σ(weight × feature)</strong>. Must order states correctly, be fast, and correlate with winning chances.</li>
+        <li style="padding:.45rem 0"><strong style="color:#06b6d4">6.</strong> <strong>Alpha-Beta:</strong> prune when Pass-Thresh ≥ Use-Thresh. Pass negated thresholds to recursive calls. Terminal in MIN's turn → negate f-value first.</li>
+      </ul>
+    </div>
+    <div class="summary-banner">
+      <h3>Game Playing in one sentence</h3>
+      <p><strong>Minimax</strong> finds the optimal move by assuming both players play perfectly — <strong>Alpha-Beta</strong> finds the same answer faster by pruning branches that can't possibly change the result.</p>
+    </div>
+  </div>
+
+</div>
+</div><!-- /cps6 -->
+
+<script>
+  function switchTab(id, btn) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    btn.classList.add('active');
+    window.scrollTo(0, 0);
+  }
+</script>
+
+</body>
+</html>
