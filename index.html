@@ -61,6 +61,14 @@
     }
     .tab-btn:hover { color: var(--text); }
     .tab-btn.active { color: var(--text); border-bottom-color: var(--accent-both); }
+    .tab-btn.home-tab {
+      color: var(--accent-both);
+      font-weight: 800;
+    }
+    .tab-btn.home-tab.active {
+      background: rgba(34,211,165,0.08);
+      border-bottom-color: var(--accent-both);
+    }
     .tab-btn.final { color: #f59e0b; }
     .tab-btn.final:hover { color: #fbbf24; }
     .tab-btn.final.active { color: #fbbf24; border-bottom-color: #f59e0b; }
@@ -170,6 +178,23 @@
     .callout.warn { border-left: 4px solid var(--warn); }
     .callout.info { border-left: 4px solid var(--accent-ai); }
     .callout.tip  { border-left: 4px solid var(--accent-gen); }
+    .callout.exam-details {
+      display: block;
+      text-align: center;
+      max-width: 680px;
+      margin: 0 auto 2rem;
+    }
+    .callout.exam-details .icon {
+      display: block;
+      margin: 0 auto 0.35rem;
+    }
+    .callout.exam-details .exam-line {
+      display: block;
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
+      text-align: center;
+    }
 
     .risk-high { color: var(--danger); font-weight: 700; }
     .risk-med  { color: var(--warn);   font-weight: 700; }
@@ -1154,7 +1179,7 @@
 
 <!-- TAB BAR -->
 <div class="tab-bar">
-  <button class="tab-btn active" onclick="switchTab('home', this)">Home</button>
+  <button class="tab-btn home-tab active" onclick="switchTab('home', this)">Home</button>
   <button class="tab-btn" onclick="switchTab('cps2', this)">CPS #2 — AI vs Gen AI</button>
   <button class="tab-btn" onclick="switchTab('cps3', this)">CPS #3 — GenAI Fundamentals</button>
   <button class="tab-btn" onclick="switchTab('cps4', this)">CPS #4 — Machine Learning</button>
@@ -1184,12 +1209,12 @@
       </div>
     </div>
 
-    <div class="callout warn" style="max-width:680px;margin:0 auto 2rem;text-align:left;">
+    <div class="callout warn exam-details">
       <div class="icon">📋</div>
       <div>
         <strong style="color:var(--warn);font-size:0.95rem;">Exam Details — CS 4346 Final</strong><br>
-        <span style="font-size:0.88rem;color:var(--text);">Wednesday, May 13, 2026 &nbsp;·&nbsp; 11:00 AM – 1:30 PM &nbsp;·&nbsp; DERR 229</span><br>
-        <span style="font-size:0.83rem;color:var(--muted);margin-top:0.3rem;display:block;">3 questions — choose any 2. <span style="color:var(--danger);">If you attempt all 3, he picks your <em>worst</em> 2.</span> Covers <strong style="color:var(--text);">CPS #6 through #9 only.</strong></span>
+        <span class="exam-line" style="font-size:0.88rem;color:var(--text);">Wednesday, May 13, 2026 &nbsp;·&nbsp; 11:00 AM – 1:30 PM &nbsp;·&nbsp; DERR 229</span>
+        <span class="exam-line" style="font-size:0.83rem;color:var(--muted);margin-top:0.3rem;">3 questions — choose any 2. <span style="color:var(--danger);">If you attempt all 3, he picks your <em>worst</em> 2.</span> Covers <strong style="color:var(--text);">CPS #6 through #9 only.</strong></span>
         <div class="exam-countdown" aria-live="polite">
           <div class="exam-countdown-top">
             <span class="label">Time left</span>
@@ -4148,7 +4173,7 @@
       <span class="boss-name">PROFESSOR GOONIS</span>
       <div class="boss-hp-bar"><div class="boss-hp-fill"></div></div>
     </div>
-    <img src="GOONIS%20YELLING.png" alt="Boss Goonis" class="boss-img" onclick="attackBoss(event)" />
+    <img src="bossfight%20start.png" alt="Boss Goonis" class="boss-img" onclick="attackBoss(event)" />
     <div class="boss-flavour">
       <p class="boss-roar">"HUHHHH!"</p>
       <p class="boss-sub">He picks your <strong>worst 2</strong> answers. Choose wisely.</p>
@@ -4413,6 +4438,14 @@
   let _glitchInt = null;
   let _screenInt = null;
   let _colorInt = null;
+  const _bossImgs = [
+    'bossfight%20start.png',
+    'bossfight%20nutral.png',
+    'bossfight%20medium.png',
+    'boss%20fight%20angry.png',
+    'GOONIS%20YELLING.png',
+    'boss%20fight%20angry.png'
+  ];
 
   function attackBoss(e) {
     if (_hackActive || _bossHP <= 0) return;
@@ -4459,6 +4492,7 @@
     const s = _stage();
     const img = document.querySelector('.boss-img');
     if (img) {
+      img.src = _bossImgs[s] || _bossImgs[_bossImgs.length - 1];
       img.classList.remove('shake-1','shake-2','shake-3','shake-4');
       if (s >= 1) img.classList.add('shake-' + Math.min(s, 4));
     }
@@ -4520,6 +4554,7 @@
     _hackActive = true;
     const img = document.querySelector('.boss-img');
     if (img) {
+      img.src = _bossImgs[5];
       img.classList.remove('shake-1','shake-2','shake-3','shake-4');
       img.classList.add('shake-4');
     }
@@ -4565,7 +4600,10 @@
     document.getElementById('quiz-terminal')?.classList.remove('active');
 
     const img = document.querySelector('.boss-img');
-    if (img) img.classList.remove('shake-1','shake-2','shake-3','shake-4');
+    if (img) {
+      img.src = _bossImgs[0];
+      img.classList.remove('shake-1','shake-2','shake-3','shake-4');
+    }
     const fill = document.querySelector('.boss-hp-fill');
     if (fill) {
       fill.style.width = '100%';
