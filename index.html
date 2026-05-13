@@ -949,6 +949,20 @@
       line-height: 1.1;
     }
     body.light .boss-name { color: #1a1d2e; text-shadow: none; }
+    .boss-hp-meta {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 0.15rem;
+      font-family: 'Courier New', monospace;
+      font-size: 0.68rem;
+      font-weight: 900;
+      letter-spacing: 0.08em;
+      color: rgba(251,191,36,0.78);
+      text-transform: uppercase;
+    }
+    .boss-hp-meta span:last-child { color: rgba(255,255,255,0.55); }
+    body.light .boss-hp-meta span:last-child { color: rgba(0,0,0,0.45); }
     .boss-hp-bar {
       height: 10px;
       background: rgba(255,255,255,0.1);
@@ -986,6 +1000,29 @@
       font-size: 0.88rem;
       color: var(--muted);
       margin-bottom: 0.25rem;
+    }
+    .boss-img-wrap {
+      position: relative;
+      flex-shrink: 0;
+    }
+    .boss-img-wrap::after {
+      content: 'tap';
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      font-size: 0.62rem;
+      font-weight: 800;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: rgba(255,255,255,0.42);
+      text-shadow: 0 0 10px rgba(239,68,68,0.65);
+      opacity: 0.55;
+      pointer-events: none;
+      transition: opacity .18s, transform .18s;
+    }
+    .boss-img-wrap:hover::after {
+      opacity: 0.9;
+      transform: translateY(-2px);
     }
 
     @keyframes bossShake1 {
@@ -4398,9 +4435,12 @@
     <div class="boss-name-plate">
       <span class="boss-label">FINAL BOSS</span>
       <span class="boss-name">PROFESSOR GOONIS</span>
+      <div class="boss-hp-meta"><span>HP</span><span id="boss-hp-text">100 / 100</span></div>
       <div class="boss-hp-bar"><div class="boss-hp-fill"></div></div>
     </div>
-    <img src="bossfight%20start.png" alt="Boss Goonis" class="boss-img" onclick="attackBoss(event)" />
+    <div class="boss-img-wrap">
+      <img src="bossfight%20start.png" alt="Boss Goonis" class="boss-img" onclick="attackBoss(event)" />
+    </div>
     <div class="boss-flavour">
       <p class="boss-roar">"HUHHHH!"</p>
       <p class="boss-sub">He picks your <strong>worst 2</strong> answers. Choose wisely.</p>
@@ -4707,6 +4747,8 @@
       fill.style.width = _bossHP + '%';
       if (_bossHP <= 30) fill.classList.add('danger');
     }
+    const hpText = document.getElementById('boss-hp-text');
+    if (hpText) hpText.textContent = `${_bossHP} / 100`;
 
     _applyBossStage();
     if (_bossHP <= 0) setTimeout(_activateHack, 350);
@@ -4871,6 +4913,8 @@
       fill.classList.remove('danger');
       fill.style.background = '';
     }
+    const hpText = document.getElementById('boss-hp-text');
+    if (hpText) hpText.textContent = '100 / 100';
     const ov = document.getElementById('hack-overlay');
     if (ov) { ov.classList.remove('active','stage-2','stage-3','stage-4','stage-5'); ov.innerHTML = ''; }
     const terminal = document.getElementById('hack-terminal');
@@ -5311,7 +5355,7 @@
   <img src="goonis%20peaking%20around%20the%20corner.png" alt="Professor Goonis peeking" />
 </div>
 <button id="goonis-toggle" onclick="toggleGoonis()">✋ Goonis pls leave me alone</button>
-<div id="version-badge">v1.11</div>
+<div id="version-badge">v1.14</div>
 
 <!-- HACK OVERLAY -->
 <div id="hack-overlay"></div>
