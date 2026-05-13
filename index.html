@@ -618,6 +618,123 @@
     }
     .step-list li strong { color: var(--text); }
 
+    /* interactive magic square trace */
+    .magic-play-card { border-top: 3px solid #06b6d4; }
+    .magic-play {
+      display: grid;
+      grid-template-columns: minmax(180px, 240px) 1fr;
+      gap: 1rem;
+      align-items: center;
+    }
+    .magic-board {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 6px;
+      aspect-ratio: 1;
+      width: 100%;
+    }
+    .magic-cell {
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 62px;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+      transition: border-color .2s, background .2s, box-shadow .2s, transform .2s;
+    }
+    .magic-cell.current {
+      border-color: #fbbf24;
+      box-shadow: 0 0 0 2px rgba(251,191,36,.18), 0 0 18px rgba(251,191,36,.2);
+      transform: translateY(-2px);
+    }
+    .magic-cell.x { background: rgba(79,142,247,.12); border-color: rgba(79,142,247,.55); }
+    .magic-cell.o { background: rgba(168,85,247,.13); border-color: rgba(168,85,247,.55); }
+    .magic-num {
+      position: absolute;
+      top: 6px;
+      left: 8px;
+      font-size: .72rem;
+      color: var(--muted);
+    }
+    .magic-mark {
+      font-size: 1.55rem;
+      font-weight: 900;
+      line-height: 1;
+      color: var(--muted);
+    }
+    .magic-cell.x .magic-mark { color: var(--accent-ai); }
+    .magic-cell.o .magic-mark { color: var(--accent-gen); }
+    .magic-panel {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .9rem 1rem;
+    }
+    .magic-kicker {
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      color: #06b6d4;
+      text-transform: uppercase;
+      margin-bottom: .35rem;
+    }
+    .magic-panel h4 {
+      font-size: .98rem;
+      margin-bottom: .4rem;
+      color: var(--text);
+    }
+    .magic-panel p {
+      font-size: .84rem;
+      color: var(--muted);
+      line-height: 1.55;
+      margin-bottom: .65rem;
+    }
+    .magic-owned {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+      margin-bottom: .75rem;
+    }
+    .magic-owned span {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: .2rem .5rem;
+      font-size: .76rem;
+      color: var(--muted);
+    }
+    .magic-owned strong { color: var(--text); }
+    .magic-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: .45rem;
+    }
+    .magic-controls button {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: .8rem;
+      font-weight: 700;
+      padding: .42rem .75rem;
+      transition: border-color .15s, color .15s, background .15s;
+    }
+    .magic-controls button:hover {
+      border-color: #06b6d4;
+      color: #06b6d4;
+      background: rgba(6,182,212,.08);
+    }
+    @media (max-width: 650px) {
+      .magic-play { grid-template-columns: 1fr; }
+      .magic-board { max-width: 230px; margin: 0 auto; }
+    }
+
     /* ── GOONIS WIDGET ── */
     .goonis-wrap {
       display: inline-flex;
@@ -2784,6 +2901,27 @@
         If result ≤ 0, &gt; 9, or square already occupied → this pair can't complete a win, skip.
       </span>
     </div>
+    <div class="card magic-play-card">
+      <h3 style="color:#06b6d4">Interactive Magic Square Game Trace</h3>
+      <p style="color:var(--muted);font-size:.84rem;margin-bottom:.85rem">Loop through each AI decision and watch the magic-number board fill in. The highlighted square is the move just chosen.</p>
+      <div class="magic-play">
+        <div class="magic-board" id="magic-board"></div>
+        <div class="magic-panel">
+          <div class="magic-kicker" id="magic-counter">Move 0 / 9</div>
+          <h4 id="magic-step-title">Magic square ready</h4>
+          <p id="magic-step-reason">Every winning line sums to 15. The AI checks pairs, then chooses the winning or blocking square when one exists.</p>
+          <div class="magic-owned">
+            <span id="magic-x-owned"><strong>X:</strong> -</span>
+            <span id="magic-o-owned"><strong>O:</strong> -</span>
+          </div>
+          <div class="magic-controls">
+            <button type="button" onclick="_magicPrev()">Prev</button>
+            <button type="button" onclick="_magicNext()">Next</button>
+            <button type="button" onclick="_magicReplay()">Reset</button>
+          </div>
+        </div>
+      </div>
+    </div>
     <div class="card">
       <h3>Full Game Trace from the Slides (Program #3)</h3>
       <p style="color:var(--muted);font-size:.83rem;margin-bottom:.5rem">Board positions = magic square values. Each player calls Posswin(self) to win and Posswin(opponent) to block.</p>
@@ -4838,7 +4976,68 @@
       </div>`
     ).join('');
   }
-  document.addEventListener('DOMContentLoaded', () => { _shuffled = _fyShuffle([..._cards]); _renderCarousel(); _renderViewAll(); });
+
+  const _magicCells = [2, 9, 4, 7, 5, 3, 6, 1, 8];
+  const _magicSteps = [
+    {move:0, player:'Ready', square:null, action:'Empty board', reason:'Every row, column, and diagonal in this layout sums to 15. The AI uses that math instead of scanning rows manually.', x:[], o:[]},
+    {move:1, player:'O', square:5, action:'Make2: take center', reason:'O opens with 5 because the center participates in four possible winning triples.', x:[], o:[5]},
+    {move:2, player:'X', square:8, action:'Make1: take a corner', reason:'X has no immediate win or block yet, so Make1 chooses a corner square.', x:[8], o:[5]},
+    {move:3, player:'O', square:3, action:'Make2: take a side', reason:'No Posswin exists yet. O adds 3 and creates the threat 5 + 3 + 7 = 15.', x:[8], o:[5,3]},
+    {move:4, player:'X', square:7, action:'Posswin(O): block', reason:'O owns 5 and 3. The needed square is 15 - (5 + 3) = 7, so X plays 7 to block.', x:[8,7], o:[5,3]},
+    {move:5, player:'O', square:9, action:'Make2: choose 9', reason:'O checks its pairs, but the useful winning squares are blocked or unavailable, so it chooses 9.', x:[8,7], o:[5,3,9]},
+    {move:6, player:'X', square:1, action:'Posswin / pressure move', reason:'X keeps building a line by taking 1. This creates a future threat with 8 + 1 needing 6.', x:[8,7,1], o:[5,3,9]},
+    {move:7, player:'O', square:6, action:'Posswin(X): block', reason:'X owns 8 and 1. The needed square is 15 - (8 + 1) = 6, so O blocks at 6.', x:[8,7,1], o:[5,3,9,6]},
+    {move:8, player:'X', square:4, action:'Posswin(O): block', reason:'O owns 5 and 6. The needed square is 15 - (5 + 6) = 4, so X blocks O right before the win.', x:[8,7,1,4], o:[5,3,9,6]},
+    {move:9, player:'O', square:2, action:'Only square left', reason:'All immediate wins are blocked. O takes the final open square, 2, and the trace ends in a draw.', x:[8,7,1,4], o:[5,3,9,6,2]}
+  ];
+  let _magicIdx = 0;
+
+  function _magicOwner(n, step) {
+    if (step.x.includes(n)) return 'x';
+    if (step.o.includes(n)) return 'o';
+    return '';
+  }
+
+  function _renderMagicStepper() {
+    const board = document.getElementById('magic-board');
+    if (!board) return;
+    const step = _magicSteps[_magicIdx];
+    board.innerHTML = _magicCells.map(n => {
+      const owner = _magicOwner(n, step);
+      const current = step.square === n ? ' current' : '';
+      const mark = owner ? owner.toUpperCase() : '';
+      return `<div class="magic-cell ${owner}${current}">
+        <span class="magic-num">${n}</span>
+        <span class="magic-mark">${mark}</span>
+      </div>`;
+    }).join('');
+
+    const title = document.getElementById('magic-step-title');
+    const reason = document.getElementById('magic-step-reason');
+    const counter = document.getElementById('magic-counter');
+    const xOwned = document.getElementById('magic-x-owned');
+    const oOwned = document.getElementById('magic-o-owned');
+    if (title) title.textContent = step.move === 0 ? step.action : `Move ${step.move}: ${step.player} - ${step.action}`;
+    if (reason) reason.textContent = step.reason;
+    if (counter) counter.textContent = `Move ${step.move} / 9`;
+    if (xOwned) xOwned.innerHTML = `<strong>X:</strong> ${step.x.length ? step.x.join(', ') : '-'}`;
+    if (oOwned) oOwned.innerHTML = `<strong>O:</strong> ${step.o.length ? step.o.join(', ') : '-'}`;
+  }
+
+  function _magicNext() {
+    _magicIdx = (_magicIdx + 1) % _magicSteps.length;
+    _renderMagicStepper();
+  }
+  function _magicPrev() {
+    _magicIdx = (_magicIdx - 1 + _magicSteps.length) % _magicSteps.length;
+    _renderMagicStepper();
+  }
+  function _magicReplay() {
+    _magicIdx = 0;
+    _renderMagicStepper();
+  }
+
+  document.addEventListener('DOMContentLoaded', () => { _shuffled = _fyShuffle([..._cards]); _renderCarousel(); _renderViewAll(); _renderMagicStepper(); });
 
   // TRUE / FALSE QUIZ SYSTEM
   const _tfBank = [
