@@ -249,6 +249,96 @@
       color: var(--muted);
       margin-bottom: 3rem;
     }
+    .exam-countdown {
+      margin-top: 0.85rem;
+      text-align: center;
+    }
+    .exam-countdown-top {
+      display: inline-flex;
+      align-items: baseline;
+      justify-content: center;
+      gap: 0.45rem;
+      background: rgba(251,191,36,0.1);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 0.28rem 0.7rem;
+      font-size: 0.76rem;
+      color: var(--muted);
+    }
+    .exam-countdown-top .label {
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: #fbbf24;
+    }
+    .exam-countdown-top .value {
+      font-family: 'Courier New', monospace;
+      font-weight: 900;
+      color: var(--text);
+    }
+    .exam-timeline {
+      position: relative;
+      height: 34px;
+      max-width: 540px;
+      margin: 0.5rem auto 0;
+    }
+    .exam-timeline-track {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 11px;
+      height: 4px;
+      border-radius: 999px;
+      background: linear-gradient(90deg, var(--accent-both), #fbbf24, var(--danger));
+      opacity: 0.9;
+    }
+    .exam-timeline-marker {
+      position: absolute;
+      top: 5px;
+      transform: translateX(-50%);
+      text-align: center;
+    }
+    .exam-timeline-marker::before {
+      content: '';
+      display: block;
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background: var(--surface);
+      border: 2px solid #fbbf24;
+      margin: 0 auto 0.35rem;
+      box-shadow: 0 0 10px rgba(251,191,36,0.35);
+    }
+    .exam-timeline-marker span {
+      display: block;
+      color: var(--muted);
+      font-size: 0.66rem;
+      line-height: 1;
+      white-space: nowrap;
+    }
+    .exam-timeline-now {
+      position: absolute;
+      top: 0;
+      left: 0%;
+      transform: translateX(-50%);
+      width: 2px;
+      height: 20px;
+      background: var(--text);
+      border-radius: 999px;
+      box-shadow: 0 0 12px rgba(255,255,255,0.55);
+      transition: left 0.5s ease;
+    }
+    .exam-timeline-now::after {
+      content: 'now';
+      position: absolute;
+      top: 22px;
+      left: 50%;
+      transform: translateX(-50%);
+      color: var(--text);
+      font-size: 0.64rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
     .cps-cards {
       display: grid;
       grid-template-columns: repeat(3, 1fr);
@@ -643,9 +733,320 @@
       transition: color 0.2s;
     }
     body.light #version-badge { color: rgba(0,0,0,0.18); }
+
+    /* BOSS FIGHT */
+    .boss-arena {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      background: linear-gradient(135deg, #1a0a0a 0%, #1a1020 100%);
+      border: 2px solid #ef4444;
+      border-radius: 16px;
+      padding: 1.5rem 2rem;
+      margin: 1.5rem 0 2rem;
+      box-shadow: 0 0 40px rgba(239,68,68,0.25), inset 0 0 60px rgba(0,0,0,0.4);
+      position: relative;
+      overflow: hidden;
+    }
+    body.light .boss-arena {
+      background: linear-gradient(135deg, #fff0f0 0%, #f5f0ff 100%);
+    }
+    .boss-arena::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(
+        45deg, transparent, transparent 40px,
+        rgba(239,68,68,0.03) 40px, rgba(239,68,68,0.03) 41px
+      );
+      pointer-events: none;
+    }
+    .boss-img {
+      width: 200px;
+      flex-shrink: 0;
+      border-radius: 12px;
+      border: 2px solid #ef4444;
+      box-shadow: 0 0 30px rgba(239,68,68,0.5);
+      animation: bossGlow 2.5s ease-in-out infinite;
+      cursor: crosshair;
+    }
+    .boss-img:hover { filter: brightness(1.15) drop-shadow(0 0 24px rgba(239,68,68,1)); }
+    @keyframes bossGlow {
+      0%, 100% { box-shadow: 0 0 30px rgba(239,68,68,0.5); }
+      50% { box-shadow: 0 0 55px rgba(239,68,68,0.85); }
+    }
+    .boss-name-plate {
+      display: flex;
+      flex-direction: column;
+      gap: 0.35rem;
+      flex: 1;
+    }
+    .boss-label {
+      font-size: 0.7rem;
+      font-weight: 800;
+      letter-spacing: 0.18em;
+      color: #ef4444;
+      text-transform: uppercase;
+    }
+    .boss-name {
+      font-size: 1.6rem;
+      font-weight: 900;
+      color: #fff;
+      letter-spacing: 0.06em;
+      text-shadow: 0 0 20px rgba(239,68,68,0.7);
+      line-height: 1.1;
+    }
+    body.light .boss-name { color: #1a1d2e; text-shadow: none; }
+    .boss-hp-bar {
+      height: 10px;
+      background: rgba(255,255,255,0.1);
+      border-radius: 5px;
+      overflow: hidden;
+      margin-top: 0.2rem;
+      border: 1px solid rgba(239,68,68,0.4);
+    }
+    .boss-hp-fill {
+      height: 100%;
+      width: 100%;
+      background: linear-gradient(90deg, #ef4444, #f97316);
+      border-radius: 5px;
+      animation: hpPulse 2.5s ease-in-out infinite;
+    }
+    .boss-hp-fill.danger {
+      background: linear-gradient(90deg,#dc2626,#ef4444) !important;
+      animation: hpPulse 0.6s ease-in-out infinite !important;
+    }
+    @keyframes hpPulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.75; }
+    }
+    .boss-flavour { flex: 1; }
+    .boss-roar {
+      font-size: 2rem;
+      font-weight: 900;
+      color: #ef4444;
+      font-style: italic;
+      line-height: 1.1;
+      text-shadow: 0 0 14px rgba(239,68,68,0.6);
+      margin-bottom: 0.5rem;
+    }
+    .boss-sub {
+      font-size: 0.88rem;
+      color: var(--muted);
+      margin-bottom: 0.25rem;
+    }
+
+    @keyframes bossShake1 {
+      0%,100% { transform: translate(0,0) rotate(0deg); }
+      33% { transform: translate(-3px,2px) rotate(-0.4deg); }
+      66% { transform: translate(3px,-2px) rotate(0.4deg); }
+    }
+    @keyframes bossShake2 {
+      0%,100% { transform: translate(0,0); }
+      20% { transform: translate(-7px,4px) rotate(-0.9deg); }
+      40% { transform: translate(6px,-5px) rotate(0.9deg); }
+      60% { transform: translate(-5px,6px) rotate(-0.6deg); }
+      80% { transform: translate(6px,-4px) rotate(0.6deg); }
+    }
+    @keyframes bossShake3 {
+      0%,100% { transform: translate(0,0); }
+      10% { transform: translate(-13px,7px) rotate(-1.4deg); }
+      25% { transform: translate(11px,-9px) rotate(1.2deg); }
+      40% { transform: translate(-10px,11px) rotate(-1deg); }
+      55% { transform: translate(13px,-8px) rotate(1.4deg); }
+      70% { transform: translate(-11px,9px) rotate(-1.1deg); }
+      85% { transform: translate(9px,-10px) rotate(1deg); }
+    }
+    @keyframes bossShake4 {
+      0% { transform: translate(0,0) rotate(0deg); }
+      8% { transform: translate(-24px,12px) rotate(-3deg); }
+      16% { transform: translate(20px,-10px) rotate(2.4deg); }
+      24% { transform: translate(-17px,16px) rotate(-2.2deg); }
+      32% { transform: translate(19px,-14px) rotate(2.8deg); }
+      40% { transform: translate(-15px,12px) rotate(-2.4deg); }
+      48% { transform: translate(17px,-17px) rotate(2deg); }
+      56% { transform: translate(-20px,11px) rotate(-2.7deg); }
+      64% { transform: translate(14px,15px) rotate(2.2deg); }
+      72% { transform: translate(-18px,-12px) rotate(-2deg); }
+      80% { transform: translate(16px,14px) rotate(2.5deg); }
+      90% { transform: translate(-12px,-10px) rotate(-1.7deg); }
+      100% { transform: translate(0,0) rotate(0deg); }
+    }
+    .boss-img.shake-1 { animation: bossShake1 0.55s ease-in-out infinite, bossGlow 2s ease-in-out infinite; }
+    .boss-img.shake-2 { animation: bossShake2 0.35s ease-in-out infinite, bossGlow 1.1s ease-in-out infinite; }
+    .boss-img.shake-3 { animation: bossShake3 0.2s ease-in-out infinite, bossGlow 0.55s ease-in-out infinite; }
+    .boss-img.shake-4 { animation: bossShake4 0.1s linear infinite, bossGlow 0.22s ease-in-out infinite; }
+
+    .dmg-pop {
+      position: absolute;
+      font-family: 'Courier New', monospace;
+      font-size: 1.4rem;
+      font-weight: 900;
+      color: #ef4444;
+      text-shadow: 0 0 10px rgba(239,68,68,0.8);
+      pointer-events: none;
+      animation: dmgFloat 0.8s ease-out forwards;
+      z-index: 999;
+    }
+    @keyframes dmgFloat {
+      0% { opacity: 1; transform: translateY(0) scale(1); }
+      60% { opacity: 1; transform: translateY(-50px) scale(1.2); }
+      100% { opacity: 0; transform: translateY(-80px) scale(0.8); }
+    }
+    @keyframes glitchBarSweep {
+      0% { left:-100%; opacity:1; }
+      100% { left:100%; opacity:0; }
+    }
+    #hack-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 4999;
+      display: none;
+      pointer-events: none;
+      overflow: hidden;
+    }
+    #hack-overlay.active { display: block; }
+    .glitch-bar {
+      position: absolute;
+      width: 100%;
+      animation: glitchBarSweep 0.35s linear forwards;
+      pointer-events: none;
+    }
+    #hack-terminal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      width: min(560px,92vw);
+      background: rgba(0,0,0,0.94);
+      border: 2px solid #ef4444;
+      border-radius: 12px;
+      padding: 1.6rem 2rem;
+      font-family: 'Courier New', monospace;
+      color: #ef4444;
+      z-index: 5000;
+      display: none;
+      box-shadow: 0 0 90px rgba(239,68,68,0.55), 0 0 180px rgba(239,68,68,0.2);
+      pointer-events: none;
+    }
+    #hack-terminal.active { display: block; }
+    #hack-terminal-title {
+      font-size: 1rem;
+      font-weight: 900;
+      text-align: center;
+      letter-spacing: 0.12em;
+      margin-bottom: 1rem;
+      animation: termFlicker 0.12s infinite;
+    }
+    @keyframes termFlicker {
+      0%,88%,100% { opacity:1; }
+      90%,95% { opacity:0.25; }
+    }
+    .hack-line {
+      font-size: 0.75rem;
+      margin: 0.18rem 0;
+      color: #ff6b6b;
+      opacity: 0;
+      transition: opacity 0.25s;
+    }
+    .hack-line.show { opacity: 1; }
+    .hack-line.green { color: #22d3a5; }
+    .hack-line.yellow { color: #fbbf24; }
+    .hack-line.dim { color: rgba(239,68,68,0.35); font-size: 0.65rem; }
+    .hack-escape {
+      margin-top: 1rem;
+      padding-top: 0.8rem;
+      border-top: 1px solid rgba(239,68,68,0.3);
+      font-size: 0.78rem;
+      color: #fbbf24;
+      text-align: center;
+      opacity: 0;
+      transition: opacity 0.5s;
+    }
+    .hack-escape.show { opacity: 1; }
+    .hack-progress {
+      height: 7px;
+      background: rgba(255,255,255,0.07);
+      border-radius: 4px;
+      margin: 0.55rem 0 0;
+      overflow: hidden;
+      border: 1px solid rgba(34,211,165,0.3);
+    }
+    .hack-progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg,#22d3a5,#4f8ef7);
+      border-radius: 4px;
+      width: 0%;
+      transition: width 0.4s ease;
+    }
+
+    #quiz-terminal {
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%,-50%);
+      width: min(580px,94vw);
+      background: #000;
+      border: 2px solid #22d3a5;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      color: #22d3a5;
+      z-index: 6000;
+      display: none;
+      box-shadow: 0 0 80px rgba(34,211,165,0.55), 0 0 160px rgba(34,211,165,0.2);
+    }
+    #quiz-terminal.active { display: block; }
+    .qt-header {
+      background: #22d3a5;
+      color: #000;
+      padding: 0.45rem 1rem;
+      font-weight: 900;
+      font-size: 0.77rem;
+      letter-spacing: 0.12em;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .qt-body { padding: 1.1rem 1.4rem; }
+    .qt-divider { color: rgba(34,211,165,0.28); font-size: 0.68rem; margin: 0.45rem 0; }
+    .qt-flavor { font-size: 0.74rem; color: rgba(34,211,165,0.6); margin-bottom: 0.3rem; }
+    .qt-tag { font-size: 0.68rem; color: #fbbf24; margin-bottom: 0.5rem; letter-spacing: 0.1em; font-weight: 700; }
+    .qt-question { font-size: 0.88rem; font-weight: 700; line-height: 1.55; color: #fff; margin-bottom: 0.15rem; }
+    .qt-options { margin: 0.6rem 0; }
+    .qt-option {
+      padding: 0.38rem 0.7rem;
+      margin: 0.15rem 0;
+      font-size: 0.81rem;
+      cursor: pointer;
+      border-radius: 3px;
+      color: rgba(34,211,165,0.72);
+      border: 1px solid transparent;
+      transition: background 0.08s, border-color 0.08s, color 0.08s;
+    }
+    .qt-option:hover { background: rgba(34,211,165,0.08); }
+    .qt-option.sel {
+      background: rgba(34,211,165,0.14);
+      border-color: rgba(34,211,165,0.45);
+      color: #22d3a5;
+    }
+    .qt-option.correct-flash { background: rgba(34,211,165,0.35) !important; color: #22d3a5 !important; border-color: #22d3a5 !important; }
+    .qt-option.wrong-flash { background: rgba(239,68,68,0.25) !important; color: #ef4444 !important; border-color: #ef4444 !important; }
+    .qt-tf {
+      font-size: 1rem;
+      font-weight: 700;
+      padding: 0.6rem 1rem;
+      letter-spacing: 0.08em;
+      margin: 0.3rem 0;
+    }
+    .qt-nav { font-size: 0.62rem; color: rgba(34,211,165,0.32); margin-top: 0.7rem; letter-spacing: 0.04em; }
+    .qt-feedback { font-size: 0.8rem; margin-top: 0.55rem; min-height: 1.3rem; font-weight: 700; letter-spacing: 0.03em; }
+    .qt-feedback.ok { color: #22d3a5; }
+    .qt-feedback.bad { color: #ef4444; }
   </style>
 </head>
 <body>
+
+<div id="glitch-wrap">
 
 <!-- TAB BAR -->
 <div class="tab-bar">
@@ -685,6 +1086,20 @@
         <strong style="color:var(--warn);font-size:0.95rem;">Exam Details — CS 4346 Final</strong><br>
         <span style="font-size:0.88rem;color:var(--text);">Wednesday, May 13, 2026 &nbsp;·&nbsp; 11:00 AM – 1:30 PM &nbsp;·&nbsp; DERR 229</span><br>
         <span style="font-size:0.83rem;color:var(--muted);margin-top:0.3rem;display:block;">3 questions — choose any 2. <span style="color:var(--danger);">If you attempt all 3, he picks your <em>worst</em> 2.</span> Covers <strong style="color:var(--text);">CPS #6 through #9 only.</strong></span>
+        <div class="exam-countdown" aria-live="polite">
+          <div class="exam-countdown-top">
+            <span class="label">Time left</span>
+            <span class="value" id="exam-time-left">--h --m --s</span>
+          </div>
+          <div class="exam-timeline" aria-hidden="true">
+            <div class="exam-timeline-track"></div>
+            <div class="exam-timeline-marker" style="left:0%"><span>Noon</span></div>
+            <div class="exam-timeline-marker" style="left:52.17%"><span>Midnight</span></div>
+            <div class="exam-timeline-marker" style="left:78.26%"><span>6 AM</span></div>
+            <div class="exam-timeline-marker" style="left:100%"><span>Exam</span></div>
+            <div class="exam-timeline-now" id="exam-timeline-now"></div>
+          </div>
+        </div>
       </div>
     </div>
 
@@ -3622,6 +4037,21 @@
     <div class="badge">Flashcards flip on click · Practice questions expand on click</div>
   </div>
 
+  <!-- BOSS FIGHT -->
+  <div class="boss-arena">
+    <div class="boss-name-plate">
+      <span class="boss-label">FINAL BOSS</span>
+      <span class="boss-name">PROFESSOR GOONIS</span>
+      <div class="boss-hp-bar"><div class="boss-hp-fill"></div></div>
+    </div>
+    <img src="GOONIS%20YELLING.png" alt="Boss Goonis" class="boss-img" onclick="attackBoss(event)" />
+    <div class="boss-flavour">
+      <p class="boss-roar">"HUHHHH!"</p>
+      <p class="boss-sub">He picks your <strong>worst 2</strong> answers. Choose wisely.</p>
+      <p class="boss-sub" style="color:var(--danger);font-weight:700;">Attempt only 2 of 3 questions.</p>
+    </div>
+  </div>
+
   <nav class="nav">
     <a href="#rev-flash">Flashcards</a>
     <a href="#rev-pq">Practice Questions</a>
@@ -3841,7 +4271,211 @@
     localStorage.setItem('theme', isLight ? 'light' : 'dark');
   }
 
+  function _formatDuration(ms) {
+    const total = Math.max(0, Math.floor(ms / 1000));
+    const days = Math.floor(total / 86400);
+    const hours = Math.floor((total % 86400) / 3600);
+    const mins = Math.floor((total % 3600) / 60);
+    const secs = total % 60;
+    if (days > 0) return `${days}d ${hours}h ${mins}m ${secs}s`;
+    return `${hours}h ${mins}m ${secs}s`;
+  }
+
+  function updateExamCountdown() {
+    const timelineStart = new Date('2026-05-12T12:00:00');
+    const examStart = new Date('2026-05-13T11:00:00');
+    const now = new Date();
+    const untilExam = examStart - now;
+    const el = document.getElementById('exam-time-left');
+    const marker = document.getElementById('exam-timeline-now');
+    if (!el) return;
+    el.textContent = untilExam <= 0 ? 'exam time' : _formatDuration(untilExam);
+    if (marker) {
+      const pct = ((now - timelineStart) / (examStart - timelineStart)) * 100;
+      marker.style.left = Math.min(100, Math.max(0, pct)) + '%';
+    }
+  }
+
+  updateExamCountdown();
+  setInterval(updateExamCountdown, 1000);
+
+  // BOSS FIGHT SYSTEM
+  let _bossHP = 100;
+  let _hackActive = false;
+  let _glitchInt = null;
+  let _screenInt = null;
+  let _colorInt = null;
+
+  function attackBoss(e) {
+    if (_hackActive || _bossHP <= 0) return;
+    _bossHP = Math.max(0, _bossHP - 10);
+
+    const arena = document.querySelector('.boss-arena');
+    if (arena && e) {
+      const pop = document.createElement('div');
+      pop.className = 'dmg-pop';
+      pop.textContent = '-10';
+      const rect = arena.getBoundingClientRect();
+      pop.style.left = (e.clientX - rect.left - 20) + 'px';
+      pop.style.top = (e.clientY - rect.top - 10) + 'px';
+      arena.appendChild(pop);
+      setTimeout(() => pop.remove(), 850);
+    }
+
+    const img = document.querySelector('.boss-img');
+    if (img) {
+      img.style.filter = 'brightness(4) saturate(0)';
+      setTimeout(() => { img.style.filter = ''; }, 70);
+    }
+
+    const fill = document.querySelector('.boss-hp-fill');
+    if (fill) {
+      fill.style.width = _bossHP + '%';
+      if (_bossHP <= 30) fill.classList.add('danger');
+    }
+
+    _applyBossStage();
+    if (_bossHP <= 0) setTimeout(_activateHack, 350);
+  }
+
+  function _stage() {
+    if (_bossHP > 80) return 0;
+    if (_bossHP > 60) return 1;
+    if (_bossHP > 40) return 2;
+    if (_bossHP > 20) return 3;
+    if (_bossHP > 0) return 4;
+    return 5;
+  }
+
+  function _applyBossStage() {
+    const s = _stage();
+    const img = document.querySelector('.boss-img');
+    if (img) {
+      img.classList.remove('shake-1','shake-2','shake-3','shake-4');
+      if (s >= 1) img.classList.add('shake-' + Math.min(s, 4));
+    }
+    _startGlitch(s);
+    _startScreenShake(s);
+    _startColorGlitch(s);
+  }
+
+  function _startGlitch(s) {
+    clearInterval(_glitchInt);
+    if (s < 2) return;
+    const freqs = [0, 0, 2800, 1400, 550];
+    _glitchInt = setInterval(() => _spawnBar(s), freqs[Math.min(s, 4)]);
+    document.getElementById('hack-overlay')?.classList.add('active');
+  }
+
+  function _spawnBar(s) {
+    const ov = document.getElementById('hack-overlay');
+    if (!ov || !ov.classList.contains('active')) return;
+    const bar = document.createElement('div');
+    bar.className = 'glitch-bar';
+    const cols = ['rgba(239,68,68,0.75)','rgba(34,211,165,0.5)','rgba(249,115,22,0.65)','rgba(168,85,247,0.45)','rgba(255,255,255,0.3)'];
+    bar.style.cssText = `background:${cols[Math.floor(Math.random()*cols.length)]};top:${Math.random()*100}vh;height:${2+Math.random()*s*5}px;animation-duration:${0.1+Math.random()*0.4}s`;
+    ov.appendChild(bar);
+    setTimeout(() => bar.remove(), 600);
+  }
+
+  function _gw() { return document.getElementById('glitch-wrap') || document.body; }
+
+  function _startScreenShake(s) {
+    clearInterval(_screenInt);
+    _gw().style.transform = '';
+    if (s < 2) return;
+    const amp = [0, 0, 3, 8, 16][Math.min(s, 4)];
+    const freq = [0, 0, 350, 180, 80][Math.min(s, 4)];
+    _screenInt = setInterval(() => {
+      const x = (Math.random() - 0.5) * amp * 2;
+      const y = (Math.random() - 0.5) * amp * 2;
+      _gw().style.transform = `translate(${x}px,${y}px)`;
+      setTimeout(() => { _gw().style.transform = ''; }, freq * 0.35);
+    }, freq);
+  }
+
+  function _startColorGlitch(s) {
+    clearInterval(_colorInt);
+    _gw().style.filter = '';
+    if (s < 3) return;
+    const chance = [0, 0, 0, 0.35, 0.65][Math.min(s, 4)];
+    const freq = [0, 0, 0, 500, 200][Math.min(s, 4)];
+    _colorInt = setInterval(() => {
+      if (Math.random() < chance) {
+        _gw().style.filter = `hue-rotate(${Math.random()*70-35}deg) saturate(${1+Math.random()*1.2})`;
+        setTimeout(() => { _gw().style.filter = ''; }, 80 + Math.random() * 140);
+      }
+    }, freq);
+  }
+
+  function _activateHack() {
+    _hackActive = true;
+    const img = document.querySelector('.boss-img');
+    if (img) {
+      img.classList.remove('shake-1','shake-2','shake-3','shake-4');
+      img.classList.add('shake-4');
+    }
+
+    clearInterval(_glitchInt);
+    clearInterval(_screenInt);
+    clearInterval(_colorInt);
+    _glitchInt = setInterval(() => _spawnBar(5), 180);
+    _screenInt = setInterval(() => {
+      const x = (Math.random() - 0.5) * 40;
+      const y = (Math.random() - 0.5) * 40;
+      _gw().style.transform = `translate(${x}px,${y}px)`;
+      setTimeout(() => { _gw().style.transform = ''; }, 40);
+    }, 70);
+    _colorInt = setInterval(() => {
+      if (Math.random() < 0.75) {
+        const inv = Math.random() < 0.08 ? 'invert(1) ' : '';
+        _gw().style.filter = `${inv}hue-rotate(${Math.random()*100-50}deg) saturate(${1+Math.random()*2})`;
+        setTimeout(() => { _gw().style.filter = ''; }, 50 + Math.random() * 100);
+      }
+    }, 130);
+
+    document.getElementById('hack-overlay')?.classList.add('active');
+    const terminal = document.getElementById('hack-terminal');
+    if (terminal) {
+      terminal.classList.add('active');
+      const lines = terminal.querySelectorAll('.hack-line');
+      lines.forEach((l, i) => setTimeout(() => l.classList.add('show'), i * 280));
+      setTimeout(() => terminal.querySelector('.hack-escape')?.classList.add('show'), lines.length * 280 + 200);
+      setTimeout(_showQuiz, lines.length * 280 + 700);
+    }
+  }
+
+  function _deactivateHack() {
+    _hackActive = false;
+    _bossHP = 100;
+    clearInterval(_glitchInt);
+    clearInterval(_screenInt);
+    clearInterval(_colorInt);
+    _glitchInt = _screenInt = _colorInt = null;
+    _gw().style.transform = '';
+    _gw().style.filter = '';
+    document.getElementById('quiz-terminal')?.classList.remove('active');
+
+    const img = document.querySelector('.boss-img');
+    if (img) img.classList.remove('shake-1','shake-2','shake-3','shake-4');
+    const fill = document.querySelector('.boss-hp-fill');
+    if (fill) {
+      fill.style.width = '100%';
+      fill.classList.remove('danger');
+      fill.style.background = '';
+    }
+    const ov = document.getElementById('hack-overlay');
+    if (ov) { ov.classList.remove('active'); ov.innerHTML = ''; }
+    const terminal = document.getElementById('hack-terminal');
+    if (terminal) {
+      terminal.classList.remove('active');
+      terminal.querySelectorAll('.hack-line').forEach(l => l.classList.remove('show'));
+      terminal.querySelector('.hack-escape')?.classList.remove('show');
+    }
+  }
+
   function switchTab(id, btn) {
+    if (id !== 'review' && (_hackActive || _bossHP < 100)) _deactivateHack();
     document.querySelectorAll('.tab-content').forEach(t => t.classList.remove('active'));
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById(id).classList.add('active');
@@ -4059,13 +4693,143 @@
     ).join('');
   }
   document.addEventListener('DOMContentLoaded', () => { _shuffled = _fyShuffle([..._cards]); _renderCarousel(); _renderViewAll(); });
+
+  // TRUE / FALSE QUIZ SYSTEM
+  const _tfBank = [
+    {tag:'CPS #6',stmt:'In Minimax, the MAX player always picks the move with the highest utility value.',ans:true},
+    {tag:'CPS #6',stmt:'Alpha-beta pruning is an optimization of the Minimax algorithm.',ans:true},
+    {tag:'CPS #6',stmt:'Alpha-beta pruning changes the final move decision made by Minimax.',ans:false},
+    {tag:'CPS #6',stmt:'Terminal leaf nodes in a Minimax game tree store utility or payoff values.',ans:true},
+    {tag:'CPS #7',stmt:'A* Search evaluates nodes using f(n) = g(n) + h(n).',ans:true},
+    {tag:'CPS #7',stmt:'In A* search, g(n) represents the estimated cost from node n to the goal.',ans:false},
+    {tag:'CPS #7',stmt:'An admissible heuristic never overestimates the true cost to reach the goal.',ans:true},
+    {tag:'CPS #7',stmt:'Depth-First Search guarantees finding the shortest path to the goal.',ans:false},
+    {tag:'CPS #8',stmt:'TF-IDF measures word importance relative to a document corpus.',ans:true},
+    {tag:'CPS #8',stmt:'Tokenization splits text into words or sub-word units.',ans:true},
+    {tag:'CPS #8',stmt:'A chatbot using simple pattern matching qualifies as Strong AI.',ans:false},
+    {tag:'CPS #9',stmt:'In GPS goal stack planning, unsatisfied preconditions are pushed onto the goal stack.',ans:true},
+    {tag:'CPS #9',stmt:"An operator's DELETE list removes facts from the KB that the action invalidates.",ans:true},
+    {tag:'CPS #9',stmt:"An operator's DELETE list adds new facts to the knowledge base.",ans:false},
+    {tag:'CPS #9',stmt:'GPS uses a stack (LIFO) to track the current goal and all sub-goals.',ans:true},
+    {tag:'CPS #9',stmt:'After an operator executes, facts in its ADD list are added to the knowledge base.',ans:true}
+  ];
+  let _quizQ = null, _quizSel = 0, _quizLocked = false;
+
+  function _showQuiz() {
+    _quizQ = _tfBank[Math.floor(Math.random() * _tfBank.length)];
+    _quizSel = 0;
+    _quizLocked = false;
+    _quizQ.ans_idx = _quizQ.ans ? 0 : 1;
+    document.getElementById('qt-tag').textContent = '[ ' + _quizQ.tag + ' ]';
+    document.getElementById('qt-question').textContent = _quizQ.stmt;
+    document.getElementById('qt-options').innerHTML =
+      '<div class="qt-option qt-tf sel" onclick="_qtClick(0)">[ T ]  TRUE</div>' +
+      '<div class="qt-option qt-tf" onclick="_qtClick(1)">[ F ]  FALSE</div>';
+    const fb = document.getElementById('qt-feedback');
+    fb.textContent = '';
+    fb.className = 'qt-feedback';
+    document.getElementById('quiz-terminal').classList.add('active');
+  }
+
+  function _qtUpdateSel() {
+    document.querySelectorAll('.qt-option').forEach((el, j) => el.classList.toggle('sel', j === _quizSel));
+  }
+
+  function _qtClick(i) {
+    if (_quizLocked) return;
+    _quizSel = i;
+    _qtUpdateSel();
+    setTimeout(_qtSubmit, 120);
+  }
+
+  function _qtSubmit() {
+    if (_quizLocked) return;
+    _quizLocked = true;
+    const opts = document.querySelectorAll('.qt-option');
+    const fb = document.getElementById('qt-feedback');
+    if (_quizSel === _quizQ.ans_idx) {
+      opts[_quizSel]?.classList.add('correct-flash');
+      fb.textContent = 'CORRECT. PURGING GOONIS.EXE... SYSTEM RESTORED.';
+      fb.className = 'qt-feedback ok';
+      setTimeout(() => {
+        document.getElementById('quiz-terminal').classList.remove('active');
+        _deactivateHack();
+      }, 1400);
+    } else {
+      opts[_quizSel]?.classList.add('wrong-flash');
+      fb.textContent = 'WRONG. HUHHHH PROTOCOL INTENSIFIES.';
+      fb.className = 'qt-feedback bad';
+      setTimeout(() => {
+        opts[_quizSel]?.classList.remove('wrong-flash');
+        fb.textContent = '';
+        fb.className = 'qt-feedback';
+        _quizLocked = false;
+      }, 1800);
+    }
+  }
+
+  document.addEventListener('keydown', function(e) {
+    const qt = document.getElementById('quiz-terminal');
+    if (!qt?.classList.contains('active') || _quizLocked) return;
+    if (e.key === 'ArrowUp' || e.key === 'ArrowLeft' || e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+      e.preventDefault();
+      _quizSel = _quizSel === 0 ? 1 : 0;
+      _qtUpdateSel();
+    } else if (e.key === 'Enter') {
+      e.preventDefault();
+      _qtSubmit();
+    } else if (e.key.toLowerCase() === 't') {
+      _quizSel = 0;
+      _qtUpdateSel();
+    } else if (e.key.toLowerCase() === 'f') {
+      _quizSel = 1;
+      _qtUpdateSel();
+    }
+  });
 </script>
+
+</div><!-- /glitch-wrap -->
 
 <div id="goonis-peek">
   <img src="goonis%20peaking%20around%20the%20corner.png" alt="Professor Goonis peeking" />
 </div>
 <button id="goonis-toggle" onclick="toggleGoonis()">✋ Goonis pls leave me alone</button>
-<div id="version-badge">v1.0</div>
+<div id="version-badge">v1.8</div>
+
+<!-- HACK OVERLAY -->
+<div id="hack-overlay"></div>
+<div id="hack-terminal">
+  <div id="hack-terminal-title">GOONIS.EXE HAS BREACHED YOUR FIREWALL</div>
+  <div class="hack-line dim">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+  <div class="hack-line">&gt; SCANNING NEURAL PATHWAYS... <span class="green">██████████ 100%</span></div>
+  <div class="hack-line">&gt; LOCATING STUDY NOTES... <span class="green">FOUND (∞ items)</span></div>
+  <div class="hack-line">&gt; CORRUPTING ANSWER MEMORY... <span class="green">COMPLETE</span></div>
+  <div class="hack-line">&gt; REPLACING KNOWLEDGE WITH... <span class="yellow">HUHHHH</span></div>
+  <div class="hack-line">&gt; INJECTING WORST-2-GRADING PROTOCOL... <span class="green">ACTIVE</span></div>
+  <div class="hack-line dim">━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━</div>
+  <div class="hack-escape">
+    ESCAPE: answer the true / false challenge
+    <div class="hack-progress"><div class="hack-progress-fill" id="hack-progress-fill"></div></div>
+  </div>
+</div>
+
+<!-- QUIZ TERMINAL -->
+<div id="quiz-terminal">
+  <div class="qt-header">
+    <span>GOONIS.EXE &gt; TRUE / FALSE CHALLENGE</span>
+    <span style="font-weight:400;opacity:0.65;font-size:0.7rem">answer to purge</span>
+  </div>
+  <div class="qt-body">
+    <div class="qt-flavor">&gt; Is the following statement TRUE or FALSE?</div>
+    <div class="qt-divider">──────────────────────────────────────────────────</div>
+    <div class="qt-tag" id="qt-tag">[ CPS #? ]</div>
+    <div class="qt-question" id="qt-question">Loading...</div>
+    <div class="qt-divider">──────────────────────────────────────────────────</div>
+    <div class="qt-options" id="qt-options"></div>
+    <div class="qt-nav">↑ ↓ / T / F to select &nbsp;·&nbsp; ENTER or click to submit</div>
+    <div class="qt-feedback" id="qt-feedback"></div>
+  </div>
+</div>
 
 </body>
 </html>
