@@ -745,6 +745,81 @@
       .magic-board { max-width: 230px; margin: 0 auto; }
     }
 
+    /* ── MINIMAX VISUALIZER ── */
+    /* ── MINIMAX TRACER (Figure #2 style) ── */
+    .mm-viz-card { border-top: 3px solid var(--warn); }
+    .mmx-step-meta { display: flex; align-items: center; gap: 1rem; margin-bottom: .75rem; flex-wrap: wrap; }
+    .mmx-step-counter { font-family: monospace; font-size: 13px; color: var(--muted); }
+    .mmx-step-counter strong { color: #c4a8ff; }
+    .mmx-progress-track { flex: 1; min-width: 80px; height: 4px; background: var(--surface2); border-radius: 2px; overflow: hidden; }
+    .mmx-progress-fill { height: 100%; background: linear-gradient(90deg, #c4a8ff, #5eddc0); transition: width .25s ease; }
+    .mmx-tree-section { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: .5rem; margin-bottom: .75rem; overflow-x: auto; }
+    .mmx-info-section { display: grid; grid-template-columns: minmax(0,1.05fr) minmax(0,.95fr); gap: .75rem; margin-bottom: .75rem; }
+    .mmx-pseudo-panel, .mmx-stack-panel, .mmx-narrative-panel { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: .8rem 1rem; }
+    .mmx-pseudo-panel { display: flex; flex-direction: column; max-height: 440px; }
+    .mmx-right-col { display: flex; flex-direction: column; gap: .75rem; min-width: 0; }
+    .mmx-stack-panel { flex: 0 0 auto; max-height: 240px; display: flex; flex-direction: column; }
+    .mmx-narrative-panel { flex: 1; }
+    .mmx-panel-label { font-size: 10px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); margin-bottom: .55rem; padding-bottom: .45rem; border-bottom: 1px solid var(--border); }
+    .mmx-pseudo-body { flex: 1; overflow-y: auto; font-family: monospace; font-size: 11.5px; line-height: 1.65; }
+    .mmx-pline { display: block; padding: 2px 8px; border-left: 3px solid transparent; color: var(--muted); white-space: pre-wrap; border-radius: 0 4px 4px 0; transition: background .2s, border-color .2s; }
+    .mmx-pline.i1 { padding-left: 22px; } .mmx-pline.i2 { padding-left: 36px; } .mmx-pline.i3 { padding-left: 50px; }
+    .mmx-pline.ph { font-style: italic; } .mmx-pline.ps { color: var(--text); font-weight: 700; } .mmx-pline.pn { font-size: 10.5px; font-style: italic; padding-left: 30px; }
+    .mmx-pline.hl { background: #2d2540; border-left-color: #c4a8ff; color: var(--text); }
+    .mmx-stack-body { flex: 1; overflow-y: auto; display: flex; flex-direction: column; gap: .5rem; }
+    .mmx-stack-empty { color: var(--muted); font-size: 12px; font-style: italic; text-align: center; padding: 1rem 0; }
+    .mmx-frame { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: .55rem .75rem; font-size: 11.5px; transition: all .2s; }
+    .mmx-frame.top { border-color: #c4a8ff; background: #2d2540; }
+    .mmx-frame-head { display: flex; align-items: center; gap: .45rem; margin-bottom: .35rem; }
+    .mmx-node-name { font-family: monospace; font-weight: 700; font-size: 13px; color: var(--text); }
+    .mmx-player { font-family: monospace; font-size: 10px; padding: 1px 6px; border-radius: 3px; letter-spacing: .05em; }
+    .mmx-player.MAX { background: #1d2c4a; color: #5e9eff; } .mmx-player.MIN { background: #3a1e2c; color: #ff7eb6; }
+    .mmx-frame-depth { font-size: 11px; color: var(--muted); margin-left: auto; font-family: monospace; }
+    .mmx-frame-body { display: grid; grid-template-columns: 78px 1fr; gap: 3px 8px; font-family: monospace; font-size: 10.5px; }
+    .mmx-fl { color: var(--muted); } .mmx-fv { color: var(--text); } .mmx-fv.score { color: #ffc94f; font-weight: 700; } .mmx-fv.path { color: #5eddc0; }
+    .mmx-succs { margin-top: .35rem; padding-top: .35rem; border-top: 1px dashed var(--border); font-family: monospace; font-size: 10.5px; color: var(--muted); display: flex; gap: .25rem; align-items: center; flex-wrap: wrap; }
+    .mmx-succ { padding: 1px 5px; border-radius: 3px; background: var(--surface2); color: var(--muted); }
+    .mmx-succ.done { opacity: .4; text-decoration: line-through; } .mmx-succ.cur { background: #c4a8ff; color: #14141a; font-weight: 700; }
+    .mmx-narrative-body { font-size: 13px; line-height: 1.65; color: var(--text); }
+    .mmx-narrative-body .mmx-step-title { font-size: 12px; font-weight: 700; color: #c4a8ff; margin-bottom: .45rem; padding-bottom: .35rem; border-bottom: 1px solid var(--border); }
+    .mmx-narrative-body code { font-family: monospace; font-size: 12px; padding: 1px 5px; background: var(--surface2); border-radius: 3px; color: #ffc94f; }
+    .tag-update { color: #7ee787; font-weight: 700; } .tag-noupdate { color: var(--muted); } .tag-return { color: #ff9966; font-weight: 700; }
+    .tag-call { color: #5e9eff; font-weight: 700; } .tag-yes { color: #7ee787; font-weight: 700; } .tag-no { color: #ff9966; font-weight: 700; }
+    .mmx-final-banner { background: linear-gradient(135deg, #1e3d36, #2d2540); border: 1px solid #5eddc0; border-radius: 10px; padding: 1rem 1.25rem; margin-bottom: .75rem; display: none; }
+    .mmx-final-banner.show { display: block; animation: mmxFadeIn .4s ease; }
+    @keyframes mmxFadeIn { from { opacity: 0; transform: translateY(-6px); } to { opacity: 1; transform: translateY(0); } }
+    .mmx-final-stats { display: flex; gap: 2rem; margin: .35rem 0 .6rem; flex-wrap: wrap; }
+    .mmx-controls { display: flex; align-items: center; gap: .45rem; flex-wrap: wrap; padding: .65rem 1rem; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; }
+    .mmx-controls button { font-size: 13px; font-weight: 500; padding: .38rem .8rem; background: var(--surface); color: var(--text); border: 1px solid var(--border); border-radius: 6px; cursor: pointer; transition: all .15s; min-width: 80px; font-family: inherit; }
+    .mmx-controls button:hover:not(:disabled) { border-color: #c4a8ff; color: #c4a8ff; }
+    .mmx-controls button:disabled { opacity: .35; cursor: not-allowed; }
+    .mmx-controls button.mmx-primary { background: #2d2540; border-color: #c4a8ff; color: #c4a8ff; }
+    .mmx-controls button.mmx-primary:hover:not(:disabled) { background: #c4a8ff; color: #14141a; }
+    .mmx-speed-label { display: flex; align-items: center; gap: .45rem; font-size: 12px; color: var(--muted); margin-left: auto; }
+    .mmx-speed-label input[type="range"] { width: 90px; cursor: pointer; }
+    .mmx-level-label { font-family: monospace; font-size: 10px; letter-spacing: .1em; fill: #5a5a62; text-transform: uppercase; }
+    .mmx-pulse-ring { animation: mmxPulse 1.4s ease-out infinite; }
+    @keyframes mmxPulse { 0% { r: 24; opacity: .6; } 100% { r: 44; opacity: 0; } }
+    .mmx-return-bubble { animation: mmxReturn .6s ease-out; }
+    @keyframes mmxReturn { 0% { opacity: 0; transform: translateY(-6px); } 100% { opacity: 1; transform: translateY(0); } }
+    @media (max-width: 900px) { .mmx-info-section { grid-template-columns: 1fr; } .mmx-pseudo-panel { max-height: 350px; } }
+
+    /* ── A* VISUALIZER ── */
+    .astar-viz-card { border-top: 3px solid #84cc16; }
+    .astar-map-wrap { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: .5rem; overflow-x: auto; margin-bottom: .75rem; }
+    .astar-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: .75rem; }
+    .astar-panel { background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; padding: .9rem 1rem; }
+    .astar-kicker { font-size: .68rem; font-weight: 800; letter-spacing: .1em; color: #84cc16; text-transform: uppercase; margin-bottom: .35rem; }
+    .astar-panel h4 { font-size: .95rem; margin-bottom: .35rem; color: var(--text); }
+    .astar-panel p { font-size: .82rem; color: var(--muted); line-height: 1.5; margin-bottom: .5rem; }
+    .astar-list { font-size: .77rem; color: var(--muted); }
+    .astar-list-row { display: flex; justify-content: space-between; padding: .18rem 0; border-bottom: 1px solid var(--border); gap: .5rem; }
+    .astar-list-row.cur { color: #fbbf24; font-weight: 700; }
+    .astar-controls { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .astar-controls button { background: var(--surface); border: 1px solid var(--border); border-radius: 7px; color: var(--text); cursor: pointer; font-family: inherit; font-size: .8rem; font-weight: 700; padding: .42rem .75rem; transition: border-color .15s, color .15s, background .15s; }
+    .astar-controls button:hover { border-color: #84cc16; color: #84cc16; background: rgba(132,204,22,.08); }
+    @media (max-width: 580px) { .astar-bottom { grid-template-columns: 1fr; } }
+
     /* ── GOONIS WIDGET ── */
     .goonis-wrap {
       display: inline-flex;
@@ -2891,6 +2966,7 @@
     <a href="#g-ttt">Tic-Tac-Toe Programs</a>
     <a href="#g-magic">Magic Squares</a>
     <a href="#g-minimax">Minimax Algorithm</a>
+    <a href="#mm-viz">Minimax Tracer</a>
     <a href="#g-eval">Evaluation Functions</a>
     <a href="#g-ab">Alpha-Beta Pruning</a>
     <a href="#flash6">Flashcards</a>
@@ -3138,6 +3214,49 @@
         <div>These are two separate tree examples in the slides. Do not mix the backed-up values (3, 2, 2) from the hypothetical tree with the result (ACI, −2) from the tic-tac-toe trace. On an exam, the answer for the worked example is: <strong>Best Path = ACI, Best Score = −2.</strong></div>
       </div>
     </div>
+
+    <!-- MINIMAX TRACER -->
+    <div id="mm-viz" class="card mm-viz-card">
+      <h3 style="color:var(--warn)">Interactive Minimax Tracer — Figure #2</h3>
+      <div class="mmx-step-meta">
+        <span class="mmx-step-counter">Step <strong id="mmx-step-num">0</strong> / <span id="mmx-step-total">44</span></span>
+        <div class="mmx-progress-track"><div class="mmx-progress-fill" id="mmx-progress-fill" style="width:0%"></div></div>
+      </div>
+      <div class="mmx-tree-section">
+        <svg id="mmx-tree-svg" viewBox="0 0 1100 540" style="width:100%;height:auto;display:block;max-height:400px" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+      <div class="mmx-info-section">
+        <div class="mmx-pseudo-panel">
+          <div class="mmx-panel-label">Pseudocode — Figure #1</div>
+          <div class="mmx-pseudo-body" id="mmx-pseudo-body"></div>
+        </div>
+        <div class="mmx-right-col">
+          <div class="mmx-stack-panel">
+            <div class="mmx-panel-label">Call Stack</div>
+            <div class="mmx-stack-body" id="mmx-stack-body"></div>
+          </div>
+          <div class="mmx-narrative-panel">
+            <div class="mmx-panel-label">What's happening</div>
+            <div class="mmx-narrative-body" id="mmx-narrative-body"></div>
+          </div>
+        </div>
+      </div>
+      <div class="mmx-final-banner" id="mmx-final-banner">
+        <div style="font-size:11px;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:#5eddc0;margin-bottom:.5rem">Final answer</div>
+        <div class="mmx-final-stats">
+          <div><span style="font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase">VALUE</span><br><span style="font-family:monospace;font-size:22px;font-weight:700;color:#5eddc0">5</span></div>
+          <div><span style="font-size:10px;color:var(--muted);letter-spacing:.08em;text-transform:uppercase">BEST-PATH</span><br><span style="font-family:monospace;font-size:22px;font-weight:700;color:#5eddc0">A → C → G → N</span></div>
+        </div>
+        <p style="font-size:12px;color:var(--muted)">MAX's optimal first move is to C. From C, MIN's best reply is G. From G, MAX chooses N (utility 5 from MAX's POV).</p>
+      </div>
+      <div class="mmx-controls">
+        <button id="mmx-btn-reset">⟲ Reset</button>
+        <button id="mmx-btn-prev">← Prev</button>
+        <button id="mmx-btn-next" class="mmx-primary">Next →</button>
+        <button id="mmx-btn-play">▶ Play</button>
+        <label class="mmx-speed-label">Speed <input type="range" id="mmx-speed" min="500" max="3500" value="1800" step="100" /></label>
+      </div>
+    </div>
   </div>
 
   <!-- 5. EVALUATION FUNCTIONS -->
@@ -3290,6 +3409,7 @@
     <a href="#s-uniform">Uniform Cost</a>
     <a href="#s-total">Total Cost</a>
     <a href="#s-astar">A* Search</a>
+    <a href="#astar-viz">A* Tracer</a>
     <a href="#s-heuristics">8-Puzzle Heuristics</a>
     <a href="#s-relax">Condition Relaxation</a>
     <a href="#s-memory">Memory-Bounded</a>
@@ -3510,6 +3630,37 @@
       <h3 style="color:#84cc16">A* on the Map Problem (Arad → Bucharest)</h3>
       <p style="color:var(--muted);font-size:.84rem;margin-bottom:.5rem">Expands: Arad(366) → Sibiu(393) → RV(413) → Fagaras(415) → Pitesti(417) → <strong>Bucharest(418)</strong></p>
       <p style="color:var(--accent-both);font-size:.84rem">Optimal path cost: <strong>418</strong>. Greedy found 450. A* wins.</p>
+    </div>
+
+    <!-- A* TRACER -->
+    <div id="astar-viz" class="card astar-viz-card">
+      <h3 style="color:#84cc16">Interactive A* Tracer — Arad → Bucharest</h3>
+      <p style="color:var(--muted);font-size:.84rem;margin-bottom:.85rem">Step through A* on the Romania map from the slides. See which node gets expanded each step, how the OPEN list updates, and how A* finds the optimal path of cost 418.</p>
+      <div class="astar-map-wrap">
+        <svg id="astar-svg" viewBox="0 0 720 360" style="width:100%;min-width:320px;height:auto" xmlns="http://www.w3.org/2000/svg"></svg>
+      </div>
+      <div class="astar-bottom">
+        <div class="astar-panel">
+          <div class="astar-kicker" id="astar-kicker">Step 0 of 6</div>
+          <h4 id="astar-title">Initial State</h4>
+          <p id="astar-desc">OPEN = [Arad(f=366)]. CLOSED = []. A* always expands the lowest-f node.</p>
+          <div class="astar-controls">
+            <button type="button" onclick="_astarPrev()">← Prev</button>
+            <button type="button" onclick="_astarNext()">Next →</button>
+            <button type="button" onclick="_astarReset()">Reset</button>
+          </div>
+        </div>
+        <div class="astar-panel">
+          <div style="margin-bottom:.55rem">
+            <div class="astar-kicker" style="color:#4f8ef7;margin-bottom:.12rem">OPEN (sorted by f)</div>
+            <div id="astar-open-list" class="astar-list"></div>
+          </div>
+          <div>
+            <div class="astar-kicker" style="color:#a855f7;margin-bottom:.12rem">CLOSED</div>
+            <div id="astar-closed-list" class="astar-list"></div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 
@@ -5204,7 +5355,563 @@
     _renderMagicStepper();
   }
 
-  document.addEventListener('DOMContentLoaded', () => { _shuffled = _fyShuffle([..._cards]); _renderCarousel(); _renderViewAll(); _renderMagicStepper(); });
+  document.addEventListener('DOMContentLoaded', () => {
+    _shuffled = _fyShuffle([..._cards]); _renderCarousel(); _renderViewAll(); _renderMagicStepper();
+    _mmxRender();
+    const _mmxTotal = document.getElementById('mmx-step-total');
+    if (_mmxTotal) _mmxTotal.textContent = _mmxSTEPS.length - 1;
+    const _mmxBR = document.getElementById('mmx-btn-reset');
+    const _mmxBP = document.getElementById('mmx-btn-prev');
+    const _mmxBN = document.getElementById('mmx-btn-next');
+    const _mmxBPl = document.getElementById('mmx-btn-play');
+    if (_mmxBR) _mmxBR.addEventListener('click', () => { _mmxStopPlay(); _mmxIdx=0; _mmxRender(); });
+    if (_mmxBP) _mmxBP.addEventListener('click', () => { _mmxStopPlay(); _mmxPrev(); });
+    if (_mmxBN) _mmxBN.addEventListener('click', () => { _mmxStopPlay(); _mmxNext(); });
+    if (_mmxBPl) _mmxBPl.addEventListener('click', () => { if (_mmxPlaying) _mmxStopPlay(); else _mmxStartPlay(); });
+    _astarRender();
+  });
+
+  // ── MINIMAX VISUALIZER (Figure #2 port) ───────────────────────────────────
+  const _mmxPOS = {
+    A:{x:550,y:60}, B:{x:270,y:200}, C:{x:830,y:200},
+    D:{x:130,y:340}, E:{x:410,y:340}, F:{x:690,y:340}, G:{x:970,y:340},
+    H:{x:60,y:480}, I:{x:200,y:480}, J:{x:340,y:480}, K:{x:480,y:480},
+    L:{x:620,y:480}, M:{x:760,y:480}, N:{x:900,y:480}, O:{x:1040,y:480}
+  };
+  const _mmxEDGES = [
+    ['A','B'],['A','C'],['B','D'],['B','E'],['C','F'],['C','G'],
+    ['D','H'],['D','I'],['E','J'],['E','K'],['F','L'],['F','M'],['G','N'],['G','O']
+  ];
+  const _mmxROLES = {
+    A:'MAX',B:'MIN',C:'MIN',D:'MAX',E:'MAX',F:'MAX',G:'MAX',
+    H:'LEAF',I:'LEAF',J:'LEAF',K:'LEAF',L:'LEAF',M:'LEAF',N:'LEAF',O:'LEAF'
+  };
+  const _mmxORIG = {H:8,I:-5,J:3,K:2,L:3,M:9,N:5,O:-6};
+  const _mmxFLIPPED = {H:-8,I:5,J:-3,K:-2,L:-3,M:-9,N:-5,O:6};
+  const _mmxPSEUDO = [
+    {id:'H1',text:'MINIMAX(CURRENT,0,PLAYER-ONE)  if PLAYER-ONE moves',cls:'ph'},
+    {id:'H2',text:'MINIMAX(CURRENT,0,PLAYER-TWO)  if PLAYER-TWO moves',cls:'ph'},
+    {id:'sig',text:'MINIMAX(Position, Depth, Player) →',cls:'ps'},
+    {id:'L1',text:'1. If DEEP-ENOUGH(Position, Depth), return:',cls:''},
+    {id:'L1a',text:'VALUE = STATIC(Position, Player)',cls:'i1'},
+    {id:'L1b',text:'PATH  = nil',cls:'i1'},
+    {id:'L1note',text:'// no path from this node; static eval is its value',cls:'pn'},
+    {id:'L2',text:'2. Otherwise, SUCCESSORS = MOVE-GEN(Position, Player)',cls:''},
+    {id:'L3',text:'3. If SUCCESSORS is empty: return as in step 1',cls:''},
+    {id:'L4',text:'4. For each SUCC in SUCCESSORS, keep the best:',cls:''},
+    {id:'L4init',text:'BEST-SCORE ← minimum value STATIC can return  (= −∞)',cls:'i1'},
+    {id:'L4a',text:'(a) RESULT-SUCC = MINIMAX(SUCC, Depth+1, OPPOSITE(Player))',cls:'i1'},
+    {id:'L4b',text:'(b) NEW-VALUE = − VALUE(RESULT-SUCC)',cls:'i1'},
+    {id:'L4c',text:'(c) If NEW-VALUE > BEST-SCORE:',cls:'i1'},
+    {id:'L4ci',text:'(i)  BEST-SCORE ← NEW-VALUE',cls:'i2'},
+    {id:'L4cii',text:'(ii) BEST-PATH  ← SUCC + PATH(RESULT-SUCC)',cls:'i2'},
+    {id:'L5',text:'5. Return { VALUE = BEST-SCORE, PATH = BEST-PATH }',cls:''}
+  ];
+
+  function _mmxBuildSteps() {
+    const steps = [];
+    let state = {
+      showFlipped:false, visited:new Set(), backedUp:{}, callStack:[],
+      activeNode:null, bestPath:[], terminalReturn:null, showFinal:false
+    };
+    function snap(title, narration, pseudoLines, mutator) {
+      if (mutator) mutator(state);
+      steps.push({
+        title, narration, pseudoLines:pseudoLines||[],
+        showFlipped:state.showFlipped, visited:[...state.visited],
+        backedUp:{...state.backedUp},
+        callStack:state.callStack.map(f=>({...f,bestPath:[...(f.bestPath||[])],succs:f.succs?[...f.succs]:null})),
+        activeNode:state.activeNode, bestPath:[...state.bestPath],
+        terminalReturn:state.terminalReturn, showFinal:state.showFinal
+      });
+      state.terminalReturn = null;
+    }
+    function push(node,depth,player){state.callStack.push({node,depth,player,bestScore:null,bestPath:[],succs:null,succIdx:-1});state.activeNode=node;state.visited.add(node);}
+    function top(){return state.callStack[state.callStack.length-1];}
+    function pop(){state.callStack.pop();state.activeNode=state.callStack.length?state.callStack[state.callStack.length-1].node:null;}
+
+    snap('Step 0 — The tree from Figure #2',
+      `<p>Here is Figure #2. Eight terminal nodes (H–O) have utility values from MAX’s point of view: H=8, I=−5, J=3, K=2, L=3, M=9, N=5, O=−6.</p><p style="margin-top:8px">A is MAX, B and C are MIN, D–G are MAX, and the terminals are at MIN’s turn.</p>`,[]);
+    snap('Step 1 — Flip the terminal values for the algorithm',
+      `<p>Per slide 50: the terminals are called with <code>Player = MIN</code>, so STATIC returns the <strong>negated</strong> originals. Flipped values appear above each terminal. The negation in step 4(b) flips them back at the parent.</p>`,
+      ['L1a'],s=>{s.showFlipped=true;});
+    snap('Step 2 — Initial call: MINIMAX(A, 0, MAX)',
+      `<p>MAX moves first at root A. Top-level call: <code>MINIMAX(A, 0, MAX)</code>. Push a new frame onto the call stack.</p>`,
+      ['H1','sig'],s=>{push('A',0,'MAX');});
+    snap('Step 3 — Inside A: DEEP-ENOUGH check',
+      `<p>Step 1: <code>DEEP-ENOUGH(A, 0)</code>? <span class="tag-no">No</span> — whole tree to search. Skip to step 2.</p>`,
+      ['L1']);
+    snap('Step 4 — Generate successors at A',
+      `<p>Step 2: <code>SUCCESSORS = MOVE-GEN(A, MAX) = [B, C]</code>.</p>`,
+      ['L2'],s=>{top().succs=['B','C'];});
+    snap('Step 5 — Initialize A’s BEST-SCORE',
+      `<p>SUCCESSORS is not empty. Initialize <code>BEST-SCORE = −∞</code>. Now iterate over each successor.</p>`,
+      ['L4','L4init'],s=>{top().bestScore='-∞';});
+    snap('Step 6 — <span class="tag-call">A calls MINIMAX(B, 1, MIN)</span>',
+      `<p>First successor is B. Step 4(a): <code>RESULT-SUCC = MINIMAX(B, 1, MIN)</code>. OPPOSITE(MAX) = MIN. Push B’s frame.</p>`,
+      ['L4a'],s=>{top().succIdx=0;push('B',1,'MIN');});
+    snap('Step 7 — Inside B: generate and init',
+      `<p>DEEP-ENOUGH(B, 1)? <span class="tag-no">No</span>. <code>SUCCESSORS = [D, E]</code>. Init B’s BEST-SCORE = −∞.</p>`,
+      ['L1','L2','L4init'],s=>{top().succs=['D','E'];top().bestScore='-∞';});
+    snap('Step 8 — <span class="tag-call">B calls MINIMAX(D, 2, MAX)</span>',
+      `<p>B’s first successor is D. Push D’s frame. OPPOSITE(MIN) = MAX.</p>`,
+      ['L4a'],s=>{top().succIdx=0;push('D',2,'MAX');});
+    snap('Step 9 — Inside D: generate and init',
+      `<p>DEEP-ENOUGH(D, 2)? <span class="tag-no">No</span>. <code>SUCCESSORS = [H, I]</code>. Init D’s BEST-SCORE = −∞.</p>`,
+      ['L1','L2','L4init'],s=>{top().succs=['H','I'];top().bestScore='-∞';});
+    snap('Step 10 — <span class="tag-call">D calls MINIMAX(H, 3, MIN)</span>',
+      `<p>D’s first successor is H. Push H’s frame.</p>`,
+      ['L4a'],s=>{top().succIdx=0;push('H',3,'MIN');});
+    snap('Step 11 — H is deep enough — <span class="tag-return">return</span>',
+      `<p>DEEP-ENOUGH(H, 3)? <span class="tag-yes">Yes!</span></p><p style="margin-top:6px">Return <code>VALUE = STATIC(H, MIN) = −8</code> (flipped), <code>PATH = nil</code>. Pop H.</p>`,
+      ['L1','L1a','L1b'],s=>{s.terminalReturn={node:'H',value:-8};pop();});
+    snap('Step 12 — D processes H’s return — <span class="tag-update">update</span>',
+      `<p>Back at D. Step 4(b): <code>NEW-VALUE = −(−8) = 8</code>. Step 4(c): <code>8 > −∞</code>? <span class="tag-yes">Yes</span>. Update D’s <code>BEST-SCORE = 8</code>, <code>BEST-PATH = [H]</code>.</p>`,
+      ['L4b','L4c','L4ci','L4cii'],s=>{top().bestScore=8;top().bestPath=['H'];});
+    snap('Step 13 — <span class="tag-call">D calls MINIMAX(I, 3, MIN)</span>',
+      `<p>D’s next successor is I. Push I.</p>`,
+      ['L4a'],s=>{top().succIdx=1;push('I',3,'MIN');});
+    snap('Step 14 — I is deep enough — <span class="tag-return">return</span>',
+      `<p>DEEP-ENOUGH(I, 3). Return <code>VALUE = STATIC(I, MIN) = 5</code> (flipped from −5). Pop I.</p>`,
+      ['L1','L1a','L1b'],s=>{s.terminalReturn={node:'I',value:5};pop();});
+    snap('Step 15 — D processes I’s return — <span class="tag-noupdate">no update</span>',
+      `<p><code>NEW-VALUE = −5</code>. <code>−5 > 8</code>? <span class="tag-no">No</span>. BEST-SCORE stays 8.</p>`,
+      ['L4b','L4c']);
+    snap('Step 16 — D done — <span class="tag-return">return</span>',
+      `<p>All D’s successors examined. Return <code>{VALUE: 8, PATH: [H]}</code> to B. Pop D. D’s backed-up value (8) shown on tree.</p>`,
+      ['L5'],s=>{s.backedUp['D']=8;pop();});
+    snap('Step 17 — B processes D’s return — <span class="tag-update">update</span>',
+      `<p><code>NEW-VALUE = −8</code>. <code>−8 > −∞</code>? <span class="tag-yes">Yes</span>. Update B’s <code>BEST-SCORE = −8</code>, <code>BEST-PATH = [D, H]</code>.</p>`,
+      ['L4b','L4c','L4ci','L4cii'],s=>{top().bestScore=-8;top().bestPath=['D','H'];});
+    snap('Step 18 — <span class="tag-call">B calls MINIMAX(E, 2, MAX)</span>',
+      `<p>B’s next successor is E. Push E’s frame.</p>`,
+      ['L4a'],s=>{top().succIdx=1;push('E',2,'MAX');});
+    snap('Step 19 — Inside E: generate and init',
+      `<p>DEEP-ENOUGH(E, 2)? <span class="tag-no">No</span>. <code>SUCCESSORS = [J, K]</code>. Init BEST-SCORE = −∞.</p>`,
+      ['L1','L2','L4init'],s=>{top().succs=['J','K'];top().bestScore='-∞';});
+    snap('Step 20 — <span class="tag-call">E calls MINIMAX(J, 3, MIN)</span> — <span class="tag-return">returns immediately</span>',
+      `<p>Push J. J is deep enough. Return <code>VALUE = STATIC(J, MIN) = −3</code> (flipped from 3). Pop J.</p>`,
+      ['L4a','L1','L1a'],s=>{top().succIdx=0;push('J',3,'MIN');s.terminalReturn={node:'J',value:-3};pop();});
+    snap('Step 21 — E processes J — <span class="tag-update">update</span>',
+      `<p><code>NEW-VALUE = −(−3) = 3</code>. <code>3 > −∞</code>? <span class="tag-yes">Yes</span>. Update E’s <code>BEST-SCORE = 3</code>, <code>BEST-PATH = [J]</code>.</p>`,
+      ['L4b','L4c','L4ci','L4cii'],s=>{top().bestScore=3;top().bestPath=['J'];});
+    snap('Step 22 — <span class="tag-call">E calls MINIMAX(K, 3, MIN)</span> — <span class="tag-return">returns</span>',
+      `<p>Push K. K is deep enough. Return <code>VALUE = STATIC(K, MIN) = −2</code> (flipped from 2). Pop K.</p>`,
+      ['L4a','L1','L1a'],s=>{top().succIdx=1;push('K',3,'MIN');s.terminalReturn={node:'K',value:-2};pop();});
+    snap('Step 23 — E processes K — <span class="tag-noupdate">no update</span>',
+      `<p><code>NEW-VALUE = 2</code>. <code>2 > 3</code>? <span class="tag-no">No</span>. No update.</p>`,
+      ['L4b','L4c']);
+    snap('Step 24 — E done — <span class="tag-return">return</span>',
+      `<p>Return <code>{VALUE: 3, PATH: [J]}</code> to B. Pop E. E’s backed-up value: 3.</p>`,
+      ['L5'],s=>{s.backedUp['E']=3;pop();});
+    snap('Step 25 — B processes E’s return — <span class="tag-update">update</span>',
+      `<p><code>NEW-VALUE = −3</code>. <code>−3 > −8</code>? <span class="tag-yes">Yes</span>. Update B’s <code>BEST-SCORE = −3</code>, <code>BEST-PATH = [E, J]</code>. B now prefers E over D.</p>`,
+      ['L4b','L4c','L4ci','L4cii'],s=>{top().bestScore=-3;top().bestPath=['E','J'];});
+    snap('Step 26 — B done — <span class="tag-return">return</span>',
+      `<p>Return <code>{VALUE: −3, PATH: [E, J]}</code> to A. Pop B. B’s backed-up value: −3.</p>`,
+      ['L5'],s=>{s.backedUp['B']=-3;pop();});
+    snap('Step 27 — A processes B’s return — <span class="tag-update">update</span>',
+      `<p>Back at A. <code>NEW-VALUE = 3</code>. <code>3 > −∞</code>? <span class="tag-yes">Yes</span>. Update A’s <code>BEST-SCORE = 3</code>, <code>BEST-PATH = [B, E, J]</code>. Provisional best path shown in tree.</p>`,
+      ['L4b','L4c','L4ci','L4cii'],s=>{top().bestScore=3;top().bestPath=['B','E','J'];s.bestPath=['A','B','E','J'];});
+    snap('Step 28 — <span class="tag-call">A calls MINIMAX(C, 1, MIN)</span>',
+      `<p>A’s next successor is C. Push C’s frame.</p>`,
+      ['L4a'],s=>{top().succIdx=1;push('C',1,'MIN');});
+    snap('Step 29 — Inside C: generate and init',
+      `<p>DEEP-ENOUGH(C, 1)? <span class="tag-no">No</span>. <code>SUCCESSORS = [F, G]</code>. Init BEST-SCORE = −∞.</p>`,
+      ['L1','L2','L4init'],s=>{top().succs=['F','G'];top().bestScore='-∞';});
+    snap('Step 30 — <span class="tag-call">C calls MINIMAX(F, 2, MAX)</span>',
+      `<p>C’s first successor is F. Push F’s frame.</p>`,
+      ['L4a'],s=>{top().succIdx=0;push('F',2,'MAX');});
+    snap('Step 31 — Inside F: generate and init',
+      `<p>SUCCESSORS = [L, M]. Init BEST-SCORE = −∞.</p>`,
+      ['L1','L2','L4init'],s=>{top().succs=['L','M'];top().bestScore='-∞';});
+    snap('Step 32 — F → L — <span class="tag-update">update</span>',
+      `<p>Push L. <code>STATIC(L, MIN) = −3</code>. Pop L.</p><p style="margin-top:6px">F: <code>NEW-VALUE = 3</code>. <code>3 > −∞</code>? <span class="tag-yes">Yes</span>. Update F’s <code>BEST-SCORE = 3</code>, <code>BEST-PATH = [L]</code>.</p>`,
+      ['L4a','L1a','L4b','L4ci','L4cii'],s=>{top().succIdx=0;push('L',3,'MIN');s.terminalReturn={node:'L',value:-3};pop();top().bestScore=3;top().bestPath=['L'];});
+    snap('Step 33 — F → M — <span class="tag-update">update</span>',
+      `<p>Push M. <code>STATIC(M, MIN) = −9</code>. Pop M.</p><p style="margin-top:6px">F: <code>NEW-VALUE = 9</code>. <code>9 > 3</code>? <span class="tag-yes">Yes</span>. Update F’s <code>BEST-SCORE = 9</code>, <code>BEST-PATH = [M]</code>.</p>`,
+      ['L4a','L1a','L4b','L4ci','L4cii'],s=>{top().succIdx=1;push('M',3,'MIN');s.terminalReturn={node:'M',value:-9};pop();top().bestScore=9;top().bestPath=['M'];});
+    snap('Step 34 — F done — <span class="tag-return">return</span>',
+      `<p>Return <code>{VALUE: 9, PATH: [M]}</code> to C. Pop F. F’s backed-up value: 9.</p>`,
+      ['L5'],s=>{s.backedUp['F']=9;pop();});
+    snap('Step 35 — C processes F’s return — <span class="tag-update">update</span>',
+      `<p><code>NEW-VALUE = −9</code>. <code>−9 > −∞</code>? <span class="tag-yes">Yes</span>. Update C’s <code>BEST-SCORE = −9</code>, <code>BEST-PATH = [F, M]</code>.</p>`,
+      ['L4b','L4c','L4ci','L4cii'],s=>{top().bestScore=-9;top().bestPath=['F','M'];});
+    snap('Step 36 — <span class="tag-call">C calls MINIMAX(G, 2, MAX)</span>',
+      `<p>C’s next successor is G. Push G’s frame.</p>`,
+      ['L4a'],s=>{top().succIdx=1;push('G',2,'MAX');});
+    snap('Step 37 — Inside G: generate and init',
+      `<p>SUCCESSORS = [N, O]. Init BEST-SCORE = −∞.</p>`,
+      ['L1','L2','L4init'],s=>{top().succs=['N','O'];top().bestScore='-∞';});
+    snap('Step 38 — G → N — <span class="tag-update">update</span>',
+      `<p>Push N. <code>STATIC(N, MIN) = −5</code>. Pop N.</p><p style="margin-top:6px">G: <code>NEW-VALUE = 5</code>. <code>5 > −∞</code>? <span class="tag-yes">Yes</span>. Update G’s <code>BEST-SCORE = 5</code>, <code>BEST-PATH = [N]</code>.</p>`,
+      ['L4a','L1a','L4b','L4ci','L4cii'],s=>{top().succIdx=0;push('N',3,'MIN');s.terminalReturn={node:'N',value:-5};pop();top().bestScore=5;top().bestPath=['N'];});
+    snap('Step 39 — G → O — <span class="tag-noupdate">no update</span>',
+      `<p>Push O. <code>STATIC(O, MIN) = 6</code> (flipped from −6). Pop O.</p><p style="margin-top:6px">G: <code>NEW-VALUE = −6</code>. <code>−6 > 5</code>? <span class="tag-no">No</span>. No update.</p>`,
+      ['L4a','L1a','L4b','L4c'],s=>{top().succIdx=1;push('O',3,'MIN');s.terminalReturn={node:'O',value:6};pop();});
+    snap('Step 40 — G done — <span class="tag-return">return</span>',
+      `<p>Return <code>{VALUE: 5, PATH: [N]}</code> to C. Pop G. G’s backed-up value: 5.</p>`,
+      ['L5'],s=>{s.backedUp['G']=5;pop();});
+    snap('Step 41 — C processes G’s return — <span class="tag-update">update</span>',
+      `<p><code>NEW-VALUE = −5</code>. <code>−5 > −9</code>? <span class="tag-yes">Yes</span>. Update C’s <code>BEST-SCORE = −5</code>, <code>BEST-PATH = [G, N]</code>. C now prefers G over F.</p>`,
+      ['L4b','L4c','L4ci','L4cii'],s=>{top().bestScore=-5;top().bestPath=['G','N'];});
+    snap('Step 42 — C done — <span class="tag-return">return</span>',
+      `<p>Return <code>{VALUE: −5, PATH: [G, N]}</code> to A. Pop C. C’s backed-up value: −5 (= 5 from MAX’s view).</p>`,
+      ['L5'],s=>{s.backedUp['C']=-5;pop();});
+    snap('Step 43 — A processes C’s return — <span class="tag-update">new best path!</span>',
+      `<p>Back at A. <code>NEW-VALUE = 5</code>. <code>5 > 3</code>? <span class="tag-yes">Yes</span>. Update A’s <code>BEST-SCORE = 5</code>, <code>BEST-PATH = [C, G, N]</code>.</p><p style="margin-top:6px">A switches from preferring B to preferring C. Best path: A → C → G → N.</p>`,
+      ['L4b','L4c','L4ci','L4cii'],s=>{top().bestScore=5;top().bestPath=['C','G','N'];s.bestPath=['A','C','G','N'];});
+    snap('Step 44 — A done — algorithm terminates',
+      `<p>All A’s successors examined. Step 5: return <code>{VALUE: 5, PATH: [C, G, N]}</code>.</p><p style="margin-top:6px"><strong>Algorithm finished.</strong> MAX’s optimal first move is C, leading to G, ending at terminal N with utility 5.</p>`,
+      ['L5'],s=>{s.backedUp['A']=5;pop();s.showFinal=true;});
+
+    return steps;
+  }
+
+  const _mmxSTEPS = _mmxBuildSteps();
+  let _mmxIdx = 0, _mmxPlaying = false, _mmxTimer = null;
+  const _mmxNS = 'http://www.w3.org/2000/svg';
+
+  function _mmxEl(tag, attrs, parent) {
+    const e = document.createElementNS(_mmxNS, tag);
+    for (const k in attrs) e.setAttribute(k, attrs[k]);
+    if (parent) parent.appendChild(e);
+    return e;
+  }
+  function _mmxColorForRole(role) {
+    if (role === 'MAX') return {fill:'#1d2c4a',stroke:'#5e9eff',text:'#9cc3ff'};
+    if (role === 'MIN') return {fill:'#3a1e2c',stroke:'#ff7eb6',text:'#ffb8d4'};
+    return {fill:'#2a2a30',stroke:'#7a7a72',text:'#c8c8c0'};
+  }
+  function _mmxDrawTree(step) {
+    const svg = document.getElementById('mmx-tree-svg');
+    if (!svg) return;
+    while (svg.firstChild) svg.removeChild(svg.firstChild);
+    ['MAX (depth 0)','MIN (depth 1)','MAX (depth 2)','MIN (depth 3, terminals)'].forEach((txt,i)=>{
+      const t = _mmxEl('text',{x:1080,y:[60,200,340,480][i]+4,'text-anchor':'end',class:'mmx-level-label'},svg);
+      t.textContent = txt;
+    });
+    const stackSet = new Set(step.callStack.map(f=>f.node));
+    const visitedSet = new Set(step.visited);
+    const bestPathSet = new Set(step.bestPath);
+    const bestPathEdges = new Set();
+    for (let i=0;i<step.bestPath.length-1;i++) bestPathEdges.add(step.bestPath[i]+'-'+step.bestPath[i+1]);
+    const callPathEdges = new Set();
+    const callPath = step.callStack.map(f=>f.node);
+    for (let i=0;i<callPath.length-1;i++) callPathEdges.add(callPath[i]+'-'+callPath[i+1]);
+    _mmxEDGES.forEach(([from,to])=>{
+      const f=_mmxPOS[from], t=_mmxPOS[to];
+      const edge = _mmxEl('line',{x1:f.x,y1:f.y+24,x2:t.x,y2:t.y-24},svg);
+      const key = from+'-'+to;
+      if (bestPathEdges.has(key)) { edge.setAttribute('stroke','#5eddc0'); edge.setAttribute('stroke-width','3.5'); }
+      else if (callPathEdges.has(key)) { edge.setAttribute('stroke','#c4a8ff'); edge.setAttribute('stroke-width','2.5'); }
+      else if (visitedSet.has(to)) { edge.setAttribute('stroke','#5a5a6a'); edge.setAttribute('stroke-width','1.5'); }
+      else { edge.setAttribute('stroke','#3a3a47'); edge.setAttribute('stroke-width','1.5'); }
+    });
+    Object.keys(_mmxPOS).forEach(name=>{
+      const p=_mmxPOS[name], role=_mmxROLES[name];
+      const isActive=step.activeNode===name, isInStack=stackSet.has(name);
+      const isVisited=visitedSet.has(name), isInBestPath=bestPathSet.has(name);
+      const g = _mmxEl('g',{class:'node'},svg);
+      const colors = isVisited ? _mmxColorForRole(role) : {fill:'#1a1a22',stroke:'#3a3a47',text:'#5a5a62'};
+      if (isActive) _mmxEl('circle',{cx:p.x,cy:p.y,r:24,fill:'none',stroke:'#c4a8ff','stroke-width':2.5,class:'mmx-pulse-ring'},g);
+      _mmxEl('circle',{cx:p.x,cy:p.y,r:24,fill:colors.fill,
+        stroke:isActive?'#c4a8ff':(isInStack?'#c4a8ff':(isInBestPath?'#5eddc0':colors.stroke)),
+        'stroke-width':isActive?3:(isInStack||isInBestPath?2.5:1.5)},g);
+      const lbl = _mmxEl('text',{x:p.x,y:p.y+5,'text-anchor':'middle','font-size':15,'font-weight':600,fill:colors.text},g);
+      lbl.textContent = name;
+      if (role==='LEAF') {
+        const orig = _mmxEl('text',{x:p.x+30,y:p.y+5,'text-anchor':'start','font-family':'JetBrains Mono,monospace','font-size':12,fill:'#ecece8'},g);
+        orig.textContent = _mmxORIG[name];
+        if (step.showFlipped) {
+          const fv = _mmxFLIPPED[name];
+          const ft = _mmxEl('text',{x:p.x,y:p.y-32,'text-anchor':'middle','font-family':'JetBrains Mono,monospace','font-size':11,'font-style':'italic',fill:'#ffc94f'},g);
+          ft.textContent = '('+(fv>=0?'+':'')+fv+')';
+        }
+        if (step.terminalReturn && step.terminalReturn.node===name) {
+          _mmxEl('rect',{x:p.x-28,y:p.y-62,width:56,height:22,rx:11,fill:'#3a2418',stroke:'#ff9966','stroke-width':1.5,class:'mmx-return-bubble'},g);
+          const bt = _mmxEl('text',{x:p.x,y:p.y-46,'text-anchor':'middle','font-family':'JetBrains Mono,monospace','font-size':11,'font-weight':600,fill:'#ff9966',class:'mmx-return-bubble'},g);
+          bt.textContent = '↑ '+step.terminalReturn.value;
+        }
+      }
+      if (role!=='LEAF' && step.backedUp[name]!==undefined) {
+        const bv = step.backedUp[name];
+        const badge = _mmxEl('g',{class:'backup-badge'},g);
+        _mmxEl('rect',{x:p.x+22,y:p.y-12,width:38,height:24,rx:5,fill:'#1e3d36',stroke:'#5eddc0','stroke-width':1.5},badge);
+        const bt = _mmxEl('text',{x:p.x+41,y:p.y+4,'text-anchor':'middle',fill:'#5eddc0','font-family':'JetBrains Mono,monospace','font-size':12,'font-weight':600},badge);
+        bt.textContent = bv;
+      }
+      if (isInStack && !isActive) _mmxEl('circle',{cx:p.x-22,cy:p.y-22,r:4,fill:'#c4a8ff'},g);
+    });
+    if (step.backedUp['A']!==undefined) {
+      const root=_mmxPOS['A'];
+      const ann = _mmxEl('g',{},svg);
+      _mmxEl('rect',{x:root.x-60,y:root.y-80,width:120,height:30,rx:6,fill:'#1e3d36',stroke:'#5eddc0','stroke-width':1.5},ann);
+      const t = _mmxEl('text',{x:root.x,y:root.y-60,'text-anchor':'middle','font-family':'JetBrains Mono,monospace','font-size':12,'font-weight':600,fill:'#5eddc0'},ann);
+      t.textContent = 'VALUE = 5';
+    }
+  }
+  function _mmxRenderPseudo(step) {
+    const body = document.getElementById('mmx-pseudo-body');
+    if (!body) return;
+    body.innerHTML = '';
+    const hl = new Set(step.pseudoLines);
+    _mmxPSEUDO.forEach(line=>{
+      const div = document.createElement('div');
+      div.className = 'mmx-pline'+(line.cls?' '+line.cls:'');
+      if (hl.has(line.id)) div.className += ' hl';
+      div.textContent = line.text;
+      body.appendChild(div);
+    });
+  }
+  function _mmxRenderStack(step) {
+    const body = document.getElementById('mmx-stack-body');
+    if (!body) return;
+    body.innerHTML = '';
+    if (!step.callStack.length) {
+      const empty = document.createElement('div');
+      empty.className = 'mmx-stack-empty';
+      empty.textContent = step.showFinal ? 'Stack empty — algorithm complete.' : 'Stack empty — algorithm has not started yet.';
+      body.appendChild(empty);
+      return;
+    }
+    [...step.callStack].reverse().forEach((f,idx)=>{
+      const card = document.createElement('div');
+      card.className = 'mmx-frame'+(idx===0?' top':'');
+      const scoreText = (f.bestScore===null||f.bestScore===undefined)?'—':f.bestScore;
+      const pathText = (f.bestPath&&f.bestPath.length)?'['+f.bestPath.join(', ')+']':'[]';
+      let succsHtml = '';
+      if (f.succs) {
+        succsHtml = '<div class="mmx-succs"><span style="margin-right:4px">SUCCESSORS:</span>'+
+          f.succs.map((s,i)=>{
+            let cls='mmx-succ';
+            if(i<f.succIdx) cls+=' done';
+            else if(i===f.succIdx) cls+=' cur';
+            return '<span class="'+cls+'">'+s+'</span>';
+          }).join('')+'</div>';
+      }
+      card.innerHTML =
+        '<div class="mmx-frame-head">'+
+          '<span class="mmx-node-name">'+f.node+'</span>'+
+          '<span class="mmx-player '+f.player+'">'+f.player+'</span>'+
+          '<span class="mmx-frame-depth">depth '+f.depth+'</span>'+
+        '</div>'+
+        '<div class="mmx-frame-body">'+
+          '<span class="mmx-fl">BEST-SCORE</span><span class="mmx-fv score">'+scoreText+'</span>'+
+          '<span class="mmx-fl">BEST-PATH</span><span class="mmx-fv path">'+pathText+'</span>'+
+        '</div>'+succsHtml;
+      body.appendChild(card);
+    });
+  }
+  function _mmxRenderNarrative(step) {
+    const body = document.getElementById('mmx-narrative-body');
+    if (!body) return;
+    body.innerHTML = '<div class="mmx-step-title">'+step.title+'</div>'+step.narration;
+  }
+  function _mmxRender() {
+    const step = _mmxSTEPS[_mmxIdx];
+    _mmxDrawTree(step);
+    _mmxRenderPseudo(step);
+    _mmxRenderStack(step);
+    _mmxRenderNarrative(step);
+    const sn = document.getElementById('mmx-step-num');
+    if (sn) sn.textContent = _mmxIdx;
+    const pf = document.getElementById('mmx-progress-fill');
+    if (pf) pf.style.width = ((_mmxIdx/(_mmxSTEPS.length-1))*100)+'%';
+    const banner = document.getElementById('mmx-final-banner');
+    if (banner) { if(step.showFinal) banner.classList.add('show'); else banner.classList.remove('show'); }
+    const bp = document.getElementById('mmx-btn-prev'), bn = document.getElementById('mmx-btn-next');
+    if (bp) bp.disabled = _mmxIdx===0;
+    if (bn) bn.disabled = _mmxIdx===_mmxSTEPS.length-1;
+  }
+  function _mmxNext() { if (_mmxIdx<_mmxSTEPS.length-1) { _mmxIdx++; _mmxRender(); } }
+  function _mmxPrev() { if (_mmxIdx>0) { _mmxIdx--; _mmxRender(); } }
+  function _mmxStopPlay() {
+    _mmxPlaying = false;
+    if (_mmxTimer) { clearTimeout(_mmxTimer); _mmxTimer = null; }
+    const btn = document.getElementById('mmx-btn-play');
+    if (btn) btn.textContent = '▶ Play';
+  }
+  function _mmxStartPlay() {
+    if (_mmxIdx===_mmxSTEPS.length-1) _mmxIdx = 0;
+    _mmxPlaying = true;
+    const btn = document.getElementById('mmx-btn-play');
+    if (btn) btn.textContent = '⏸ Pause';
+    const tick = () => {
+      if (!_mmxPlaying) return;
+      _mmxNext();
+      if (_mmxIdx < _mmxSTEPS.length-1) {
+        const spd = document.getElementById('mmx-speed');
+        _mmxTimer = setTimeout(tick, spd?parseInt(spd.value,10):1800);
+      } else { _mmxStopPlay(); }
+    };
+    _mmxRender();
+    const spd = document.getElementById('mmx-speed');
+    _mmxTimer = setTimeout(tick, spd?parseInt(spd.value,10):1800);
+  }
+
+  // ── A* VISUALIZER ──────────────────────────────────────────────────────────
+  const _asN = {
+    Arad:      {x:95,  y:168, r:20, lbl:'Arad'},
+    Zerind:    {x:78,  y:98,  r:18, lbl:'Zerind'},
+    Oradea:    {x:148, y:55,  r:18, lbl:'Oradea'},
+    Timisoara: {x:95,  y:255, r:20, lbl:'Tim.'},
+    Sibiu:     {x:300, y:172, r:20, lbl:'Sibiu'},
+    RV:        {x:338, y:250, r:18, lbl:'RV'},
+    Fagaras:   {x:438, y:112, r:20, lbl:'Fagaras'},
+    Pitesti:   {x:452, y:265, r:20, lbl:'Pitesti'},
+    Craiova:   {x:365, y:330, r:18, lbl:'Craiova'},
+    Bucharest: {x:615, y:208, r:22, lbl:'Buch.'},
+  };
+  const _asH = {Arad:366,Zerind:374,Oradea:380,Timisoara:329,Sibiu:253,RV:193,Fagaras:176,Pitesti:100,Craiova:160,Bucharest:0};
+  const _asE = [
+    {id:'Arad-Zerind',       f:'Arad',     t:'Zerind',    c:75},
+    {id:'Arad-Sibiu',        f:'Arad',     t:'Sibiu',     c:140},
+    {id:'Arad-Timisoara',    f:'Arad',     t:'Timisoara', c:118},
+    {id:'Zerind-Oradea',     f:'Zerind',   t:'Oradea',    c:71},
+    {id:'Oradea-Sibiu',      f:'Oradea',   t:'Sibiu',     c:151},
+    {id:'Sibiu-RV',          f:'Sibiu',    t:'RV',        c:80},
+    {id:'Sibiu-Fagaras',     f:'Sibiu',    t:'Fagaras',   c:99},
+    {id:'RV-Craiova',        f:'RV',       t:'Craiova',   c:146},
+    {id:'RV-Pitesti',        f:'RV',       t:'Pitesti',   c:97},
+    {id:'Fagaras-Bucharest', f:'Fagaras',  t:'Bucharest', c:211},
+    {id:'Pitesti-Bucharest', f:'Pitesti',  t:'Bucharest', c:101},
+    {id:'Pitesti-Craiova',   f:'Pitesti',  t:'Craiova',   c:138},
+  ];
+  const _asSteps = [
+    { kicker:'Step 0 of 6', title:'Initial State',
+      desc:'OPEN = [Arad(f=366)]. CLOSED = []. f(n)=g(n)+h(n). h(Arad)=366 is its SLD to Bucharest. A* expands the lowest-f node from OPEN.',
+      ns:{Arad:'open'}, cur:null,
+      open:[{n:'Arad',g:0,h:366,f:366}], closed:[], pathEdges:[], expandEdges:[] },
+    { kicker:'Step 1 of 6', title:'Expand Arad — f=366 (lowest on OPEN)',
+      desc:'Arad → CLOSED. Successors: Zerind(f=449), Sibiu(f=393), Timisoara(f=447). OPEN re-sorted: Sibiu(393) is now lowest.',
+      ns:{Arad:'closed',Zerind:'open',Sibiu:'open',Timisoara:'open'}, cur:'Arad',
+      open:[{n:'Sibiu',g:140,h:253,f:393},{n:'Timisoara',g:118,h:329,f:447},{n:'Zerind',g:75,h:374,f:449}],
+      closed:['Arad'], pathEdges:[], expandEdges:['Arad-Zerind','Arad-Sibiu','Arad-Timisoara'] },
+    { kicker:'Step 2 of 6', title:'Expand Sibiu — f=393 (lowest on OPEN)',
+      desc:'Sibiu → CLOSED. Successors: Oradea(f=671), RV(f=413), Fagaras(f=415). Arad already on CLOSED — no shorter path. RV(413) is next.',
+      ns:{Arad:'closed',Sibiu:'closed',Zerind:'open',Timisoara:'open',Oradea:'open',RV:'open',Fagaras:'open'}, cur:'Sibiu',
+      open:[{n:'RV',g:220,h:193,f:413},{n:'Fagaras',g:239,h:176,f:415},{n:'Timisoara',g:118,h:329,f:447},{n:'Zerind',g:75,h:374,f:449},{n:'Oradea',g:291,h:380,f:671}],
+      closed:['Arad','Sibiu'], pathEdges:['Arad-Sibiu'], expandEdges:['Sibiu-RV','Sibiu-Fagaras','Oradea-Sibiu'] },
+    { kicker:'Step 3 of 6', title:'Expand RV — f=413 (lowest on OPEN)',
+      desc:'RV → CLOSED. Successors: Sibiu(on CLOSED, skip), Craiova(f=526), Pitesti(f=417). Fagaras(415) is next.',
+      ns:{Arad:'closed',Sibiu:'closed',RV:'closed',Zerind:'open',Timisoara:'open',Oradea:'open',Fagaras:'open',Craiova:'open',Pitesti:'open'}, cur:'RV',
+      open:[{n:'Fagaras',g:239,h:176,f:415},{n:'Pitesti',g:317,h:100,f:417},{n:'Timisoara',g:118,h:329,f:447},{n:'Zerind',g:75,h:374,f:449},{n:'Craiova',g:366,h:160,f:526},{n:'Oradea',g:291,h:380,f:671}],
+      closed:['Arad','Sibiu','RV'], pathEdges:['Arad-Sibiu','Sibiu-RV'], expandEdges:['RV-Craiova','RV-Pitesti'] },
+    { kicker:'Step 4 of 6', title:'Expand Fagaras — f=415 (lowest on OPEN)',
+      desc:'Fagaras → CLOSED. Successor Bucharest added: g=450, f=450. Sibiu already on CLOSED — skip. Pitesti(417) is next.',
+      ns:{Arad:'closed',Sibiu:'closed',RV:'closed',Fagaras:'closed',Zerind:'open',Timisoara:'open',Oradea:'open',Pitesti:'open',Craiova:'open',Bucharest:'open'}, cur:'Fagaras',
+      open:[{n:'Pitesti',g:317,h:100,f:417},{n:'Timisoara',g:118,h:329,f:447},{n:'Zerind',g:75,h:374,f:449},{n:'Bucharest',g:450,h:0,f:450},{n:'Craiova',g:366,h:160,f:526},{n:'Oradea',g:291,h:380,f:671}],
+      closed:['Arad','Sibiu','RV','Fagaras'], pathEdges:['Arad-Sibiu','Sibiu-Fagaras'], expandEdges:['Fagaras-Bucharest'] },
+    { kicker:'Step 5 of 6', title:'Expand Pitesti — f=417 (lowest on OPEN)',
+      desc:'Pitesti → CLOSED. Bucharest via Pitesti: g=418 < 450 (current OPEN value). A* UPDATES Bucharest\'s parent and cost! Bucharest(418) jumps to top.',
+      ns:{Arad:'closed',Sibiu:'closed',RV:'closed',Fagaras:'closed',Pitesti:'closed',Zerind:'open',Timisoara:'open',Oradea:'open',Craiova:'open',Bucharest:'open'}, cur:'Pitesti',
+      open:[{n:'Bucharest',g:418,h:0,f:418,upd:true},{n:'Timisoara',g:118,h:329,f:447},{n:'Zerind',g:75,h:374,f:449},{n:'Craiova',g:366,h:160,f:526},{n:'Oradea',g:291,h:380,f:671}],
+      closed:['Arad','Sibiu','RV','Fagaras','Pitesti'], pathEdges:['Arad-Sibiu','Sibiu-RV','RV-Pitesti'], expandEdges:['Pitesti-Bucharest','Pitesti-Craiova'] },
+    { kicker:'Step 6 of 6 — GOAL!', title:'Bucharest expanded — Optimal cost = 418',
+      desc:'Bucharest is the goal! Optimal path: Arad → Sibiu → RV → Pitesti → Bucharest. Cost = 418. Greedy had found 450. A* guarantees the optimal solution.',
+      ns:{Arad:'path',Sibiu:'path',RV:'path',Fagaras:'closed',Pitesti:'path',Bucharest:'goal',Zerind:'open',Timisoara:'open',Oradea:'open',Craiova:'open'}, cur:'Bucharest',
+      open:[{n:'Timisoara',g:118,h:329,f:447},{n:'Zerind',g:75,h:374,f:449},{n:'Craiova',g:366,h:160,f:526},{n:'Oradea',g:291,h:380,f:671}],
+      closed:['Arad','Sibiu','RV','Fagaras','Pitesti','Bucharest'], pathEdges:['Arad-Sibiu','Sibiu-RV','RV-Pitesti','Pitesti-Bucharest'], expandEdges:[] },
+  ];
+  let _astarIdx = 0;
+
+  function _asEdgePts(fId, tId) {
+    const f = _asN[fId], t = _asN[tId];
+    const dx = t.x - f.x, dy = t.y - f.y, d = Math.hypot(dx, dy);
+    return { x1: f.x + dx/d*f.r, y1: f.y + dy/d*f.r, x2: t.x - dx/d*t.r, y2: t.y - dy/d*t.r };
+  }
+
+  function _astarRender() {
+    const svg = document.getElementById('astar-svg');
+    if (!svg) return;
+    const s = _asSteps[_astarIdx];
+    const ge = id => document.getElementById(id);
+    if (ge('astar-kicker')) ge('astar-kicker').textContent = s.kicker;
+    if (ge('astar-title'))  ge('astar-title').textContent  = s.title;
+    if (ge('astar-desc'))   ge('astar-desc').textContent   = s.desc;
+
+    // OPEN list
+    const openEl = ge('astar-open-list');
+    if (openEl) openEl.innerHTML = s.open.length
+      ? s.open.map(o => `<div class="astar-list-row${o.upd?' cur':''}"><span>${o.n}${o.upd?' ★':''}</span><span>g=${o.g} h=${o.h} <strong>f=${o.f}</strong></span></div>`).join('')
+      : '<div class="astar-list-row" style="color:var(--muted)">empty</div>';
+
+    // CLOSED list
+    const closedEl = ge('astar-closed-list');
+    if (closedEl) closedEl.innerHTML = s.closed.length
+      ? s.closed.map(n => `<div class="astar-list-row"><span>${n}</span><span style="color:var(--muted);font-size:.72rem">expanded</span></div>`).join('')
+      : '<div class="astar-list-row" style="color:var(--muted)">empty</div>';
+
+    let h = '';
+
+    // Edges
+    for (const e of _asE) {
+      const p = _asEdgePts(e.f, e.t);
+      let stroke = '#2e3350', sw = 1.5, dash = '';
+      if (s.pathEdges.includes(e.id))       { stroke = '#22d3a5'; sw = 3; }
+      else if (s.expandEdges.includes(e.id)) { stroke = '#fbbf24'; sw = 2; dash = '6,3'; }
+      h += `<line x1="${p.x1.toFixed(1)}" y1="${p.y1.toFixed(1)}" x2="${p.x2.toFixed(1)}" y2="${p.y2.toFixed(1)}" stroke="${stroke}" stroke-width="${sw}"${dash?` stroke-dasharray="${dash}"`:''} stroke-linecap="round"/>`;
+      // Edge cost label at midpoint
+      const mx = ((p.x1 + p.x2) / 2).toFixed(0), my = ((p.y1 + p.y2) / 2).toFixed(0);
+      const stateF = s.ns[e.f] || 'unvisited', stateT = s.ns[e.t] || 'unvisited';
+      if (stateF !== 'unvisited' || stateT !== 'unvisited' || s.pathEdges.includes(e.id) || s.expandEdges.includes(e.id)) {
+        h += `<rect x="${+mx-11}" y="${+my-7}" width="22" height="13" rx="3" fill="#0f1117" opacity="0.8"/>`;
+        h += `<text x="${mx}" y="${+my+4}" text-anchor="middle" font-size="9" fill="#8892a4" font-family="monospace">${e.c}</text>`;
+      }
+    }
+
+    // Node state colors
+    const stateStyle = {
+      unvisited: {fill:'#22263a',   stroke:'#2e3350', sw:1,   tc:'#56607a'},
+      open:      {fill:'rgba(79,142,247,.15)',  stroke:'#4f8ef7', sw:1.5, tc:'#4f8ef7'},
+      closed:    {fill:'rgba(168,85,247,.13)', stroke:'#a855f7', sw:1.5, tc:'#a855f7'},
+      path:      {fill:'rgba(34,211,165,.18)', stroke:'#22d3a5', sw:2.5, tc:'#22d3a5'},
+      goal:      {fill:'rgba(34,211,165,.32)', stroke:'#22d3a5', sw:3,   tc:'#22d3a5'},
+    };
+
+    // Nodes
+    for (const [id, n] of Object.entries(_asN)) {
+      const state  = s.ns[id] || 'unvisited';
+      const isCur  = s.cur === id;
+      let {fill, stroke, sw, tc} = stateStyle[state];
+      if (isCur) { fill = 'rgba(251,191,36,.22)'; stroke = '#fbbf24'; sw = 2.5; tc = '#fbbf24'; }
+
+      if (isCur || state === 'goal') h += `<circle cx="${n.x}" cy="${n.y}" r="${n.r+8}" fill="${isCur?'rgba(251,191,36,.07)':'rgba(34,211,165,.1)'}"/>`;
+      h += `<circle cx="${n.x}" cy="${n.y}" r="${n.r}" fill="${fill}" stroke="${stroke}" stroke-width="${sw}"/>`;
+
+      // Node name
+      h += `<text x="${n.x}" y="${n.y+4}" text-anchor="middle" font-size="9" font-weight="700" fill="${tc}" font-family="monospace">${n.lbl}</text>`;
+
+      // h-value label above node (for touched nodes)
+      if (state !== 'unvisited') {
+        const hy = n.y - n.r - 5;
+        h += `<text x="${n.x}" y="${hy}" text-anchor="middle" font-size="8" fill="${tc}" opacity="0.75" font-family="monospace">h=${_asH[id]}</text>`;
+      }
+    }
+
+    // Legend box
+    h += `<rect x="492" y="12" width="220" height="118" rx="6" fill="#0f1117" opacity="0.88"/>`;
+    h += `<text x="503" y="30" font-size="9.5" fill="#8892a4" font-family="monospace" font-weight="700">LEGEND</text>`;
+    const _asLeg = [
+      {c:'#fbbf24', l:'Current node being expanded'},
+      {c:'#4f8ef7', l:'On OPEN (to be explored)'},
+      {c:'#a855f7', l:'On CLOSED (already done)'},
+      {c:'#22d3a5', l:'Optimal path / goal'},
+      {c:'#2e3350', l:'Unexplored'},
+    ];
+    _asLeg.forEach((leg, i) => {
+      const ly = 46 + i * 18;
+      h += `<circle cx="503" cy="${ly}" r="5" fill="${leg.c}" opacity="0.85"/>`;
+      h += `<text x="514" y="${ly+4}" font-size="8.5" fill="#8892a4" font-family="monospace">${leg.l}</text>`;
+    });
+
+    svg.innerHTML = h;
+  }
+
+  function _astarNext()  { _astarIdx = Math.min(_astarIdx + 1, _asSteps.length - 1); _astarRender(); }
+  function _astarPrev()  { _astarIdx = Math.max(_astarIdx - 1, 0); _astarRender(); }
+  function _astarReset() { _astarIdx = 0; _astarRender(); }
 
   // TRUE / FALSE QUIZ SYSTEM
   const _tfBank = [
@@ -5355,7 +6062,7 @@
   <img src="goonis%20peaking%20around%20the%20corner.png" alt="Professor Goonis peeking" />
 </div>
 <button id="goonis-toggle" onclick="toggleGoonis()">✋ Goonis pls leave me alone</button>
-<div id="version-badge">v1.14</div>
+<div id="version-badge">v1.16</div>
 
 <!-- HACK OVERLAY -->
 <div id="hack-overlay"></div>
