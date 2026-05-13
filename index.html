@@ -282,6 +282,7 @@
       display: inline-flex;
       align-items: baseline;
       justify-content: center;
+      flex-wrap: wrap;
       gap: 0.45rem;
       background: rgba(251,191,36,0.1);
       border: 1px solid var(--border);
@@ -300,6 +301,15 @@
       font-family: 'Courier New', monospace;
       font-weight: 900;
       color: var(--text);
+    }
+    .exam-countdown-top .study-label {
+      border-left: 1px solid var(--border);
+      margin-left: 0.2rem;
+      padding-left: 0.65rem;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--accent-both);
     }
     .exam-timeline {
       position: relative;
@@ -1336,6 +1346,8 @@
           <div class="exam-countdown-top">
             <span class="label">Time left</span>
             <span class="value" id="exam-time-left">--h --m --s</span>
+            <span class="study-label">Study w/ sleep</span>
+            <span class="value" id="study-time-left">--h --m --s</span>
           </div>
           <div class="exam-timeline" aria-hidden="true">
             <div class="exam-timeline-track"></div>
@@ -4315,7 +4327,7 @@
     <div class="boss-flavour">
       <p class="boss-roar">"HUHHHH!"</p>
       <p class="boss-sub">He picks your <strong>worst 2</strong> answers. Choose wisely.</p>
-      <p class="boss-sub" style="color:var(--danger);font-weight:700;">Attempt only 2 of 3 questions.</p>
+      <p class="boss-sub" style="color:var(--danger);font-weight:700;">Only turn in 2 questions.</p>
     </div>
   </div>
 
@@ -4555,12 +4567,18 @@
   function updateExamCountdown() {
     const timelineStart = new Date('2026-05-12T12:00:00');
     const examStart = new Date('2026-05-13T11:00:00');
+    const sleepBuffer = 8 * 60 * 60 * 1000;
     const now = new Date();
     const untilExam = examStart - now;
     const el = document.getElementById('exam-time-left');
+    const studyEl = document.getElementById('study-time-left');
     const marker = document.getElementById('exam-timeline-now');
     if (!el) return;
     el.textContent = untilExam <= 0 ? 'exam time' : _formatDuration(untilExam);
+    if (studyEl) {
+      const studyLeft = Math.max(0, untilExam - sleepBuffer);
+      studyEl.textContent = untilExam <= 0 ? 'done' : _formatDuration(studyLeft);
+    }
     if (marker) {
       const pct = ((now - timelineStart) / (examStart - timelineStart)) * 100;
       marker.style.left = Math.min(100, Math.max(0, pct)) + '%';
