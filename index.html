@@ -1058,11 +1058,88 @@
       overflow: hidden;
     }
     #hack-overlay.active { display: block; }
+    #hack-overlay.active::before {
+      content: '';
+      position: absolute;
+      inset: 0;
+      background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.06) 0 1px, transparent 1px 5px),
+        radial-gradient(circle at 20% 30%, rgba(239,68,68,0.16), transparent 24%),
+        radial-gradient(circle at 80% 60%, rgba(34,211,165,0.12), transparent 22%);
+      mix-blend-mode: screen;
+      opacity: 0;
+      animation: scanlinePulse 1.2s steps(2,end) infinite;
+    }
+    #hack-overlay.active::after {
+      content: 'GOONIS.EXE';
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Courier New', monospace;
+      font-size: clamp(2rem, 10vw, 8rem);
+      font-weight: 900;
+      letter-spacing: .08em;
+      color: rgba(239,68,68,0.08);
+      text-shadow: 4px 0 rgba(34,211,165,0.14), -4px 0 rgba(79,142,247,0.12);
+      opacity: 0;
+      transform: skewX(-8deg);
+      animation: breachGhost 2.4s steps(3,end) infinite;
+    }
+    #hack-overlay.stage-3::before { opacity: .34; }
+    #hack-overlay.stage-4::before,
+    #hack-overlay.stage-5::before { opacity: .58; animation-duration: .7s; }
+    #hack-overlay.stage-4::after,
+    #hack-overlay.stage-5::after { opacity: 1; }
     .glitch-bar {
       position: absolute;
       width: 100%;
       animation: glitchBarSweep 0.35s linear forwards;
       pointer-events: none;
+    }
+    .glitch-bar.rgb {
+      box-shadow: 8px 0 rgba(34,211,165,0.55), -8px 0 rgba(79,142,247,0.45);
+      mix-blend-mode: screen;
+    }
+    .glitch-block {
+      position: absolute;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.22);
+      mix-blend-mode: screen;
+      animation: blockTear .32s steps(2,end) forwards;
+    }
+    .glitch-warning {
+      position: absolute;
+      font-family: 'Courier New', monospace;
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+      color: #fbbf24;
+      text-shadow: 2px 0 #ef4444, -2px 0 #22d3a5;
+      opacity: .9;
+      animation: warningDrift .7s linear forwards;
+    }
+    @keyframes scanlinePulse {
+      0%, 100% { transform: translateY(0); filter: none; }
+      45% { transform: translateY(6px); filter: contrast(1.5); }
+      48% { transform: translateY(-4px); filter: hue-rotate(55deg); }
+    }
+    @keyframes breachGhost {
+      0%, 78%, 100% { opacity: 0; transform: translate(0,0) skewX(-8deg); }
+      80% { opacity: .9; transform: translate(-10px,3px) skewX(-14deg); }
+      84% { opacity: .25; transform: translate(14px,-3px) skewX(9deg); }
+      88% { opacity: .7; transform: translate(0,0) skewX(-8deg); }
+    }
+    @keyframes blockTear {
+      0% { opacity: 0; transform: translateX(-30px) scaleX(.5); }
+      35% { opacity: 1; transform: translateX(12px) scaleX(1.25); }
+      100% { opacity: 0; transform: translateX(45px) scaleX(.2); }
+    }
+    @keyframes warningDrift {
+      0% { opacity: 0; transform: translateX(-18px); }
+      20% { opacity: 1; }
+      100% { opacity: 0; transform: translateX(32px); }
     }
     #hack-terminal {
       position: fixed;
@@ -4657,8 +4734,17 @@
     _startColorGlitch(s);
   }
 
+  function _setHackOverlayStage(s) {
+    const ov = document.getElementById('hack-overlay');
+    if (!ov) return null;
+    ov.classList.remove('stage-2','stage-3','stage-4','stage-5');
+    if (s >= 2) ov.classList.add('stage-' + Math.min(s, 5));
+    return ov;
+  }
+
   function _startGlitch(s) {
     clearInterval(_glitchInt);
+    _setHackOverlayStage(s);
     if (s < 2) return;
     const freqs = [0, 0, 2800, 1400, 550];
     _glitchInt = setInterval(() => _spawnBar(s), freqs[Math.min(s, 4)]);
@@ -4669,11 +4755,29 @@
     const ov = document.getElementById('hack-overlay');
     if (!ov || !ov.classList.contains('active')) return;
     const bar = document.createElement('div');
-    bar.className = 'glitch-bar';
+    bar.className = 'glitch-bar' + (Math.random() < 0.55 ? ' rgb' : '');
     const cols = ['rgba(239,68,68,0.75)','rgba(34,211,165,0.5)','rgba(249,115,22,0.65)','rgba(168,85,247,0.45)','rgba(255,255,255,0.3)'];
-    bar.style.cssText = `background:${cols[Math.floor(Math.random()*cols.length)]};top:${Math.random()*100}vh;height:${2+Math.random()*s*5}px;animation-duration:${0.1+Math.random()*0.4}s`;
+    bar.style.cssText = `background:${cols[Math.floor(Math.random()*cols.length)]};top:${Math.random()*100}vh;height:${2+Math.random()*s*6}px;animation-duration:${0.08+Math.random()*0.34}s;opacity:${0.35+Math.random()*0.65}`;
     ov.appendChild(bar);
     setTimeout(() => bar.remove(), 600);
+
+    if (s >= 3 && Math.random() < 0.55) {
+      const block = document.createElement('div');
+      block.className = 'glitch-block';
+      block.style.cssText = `left:${Math.random()*92}vw;top:${Math.random()*88}vh;width:${24+Math.random()*120}px;height:${8+Math.random()*42}px;background:${cols[Math.floor(Math.random()*cols.length)]}`;
+      ov.appendChild(block);
+      setTimeout(() => block.remove(), 420);
+    }
+
+    if (s >= 4 && Math.random() < 0.38) {
+      const warn = document.createElement('div');
+      warn.className = 'glitch-warning';
+      warn.textContent = Math.random() < 0.5 ? 'WORST-2 PROTOCOL' : 'ANSWER MEMORY CORRUPTED';
+      warn.style.left = (8 + Math.random() * 72) + 'vw';
+      warn.style.top = (10 + Math.random() * 72) + 'vh';
+      ov.appendChild(warn);
+      setTimeout(() => warn.remove(), 800);
+    }
   }
 
   function _gw() { return document.getElementById('glitch-wrap') || document.body; }
@@ -4718,6 +4822,7 @@
     clearInterval(_glitchInt);
     clearInterval(_screenInt);
     clearInterval(_colorInt);
+    _setHackOverlayStage(5);
     _glitchInt = setInterval(() => _spawnBar(5), 180);
     _screenInt = setInterval(() => {
       const x = (Math.random() - 0.5) * 40;
@@ -4767,7 +4872,7 @@
       fill.style.background = '';
     }
     const ov = document.getElementById('hack-overlay');
-    if (ov) { ov.classList.remove('active'); ov.innerHTML = ''; }
+    if (ov) { ov.classList.remove('active','stage-2','stage-3','stage-4','stage-5'); ov.innerHTML = ''; }
     const terminal = document.getElementById('hack-terminal');
     if (terminal) {
       terminal.classList.remove('active');
@@ -5206,7 +5311,7 @@
   <img src="goonis%20peaking%20around%20the%20corner.png" alt="Professor Goonis peeking" />
 </div>
 <button id="goonis-toggle" onclick="toggleGoonis()">✋ Goonis pls leave me alone</button>
-<div id="version-badge">v1.9</div>
+<div id="version-badge">v1.10</div>
 
 <!-- HACK OVERLAY -->
 <div id="hack-overlay"></div>
