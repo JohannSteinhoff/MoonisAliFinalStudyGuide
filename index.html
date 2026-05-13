@@ -751,6 +751,119 @@
     .p9-controls button:disabled { opacity: .35; cursor: not-allowed; }
     @media (max-width: 760px) { .p9-visual { grid-template-columns: 1fr; } }
 
+    .qa-trace-card { border-top: 3px solid #f97316; }
+    .qa-trace-grid {
+      display: grid;
+      grid-template-columns: minmax(280px, .9fr) minmax(300px, 1.1fr);
+      gap: 1rem;
+      align-items: stretch;
+    }
+    .qa-pipe {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .85rem;
+      display: grid;
+      gap: .45rem;
+    }
+    .qa-pipe-step {
+      display: grid;
+      grid-template-columns: 28px 1fr;
+      gap: .55rem;
+      align-items: center;
+      padding: .46rem .55rem;
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--muted);
+      font-size: .79rem;
+      transition: border-color .2s, background .2s, color .2s;
+    }
+    .qa-pipe-step .num {
+      width: 24px;
+      height: 24px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 50%;
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      color: var(--muted);
+      font-family: 'Courier New', monospace;
+      font-weight: 900;
+      font-size: .72rem;
+    }
+    .qa-pipe-step.done { color: var(--text); border-color: rgba(249,115,22,.35); }
+    .qa-pipe-step.active {
+      color: var(--text);
+      background: rgba(249,115,22,.11);
+      border-color: #f97316;
+      box-shadow: 0 0 0 2px rgba(249,115,22,.12);
+    }
+    .qa-pipe-step.active .num { background: #f97316; color: #0f1117; border-color: #f97316; }
+    .qa-panel {
+      background: var(--surface2);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: .9rem 1rem;
+    }
+    .qa-kicker {
+      font-size: .68rem;
+      font-weight: 800;
+      letter-spacing: .1em;
+      color: #f97316;
+      text-transform: uppercase;
+      margin-bottom: .35rem;
+    }
+    .qa-panel h4 { font-size: .98rem; color: var(--text); margin-bottom: .4rem; }
+    .qa-panel p { font-size: .84rem; color: var(--muted); line-height: 1.55; margin-bottom: .65rem; }
+    .qa-ds-grid { display: grid; gap: .5rem; margin-bottom: .75rem; }
+    .qa-ds-box {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      padding: .5rem .6rem;
+      font-family: 'Courier New', monospace;
+      font-size: .75rem;
+      color: var(--muted);
+      line-height: 1.5;
+    }
+    .qa-ds-box strong {
+      display: block;
+      color: #f97316;
+      font-family: 'Segoe UI', sans-serif;
+      font-size: .68rem;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: .18rem;
+    }
+    .qa-answer-box {
+      display: none;
+      background: linear-gradient(135deg, rgba(249,115,22,.14), rgba(34,211,165,.08));
+      border: 1px solid #f97316;
+      border-radius: 8px;
+      padding: .7rem .8rem;
+      margin-bottom: .75rem;
+      color: var(--text);
+      font-size: .86rem;
+    }
+    .qa-answer-box.show { display: block; }
+    .qa-controls { display: flex; flex-wrap: wrap; gap: .45rem; }
+    .qa-controls button {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 7px;
+      color: var(--text);
+      cursor: pointer;
+      font-family: inherit;
+      font-size: .8rem;
+      font-weight: 700;
+      padding: .42rem .75rem;
+    }
+    .qa-controls button:hover:not(:disabled) { border-color: #f97316; color: #f97316; background: rgba(249,115,22,.08); }
+    .qa-controls button:disabled { opacity: .35; cursor: not-allowed; }
+    @media (max-width: 760px) { .qa-trace-grid { grid-template-columns: 1fr; } }
+
     .step-list { counter-reset: step; padding: 0; list-style: none; margin-bottom: 1rem; }
     .step-list li {
       counter-increment: step; display: flex; gap: 0.75rem;
@@ -4096,6 +4209,7 @@
     <a href="#qa-algos">Algorithms</a>
     <a href="#qa-llm">LLMs</a>
     <a href="#qa-worked">Worked Examples</a>
+    <a href="#qa-trace">QA Trace</a>
     <a href="#qa-derivation">Derivation</a>
     <a href="#qa-flash">Flashcards</a>
     <a href="#qa-tldr">TL;DR</a>
@@ -4391,6 +4505,39 @@
       <div class="section-title"><div class="dot" style="background:#f97316"></div>9 · Worked Example — Amina Story (Full Walkthrough)</div>
       <div class="def" style="border-color:#f97316;font-size:.84rem">
         <strong style="color:#f97316">Story:</strong> Amina left her blue backpack at home because she was late for school. Her brother Zaid drove her to school and gave her lunchbox before class started. After classes, Amina visited the library to return a novel she had borrowed. On the way home, she noticed it was raining, so she took the bus instead of walking. When she arrived home, she found her backpack on the kitchen chair, where her mother had placed it after packing snacks.
+      </div>
+      <div id="qa-trace" class="card qa-trace-card" style="margin-top:.75rem">
+        <h3 style="color:#f97316">Visual QA Pipeline Trace</h3>
+        <p style="color:var(--muted);font-size:.85rem;margin-bottom:.85rem">Trace the full 8-step QA pipeline on the inference question: <strong>Why did Amina take the bus?</strong></p>
+        <div class="qa-trace-grid">
+          <div class="qa-pipe" id="qa-pipe">
+            <div class="qa-pipe-step"><span class="num">1</span><span>Read & split story</span></div>
+            <div class="qa-pipe-step"><span class="num">2</span><span>Identify question type</span></div>
+            <div class="qa-pipe-step"><span class="num">3</span><span>Extract keywords</span></div>
+            <div class="qa-pipe-step"><span class="num">4</span><span>Find relevant sentence</span></div>
+            <div class="qa-pipe-step"><span class="num">5</span><span>Resolve references</span></div>
+            <div class="qa-pipe-step"><span class="num">6</span><span>Extract answer span</span></div>
+            <div class="qa-pipe-step"><span class="num">7</span><span>Use inference</span></div>
+            <div class="qa-pipe-step"><span class="num">8</span><span>Return final answer</span></div>
+          </div>
+          <div class="qa-panel">
+            <div class="qa-kicker" id="qa-step-kicker">Step 1 of 8</div>
+            <h4 id="qa-step-title">Read & split story</h4>
+            <p id="qa-step-desc">Split the passage into sentence-sized units so the system can search over smaller chunks.</p>
+            <div class="qa-ds-grid">
+              <div class="qa-ds-box"><strong>Question</strong><span id="qa-q"></span></div>
+              <div class="qa-ds-box"><strong>Type / Keywords</strong><span id="qa-type"></span></div>
+              <div class="qa-ds-box"><strong>Candidate Evidence</strong><span id="qa-evidence"></span></div>
+              <div class="qa-ds-box"><strong>Working Memory</strong><span id="qa-memory"></span></div>
+            </div>
+            <div class="qa-answer-box" id="qa-answer"></div>
+            <div class="qa-controls">
+              <button onclick="_qaPrev()" id="qa-prev">Prev</button>
+              <button onclick="_qaNext()" id="qa-next">Next</button>
+              <button onclick="_qaReset()">Reset</button>
+            </div>
+          </div>
+        </div>
       </div>
       <div class="card" style="border-top:3px solid #f97316;margin-top:.75rem">
         <table class="table">
@@ -5668,7 +5815,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
-    _shuffled = _fyShuffle([..._cards]); _renderCarousel(); _renderViewAll(); _renderMagicStepper(); _p9e1Render(); _p9Render();
+    _shuffled = _fyShuffle([..._cards]); _renderCarousel(); _renderViewAll(); _renderMagicStepper(); _qaRender(); _p9e1Render(); _p9Render();
     _mmxRender();
     const _mmxTotal = document.getElementById('mmx-step-total');
     if (_mmxTotal) _mmxTotal.textContent = _mmxSTEPS.length - 1;
@@ -6392,6 +6539,104 @@
   function _p9e1Next() { _p9e1Idx = Math.min(_p9e1Idx + 1, _p9e1Steps.length - 1); _p9e1Render(); }
   function _p9e1Prev() { _p9e1Idx = Math.max(_p9e1Idx - 1, 0); _p9e1Render(); }
   function _p9e1Reset() { _p9e1Idx = 0; _p9e1Render(); }
+
+  const _qaSteps = [
+    {
+      title:'Read & split story',
+      desc:'Split the passage into sentence-sized units so the system can search over smaller chunks.',
+      q:'Why did Amina take the bus?',
+      type:'unknown yet',
+      evidence:'S1 backpack at home; S2 Zaid drove her; S3 library; S4 raining + bus; S5 backpack on chair',
+      memory:'Sentence list created.'
+    },
+    {
+      title:'Identify question type',
+      desc:'The word "Why" asks for a reason, so the system should expect causal evidence rather than a simple noun phrase.',
+      q:'Why did Amina take the bus?',
+      type:'WHY question -> reason / cause',
+      evidence:'Need a sentence explaining the bus action.',
+      memory:'Answer should probably start with "because..."'
+    },
+    {
+      title:'Extract keywords',
+      desc:'Remove stop words and keep the content words that point to the relevant sentence.',
+      q:'Why did Amina take the bus?',
+      type:'Keywords: Amina, take/took, bus',
+      evidence:'Search target: sentence mentioning bus or travel home.',
+      memory:'Stop words removed: why, did, the.'
+    },
+    {
+      title:'Find relevant sentence',
+      desc:'Sentence 4 has the strongest match because it contains "she took the bus".',
+      q:'Why did Amina take the bus?',
+      type:'WHY + keywords matched',
+      evidence:'S4: "On the way home, she noticed it was raining, so she took the bus instead of walking."',
+      memory:'Best sentence = S4.'
+    },
+    {
+      title:'Resolve references',
+      desc:'Resolve "she" in S4 back to Amina, the main subject of the story.',
+      q:'Why did Amina take the bus?',
+      type:'Coreference needed',
+      evidence:'S4: Amina noticed it was raining, so Amina took the bus.',
+      memory:'she -> Amina; it -> weather/raining condition.'
+    },
+    {
+      title:'Extract answer span',
+      desc:'The shortest reason phrase attached to the bus action is "it was raining".',
+      q:'Why did Amina take the bus?',
+      type:'Reason span',
+      evidence:'"...because / so... it was raining"',
+      memory:'Candidate answer span = "it was raining".'
+    },
+    {
+      title:'Use inference',
+      desc:'Connect the causal clue: raining makes walking undesirable, so Amina chose the bus instead.',
+      q:'Why did Amina take the bus?',
+      type:'Inference',
+      evidence:'raining -> avoid walking -> take bus',
+      memory:'This is inferred from the "so" relationship, not just copied blindly.'
+    },
+    {
+      title:'Return final answer',
+      desc:'The system returns a concise answer, not the whole sentence.',
+      q:'Why did Amina take the bus?',
+      type:'WHY answered',
+      evidence:'S4 supports the answer.',
+      memory:'Final answer ready.',
+      answer:'Because it was raining.'
+    }
+  ];
+  let _qaIdx = 0;
+
+  function _qaRender() {
+    const pipe = document.getElementById('qa-pipe');
+    if (!pipe) return;
+    const s = _qaSteps[_qaIdx];
+    pipe.querySelectorAll('.qa-pipe-step').forEach((el, i) => {
+      el.classList.toggle('done', i < _qaIdx);
+      el.classList.toggle('active', i === _qaIdx);
+    });
+    const ge = id => document.getElementById(id);
+    if (ge('qa-step-kicker')) ge('qa-step-kicker').textContent = 'Step ' + (_qaIdx + 1) + ' of ' + _qaSteps.length;
+    if (ge('qa-step-title')) ge('qa-step-title').textContent = s.title;
+    if (ge('qa-step-desc')) ge('qa-step-desc').textContent = s.desc;
+    if (ge('qa-q')) ge('qa-q').textContent = s.q;
+    if (ge('qa-type')) ge('qa-type').textContent = s.type;
+    if (ge('qa-evidence')) ge('qa-evidence').textContent = s.evidence;
+    if (ge('qa-memory')) ge('qa-memory').textContent = s.memory;
+    const answer = ge('qa-answer');
+    if (answer) {
+      answer.classList.toggle('show', !!s.answer);
+      answer.innerHTML = s.answer ? '<strong>Answer:</strong> ' + s.answer : '';
+    }
+    const prev = ge('qa-prev'), next = ge('qa-next');
+    if (prev) prev.disabled = _qaIdx === 0;
+    if (next) next.disabled = _qaIdx === _qaSteps.length - 1;
+  }
+  function _qaNext() { _qaIdx = Math.min(_qaIdx + 1, _qaSteps.length - 1); _qaRender(); }
+  function _qaPrev() { _qaIdx = Math.max(_qaIdx - 1, 0); _qaRender(); }
+  function _qaReset() { _qaIdx = 0; _qaRender(); }
 
   const _p9Steps = [
     {
