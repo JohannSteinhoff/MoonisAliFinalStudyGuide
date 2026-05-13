@@ -1042,6 +1042,110 @@
     .qt-feedback { font-size: 0.8rem; margin-top: 0.55rem; min-height: 1.3rem; font-weight: 700; letter-spacing: 0.03em; }
     .qt-feedback.ok { color: #22d3a5; }
     .qt-feedback.bad { color: #ef4444; }
+
+    .shutdown-zone {
+      display: flex;
+      justify-content: center;
+      margin: 1.25rem 0 0.25rem;
+    }
+    .shutdown-btn {
+      border: 1px solid rgba(239,68,68,0.65);
+      background: linear-gradient(180deg, rgba(239,68,68,0.14), rgba(0,0,0,0.18));
+      color: #fca5a5;
+      border-radius: 8px;
+      padding: 0.72rem 1.1rem;
+      font-family: inherit;
+      font-size: 0.82rem;
+      font-weight: 900;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: transform 0.15s, border-color 0.15s, color 0.15s, box-shadow 0.15s;
+    }
+    .shutdown-btn:hover {
+      transform: translateY(-1px);
+      color: #fff;
+      border-color: #ef4444;
+      box-shadow: 0 0 22px rgba(239,68,68,0.28);
+    }
+    #shutdown-screen {
+      position: fixed;
+      inset: 0;
+      z-index: 10000;
+      display: none;
+      background: #000;
+      overflow: hidden;
+      cursor: none;
+    }
+    #shutdown-screen.active { display: block; }
+    #shutdown-screen.glitching {
+      background:
+        repeating-linear-gradient(0deg, rgba(255,255,255,0.12) 0 1px, transparent 1px 4px),
+        repeating-linear-gradient(90deg, rgba(239,68,68,0.42) 0 10px, rgba(34,211,165,0.32) 10px 18px, rgba(79,142,247,0.35) 18px 28px);
+      animation: tvGlitch 0.12s steps(2,end) infinite;
+    }
+    #shutdown-screen.glitching::before,
+    #shutdown-screen.glitching::after {
+      content: '';
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    #shutdown-screen.glitching::before {
+      background: repeating-linear-gradient(0deg, transparent 0 7px, rgba(255,255,255,0.32) 7px 9px);
+      mix-blend-mode: screen;
+      animation: scanDrop 0.55s linear infinite;
+    }
+    #shutdown-screen.glitching::after {
+      background: radial-gradient(circle at center, rgba(255,255,255,0.9), rgba(255,255,255,0.06) 12%, transparent 34%);
+      animation: tubeCollapse 1.05s ease-in forwards;
+    }
+    @keyframes tvGlitch {
+      0% { filter: hue-rotate(0deg); transform: translate(0,0) skewX(0deg); }
+      25% { filter: hue-rotate(90deg); transform: translate(-12px,5px) skewX(7deg); }
+      50% { filter: hue-rotate(180deg); transform: translate(10px,-4px) skewX(-6deg); }
+      75% { filter: hue-rotate(270deg); transform: translate(-4px,8px) skewX(3deg); }
+      100% { filter: hue-rotate(360deg); transform: translate(0,0) skewX(0deg); }
+    }
+    @keyframes scanDrop {
+      from { transform: translateY(-20px); }
+      to { transform: translateY(20px); }
+    }
+    @keyframes tubeCollapse {
+      0% { transform: scale(1,1); opacity: 0; }
+      35% { transform: scale(1,0.06); opacity: 1; }
+      70% { transform: scale(0.08,0.02); opacity: 0.95; }
+      100% { transform: scale(0,0); opacity: 0; }
+    }
+    .dvd-logo {
+      position: absolute;
+      left: 24px;
+      top: 24px;
+      display: none;
+      min-width: 92px;
+      padding: 0.5rem 0.7rem;
+      border: 2px solid currentColor;
+      border-radius: 9px;
+      color: #22d3a5;
+      font-family: 'Arial Black', Impact, sans-serif;
+      font-size: 1.1rem;
+      font-weight: 900;
+      line-height: 1;
+      text-align: center;
+      letter-spacing: 0.04em;
+      text-transform: uppercase;
+      box-shadow: 0 0 18px currentColor;
+      user-select: none;
+    }
+    #shutdown-screen.off .dvd-logo { display: block; }
+    .dvd-logo small {
+      display: block;
+      font-family: 'Segoe UI', system-ui, sans-serif;
+      font-size: 0.46rem;
+      font-weight: 800;
+      letter-spacing: 0.12em;
+      margin-top: 0.18rem;
+    }
   </style>
 </head>
 <body>
@@ -4253,6 +4357,10 @@
     <p>AI vs GenAI · Neural Networks · Rule Learning · Expert Systems · Game Playing · Search · NLP/QA · Planning. That's the whole course. Go crush it.</p>
   </div>
 
+  <div class="shutdown-zone">
+    <button class="shutdown-btn" type="button" onclick="goonisLeaveForever()">Goonis leave me alone forever</button>
+  </div>
+
 </div><!-- /container -->
 </div><!-- /review -->
 
@@ -4786,6 +4894,55 @@
       _qtUpdateSel();
     }
   });
+
+  let _dvdAnim = null;
+  function goonisLeaveForever() {
+    const screen = document.getElementById('shutdown-screen');
+    const logo = document.getElementById('dvd-logo');
+    if (!screen || !logo) return;
+
+    if (_hackActive || _bossHP < 100) _deactivateHack();
+    document.body.style.overflow = 'hidden';
+    screen.className = 'active glitching';
+    logo.style.transform = 'translate(24px, 24px)';
+
+    setTimeout(() => {
+      screen.className = 'active off';
+      _startDvdBounce(screen, logo);
+    }, 1150);
+  }
+
+  function _startDvdBounce(screen, logo) {
+    const colors = ['#22d3a5', '#fbbf24', '#4f8ef7', '#ef4444', '#e879f9', '#06b6d4'];
+    let x = Math.max(16, Math.random() * (window.innerWidth - 140));
+    let y = Math.max(16, Math.random() * (window.innerHeight - 80));
+    let vx = 2.6;
+    let vy = 2.1;
+
+    function step() {
+      const maxX = Math.max(0, screen.clientWidth - logo.offsetWidth);
+      const maxY = Math.max(0, screen.clientHeight - logo.offsetHeight);
+      x += vx;
+      y += vy;
+
+      if (x <= 0 || x >= maxX) {
+        vx *= -1;
+        x = Math.min(maxX, Math.max(0, x));
+        logo.style.color = colors[Math.floor(Math.random() * colors.length)];
+      }
+      if (y <= 0 || y >= maxY) {
+        vy *= -1;
+        y = Math.min(maxY, Math.max(0, y));
+        logo.style.color = colors[Math.floor(Math.random() * colors.length)];
+      }
+
+      logo.style.transform = `translate(${x}px, ${y}px)`;
+      _dvdAnim = requestAnimationFrame(step);
+    }
+
+    if (_dvdAnim) cancelAnimationFrame(_dvdAnim);
+    _dvdAnim = requestAnimationFrame(step);
+  }
 </script>
 
 </div><!-- /glitch-wrap -->
@@ -4829,6 +4986,11 @@
     <div class="qt-nav">↑ ↓ / T / F to select &nbsp;·&nbsp; ENTER or click to submit</div>
     <div class="qt-feedback" id="qt-feedback"></div>
   </div>
+</div>
+
+<!-- SHUTDOWN SCREEN -->
+<div id="shutdown-screen">
+  <div class="dvd-logo" id="dvd-logo">Goonis<small>offline</small></div>
 </div>
 
 </body>
